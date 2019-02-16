@@ -82,6 +82,7 @@
       <DependentUpon>SampDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Funkce\Barvy\Prevod.cs" />
+    <Compile Include="Funkce\Dialog.cs" />
     <Compile Include="Funkce\FileManager.cs" />
     <Compile Include="Data\Soubory\Cesty.cs" />
     <Compile Include="Dialogy\OtevreniSouboru.cs">
@@ -206,6 +207,12 @@
     <Compile Include="Vzhled\FlatUI\Helpers\MouseState.cs" />
     <EmbeddedResource Include="Dialogy\OtevreniSouboru.resx">
       <DependentUpon>OtevreniSouboru.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogy\UlozeniSouboru.resx">
+      <DependentUpon>UlozeniSouboru.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Dialogy\VyberSlozky.resx">
+      <DependentUpon>VyberSlozky.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Formulare\OProgramu.resx">
       <DependentUpon>OProgramu.cs</DependentUpon>

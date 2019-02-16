@@ -7,38 +7,25 @@ namespace PawnoEditor.Dialogy
     public partial class OtevreniSouboru : Form
     {
         private Funkce.FileManager fm = new Funkce.FileManager();
+        private Funkce.Dialog dialog = new Funkce.Dialog();
+
         public string Soubor { get; set; } = "";
 
         public OtevreniSouboru(string cesta = "")
         {
             InitializeComponent();
+            NastavDialog();
 
             if (cesta == "") cesta = Path.GetPathRoot(Environment.SystemDirectory);
 
-            flatComboBox1.Items.AddRange(fm.SeznamDisku());
-            flatComboBox1.SelectedIndex = 0;
+            dialog.PridejSeznamDisku(flatComboBox1);
         }
 
-        private void ObsahSlozky(string cesta)
+        private void NastavDialog()
         {
-            listView1.Items.Clear();
-
-            VypisSeznamSlozek(cesta);
-            VypisSeznamSouboru(cesta);
-
-            flatTextBox1.Text = cesta;
-        }
-
-        private void VypisSeznamSouboru(string cesta)
-        {
-            foreach (var soubor in fm.SeznamSouboruVeSlozce(cesta))
-                PridejSoubor(soubor);
-        }
-
-        private void VypisSeznamSlozek(string cesta)
-        {
-            foreach (var slozka in fm.SeznamSlozekVeSlozce(cesta))
-                PridejSlozku(slozka);
+            dialog.FM = fm;
+            dialog.FTB_cesta = flatTextBox1;
+            dialog.LV_ulozeni = listView1;
         }
 
         private void listView1_DoubleClick(object sender, EventArgs e)
@@ -51,7 +38,7 @@ namespace PawnoEditor.Dialogy
                 return;
             }
 
-            ObsahSlozky(listView1.SelectedItems[0].Tag.ToString());
+            dialog.ObsahSlozky(listView1.SelectedItems[0].Tag.ToString());
         }
 
         private void listView1_Click(object sender, EventArgs e)
@@ -67,37 +54,10 @@ namespace PawnoEditor.Dialogy
             Soubor = listView1.SelectedItems[0].Tag.ToString();
         }
 
-        private void PridejSoubor(string soubor)
-        {
-            ListViewItem lv_soubor = LVPolozka(soubor, Path.GetFileName(soubor));
-            lv_soubor.SubItems.Add(Path.GetExtension(soubor));
-            lv_soubor.SubItems.Add(new FileInfo(soubor).Length.ToString());
-
-            listView1.Items.Add(lv_soubor);
-        }
-
-        private void PridejSlozku(string slozka)
-        {
-            ListViewItem lv_slozka = LVPolozka(slozka, new DirectoryInfo(slozka).Name, 1);
-            lv_slozka.SubItems.Add("-");
-            lv_slozka.SubItems.Add("-");
-
-            listView1.Items.Add(lv_slozka);
-        }
-
-        private ListViewItem LVPolozka(string cesta, string nazev, int obrazek = 0)
-        {
-            return new ListViewItem(Path.GetFileName(nazev))
-            {
-                ImageIndex = obrazek,
-                Tag = cesta
-            };
-        }
-
         private void flatTextBox1_KeyDown(object sender, KeyEventArgs e)
         {
             if (e.KeyCode == Keys.Enter)
-                ObsahSlozky(flatTextBox1.Text);
+                dialog.ObsahSlozky(flatTextBox1.Text);
         }
 
         private void ZavriOkno(DialogResult vysledek)
@@ -113,7 +73,12 @@ namespace PawnoEditor.Dialogy
 
         private void flatComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
-            ObsahSlozky(flatComboBox1.Text);
+            dialog.ObsahSlozky(flatComboBox1.Text);
+        }
+
+        private void flatButton1_Click(object sender, EventArgs e)
+        {
+
         }
     }
 }

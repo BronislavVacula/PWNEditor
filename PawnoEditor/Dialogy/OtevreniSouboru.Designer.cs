@@ -32,6 +32,8 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(OtevreniSouboru));
             this.obrazky = new System.Windows.Forms.ImageList(this.components);
             this.formSkin1 = new FlatUI.FormSkin();
+            this.flatTextBox1 = new FlatUI.FlatTextBox();
+            this.flatLabel2 = new FlatUI.FlatLabel();
             this.flatComboBox1 = new FlatUI.FlatComboBox();
             this.listView1 = new System.Windows.Forms.ListView();
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
@@ -41,8 +43,6 @@
             this.flatButton2 = new FlatUI.FlatButton();
             this.flatButton1 = new FlatUI.FlatButton();
             this.flatClose1 = new FlatUI.FlatClose();
-            this.flatLabel2 = new FlatUI.FlatLabel();
-            this.flatTextBox1 = new FlatUI.FlatTextBox();
             this.formSkin1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -76,6 +76,34 @@
             this.formSkin1.Size = new System.Drawing.Size(706, 450);
             this.formSkin1.TabIndex = 0;
             this.formSkin1.Text = "Otevřít Soubor";
+            // 
+            // flatTextBox1
+            // 
+            this.flatTextBox1.BackColor = System.Drawing.Color.Transparent;
+            this.flatTextBox1.FocusOnHover = false;
+            this.flatTextBox1.Location = new System.Drawing.Point(217, 58);
+            this.flatTextBox1.MaxLength = 32767;
+            this.flatTextBox1.Multiline = false;
+            this.flatTextBox1.Name = "flatTextBox1";
+            this.flatTextBox1.ReadOnly = false;
+            this.flatTextBox1.Size = new System.Drawing.Size(477, 29);
+            this.flatTextBox1.TabIndex = 9;
+            this.flatTextBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.flatTextBox1.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.flatTextBox1.UseSystemPasswordChar = false;
+            this.flatTextBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.flatTextBox1_KeyDown);
+            // 
+            // flatLabel2
+            // 
+            this.flatLabel2.AutoSize = true;
+            this.flatLabel2.BackColor = System.Drawing.Color.Transparent;
+            this.flatLabel2.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.flatLabel2.ForeColor = System.Drawing.Color.White;
+            this.flatLabel2.Location = new System.Drawing.Point(165, 60);
+            this.flatLabel2.Name = "flatLabel2";
+            this.flatLabel2.Size = new System.Drawing.Size(46, 19);
+            this.flatLabel2.TabIndex = 8;
+            this.flatLabel2.Text = "Cesta:";
             // 
             // flatComboBox1
             // 
@@ -171,6 +199,7 @@
             this.flatButton1.TabIndex = 2;
             this.flatButton1.Text = "Vybrat";
             this.flatButton1.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
+            this.flatButton1.Click += new System.EventHandler(this.flatButton1_Click);
             // 
             // flatClose1
             // 
@@ -184,34 +213,6 @@
             this.flatClose1.TabIndex = 0;
             this.flatClose1.Text = "flatClose1";
             this.flatClose1.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
-            // 
-            // flatLabel2
-            // 
-            this.flatLabel2.AutoSize = true;
-            this.flatLabel2.BackColor = System.Drawing.Color.Transparent;
-            this.flatLabel2.Font = new System.Drawing.Font("Segoe UI", 10F);
-            this.flatLabel2.ForeColor = System.Drawing.Color.White;
-            this.flatLabel2.Location = new System.Drawing.Point(165, 60);
-            this.flatLabel2.Name = "flatLabel2";
-            this.flatLabel2.Size = new System.Drawing.Size(46, 19);
-            this.flatLabel2.TabIndex = 8;
-            this.flatLabel2.Text = "Cesta:";
-            // 
-            // flatTextBox1
-            // 
-            this.flatTextBox1.BackColor = System.Drawing.Color.Transparent;
-            this.flatTextBox1.FocusOnHover = false;
-            this.flatTextBox1.Location = new System.Drawing.Point(217, 58);
-            this.flatTextBox1.MaxLength = 32767;
-            this.flatTextBox1.Multiline = false;
-            this.flatTextBox1.Name = "flatTextBox1";
-            this.flatTextBox1.ReadOnly = false;
-            this.flatTextBox1.Size = new System.Drawing.Size(477, 29);
-            this.flatTextBox1.TabIndex = 9;
-            this.flatTextBox1.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
-            this.flatTextBox1.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
-            this.flatTextBox1.UseSystemPasswordChar = false;
-            this.flatTextBox1.KeyDown += new System.Windows.Forms.KeyEventHandler(this.flatTextBox1_KeyDown);
             // 
             // OtevreniSouboru
             // 
