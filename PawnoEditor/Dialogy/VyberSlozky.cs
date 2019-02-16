@@ -34,16 +34,16 @@ namespace PawnoEditor.Dialogy
             Close();
         }
 
+        private void VyberSlozku()
+        {
+            Slozka = listView1.SelectedItems[0].Tag.ToString();
+        }
+
         private void listView1_Click(object sender, EventArgs e)
         {
             if (listView1.SelectedItems.Count < 1) return;
             if (listView1.SelectedItems[0].ImageIndex == 1)
                 VyberSlozku();
-        }
-
-        private void VyberSlozku()
-        {
-            Slozka = listView1.SelectedItems[0].Tag.ToString();
         }
 
         private void flatTextBox1_KeyDown(object sender, KeyEventArgs e)
@@ -60,6 +60,19 @@ namespace PawnoEditor.Dialogy
         private void flatComboBox1_SelectedIndexChanged(object sender, EventArgs e)
         {
             dialog.ObsahSlozky(flatComboBox1.Text, true);
+        }
+
+        private void listView1_DoubleClick(object sender, EventArgs e)
+        {
+            listView1_Click(sender, e);
+
+            if (Slozka == "")
+            {
+                DialogResult = DialogResult.Cancel;
+                return;
+            } else DialogResult = DialogResult.OK;
+
+            Close();
         }
     }
 }
