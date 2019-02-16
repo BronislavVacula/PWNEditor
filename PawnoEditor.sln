@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 15
+VisualStudioVersion = 15.0.28307.168
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PawnoEditor", "PawnoEditor\PawnoEditor.csproj", "{0FF71612-16F5-4BC0-BD75-C262A7F1E8EB}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{0FF71612-16F5-4BC0-BD75-C262A7F1E8EB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{0FF71612-16F5-4BC0-BD75-C262A7F1E8EB}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{0FF71612-16F5-4BC0-BD75-C262A7F1E8EB}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{0FF71612-16F5-4BC0-BD75-C262A7F1E8EB}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {27010D10-9AF4-43B4-A122-8C3F8B4D53A6}
+	EndGlobalSection
+EndGlobal

@@ -1,0 +1,247 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="15.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <Import Project="$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props" Condition="Exists('$(MSBuildExtensionsPath)\$(MSBuildToolsVersion)\Microsoft.Common.props')" />
+  <PropertyGroup>
+    <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
+    <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
+    <ProjectGuid>{0FF71612-16F5-4BC0-BD75-C262A7F1E8EB}</ProjectGuid>
+    <OutputType>WinExe</OutputType>
+    <RootNamespace>PawnoEditor</RootNamespace>
+    <AssemblyName>PawnoEditor</AssemblyName>
+    <TargetFrameworkVersion>v4.6</TargetFrameworkVersion>
+    <FileAlignment>512</FileAlignment>
+    <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
+    <Deterministic>true</Deterministic>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugSymbols>true</DebugSymbols>
+    <DebugType>full</DebugType>
+    <Optimize>false</Optimize>
+    <OutputPath>bin\Debug\</OutputPath>
+    <DefineConstants>DEBUG;TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
+    <PlatformTarget>AnyCPU</PlatformTarget>
+    <DebugType>pdbonly</DebugType>
+    <Optimize>true</Optimize>
+    <OutputPath>bin\Release\</OutputPath>
+    <DefineConstants>TRACE</DefineConstants>
+    <ErrorReport>prompt</ErrorReport>
+    <WarningLevel>4</WarningLevel>
+  </PropertyGroup>
+  <ItemGroup>
+    <Reference Include="AutocompleteMenu-ScintillaNET, Version=1.3.4.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\AutoCompleteMenu-ScintillaNET.1.6.1\lib\net40\AutocompleteMenu-ScintillaNET.dll</HintPath>
+    </Reference>
+    <Reference Include="Cyotek.Windows.Forms.ColorPicker, Version=1.0.0.0, Culture=neutral, PublicKeyToken=58daa28b0b2de221, processorArchitecture=MSIL">
+      <HintPath>..\packages\Cyotek.Windows.Forms.ColorPicker.1.7.2\lib\net35\Cyotek.Windows.Forms.ColorPicker.dll</HintPath>
+    </Reference>
+    <Reference Include="ScintillaNET, Version=3.6.3.0, Culture=neutral, processorArchitecture=MSIL">
+      <HintPath>..\packages\jacobslusser.ScintillaNET.3.6.3\lib\net40\ScintillaNET.dll</HintPath>
+    </Reference>
+    <Reference Include="System" />
+    <Reference Include="System.Core" />
+    <Reference Include="System.Xml.Linq" />
+    <Reference Include="System.Data.DataSetExtensions" />
+    <Reference Include="Microsoft.CSharp" />
+    <Reference Include="System.Data" />
+    <Reference Include="System.Deployment" />
+    <Reference Include="System.Drawing" />
+    <Reference Include="System.Net.Http" />
+    <Reference Include="System.Windows.Forms" />
+    <Reference Include="System.Xml" />
+  </ItemGroup>
+  <ItemGroup>
+    <Compile Include="Data\Kompilator.cs" />
+    <Compile Include="Data\Nastaveni.cs" />
+    <Compile Include="Formulare\SampNastroje\Mapa.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formulare\SampNastroje\Mapa.Designer.cs">
+      <DependentUpon>Mapa.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Formulare\SampNastroje\Povolani.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formulare\SampNastroje\Povolani.Designer.cs">
+      <DependentUpon>Povolani.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Formulare\OProgramu.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formulare\OProgramu.Designer.cs">
+      <DependentUpon>OProgramu.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Formulare\SampNastroje\SampDialog.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Formulare\SampNastroje\SampDialog.Designer.cs">
+      <DependentUpon>SampDialog.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Funkce\Barvy\Prevod.cs" />
+    <Compile Include="Funkce\FileManager.cs" />
+    <Compile Include="Data\Soubory\Cesty.cs" />
+    <Compile Include="Dialogy\OtevreniSouboru.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogy\OtevreniSouboru.Designer.cs">
+      <DependentUpon>OtevreniSouboru.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogy\UlozeniSouboru.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogy\UlozeniSouboru.Designer.cs">
+      <DependentUpon>UlozeniSouboru.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Dialogy\VyberSlozky.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogy\VyberSlozky.Designer.cs">
+      <DependentUpon>VyberSlozky.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Funkce\Kompilace.cs" />
+    <Compile Include="Funkce\Parsovani\ParsujSoubory.cs" />
+    <Compile Include="Funkce\Parsovani\PNativeFunkce.cs" />
+    <Compile Include="Funkce\XML.cs" />
+    <Compile Include="Hlavni.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Hlavni.Designer.cs">
+      <DependentUpon>Hlavni.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Komponenty\PlistBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Komponenty\PTab.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Komponenty\PTabs.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Komponenty\PTextEdit.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Program.cs" />
+    <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Vzhled\FlatUI\FlatAlertBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Vzhled\FlatUI\FlatButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Vzhled\FlatUI\FlatCheckBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Vzhled\FlatUI\FlatClose.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Vzhled\FlatUI\FlatComboBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Vzhled\FlatUI\FlatContextMenuStrip.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Vzhled\FlatUI\FlatGroupBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Vzhled\FlatUI\FlatLabel.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Vzhled\FlatUI\FlatListBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Vzhled\FlatUI\FlatMax.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Vzhled\FlatUI\flatMenu.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Vzhled\FlatUI\FlatMini.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Vzhled\FlatUI\FlatNumeric.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Vzhled\FlatUI\FlatProgressBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Vzhled\FlatUI\FlatRadioButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Vzhled\FlatUI\FlatStatusStrip.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Vzhled\FlatUI\FlatStickyButton.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Vzhled\FlatUI\FlatTabControl.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Vzhled\FlatUI\FlatTextBox.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Vzhled\FlatUI\FlatToggle.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Vzhled\FlatUI\FlatToolStrip.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Vzhled\FlatUI\FlatTrackBar.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Vzhled\FlatUI\FlatTreeView.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Vzhled\FlatUI\FormSkin.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Vzhled\FlatUI\Helpers\FlatColorPalette.cs">
+      <SubType>Component</SubType>
+    </Compile>
+    <Compile Include="Vzhled\FlatUI\Helpers\FlatColors.cs" />
+    <Compile Include="Vzhled\FlatUI\Helpers\Main.cs" />
+    <Compile Include="Vzhled\FlatUI\Helpers\MouseState.cs" />
+    <EmbeddedResource Include="Dialogy\OtevreniSouboru.resx">
+      <DependentUpon>OtevreniSouboru.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formulare\OProgramu.resx">
+      <DependentUpon>OProgramu.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formulare\SampNastroje\Mapa.resx">
+      <DependentUpon>Mapa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Hlavni.resx">
+      <DependentUpon>Hlavni.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formulare\SampNastroje\Povolani.resx">
+      <DependentUpon>Povolani.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Properties\Resources.resx">
+      <Generator>ResXFileCodeGenerator</Generator>
+      <LastGenOutput>Resources.Designer.cs</LastGenOutput>
+      <SubType>Designer</SubType>
+    </EmbeddedResource>
+    <Compile Include="Properties\Resources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Resources.resx</DependentUpon>
+    </Compile>
+    <None Include="packages.config" />
+    <None Include="Properties\Settings.settings">
+      <Generator>SettingsSingleFileGenerator</Generator>
+      <LastGenOutput>Settings.Designer.cs</LastGenOutput>
+    </None>
+    <Compile Include="Properties\Settings.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DependentUpon>Settings.settings</DependentUpon>
+      <DesignTimeSharedInput>True</DesignTimeSharedInput>
+    </Compile>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup />
+  <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+</Project>
