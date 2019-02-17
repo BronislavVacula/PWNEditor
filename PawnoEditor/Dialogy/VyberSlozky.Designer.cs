@@ -98,6 +98,7 @@
             this.flatButton1.TabIndex = 22;
             this.flatButton1.Text = "Vybrat";
             this.flatButton1.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
+            this.flatButton1.Click += new System.EventHandler(this.flatButton1_Click);
             // 
             // listView1
             // 

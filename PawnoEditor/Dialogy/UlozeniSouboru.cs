@@ -11,12 +11,13 @@ namespace PawnoEditor.Dialogy
 
         public string Soubor { get; set; } = "";
 
-        public UlozeniSouboru(string cesta = "")
+        public UlozeniSouboru(string nazev_souboru, string cesta = "")
         {
             InitializeComponent();
             NastavDialog();
 
             if (cesta == "") cesta = Path.GetPathRoot(Environment.SystemDirectory);
+            flatTextBox2.Text = nazev_souboru;
 
             dialog.PridejSeznamDisku(flatComboBox1);
         }
@@ -52,19 +53,21 @@ namespace PawnoEditor.Dialogy
                 dialog.ObsahSlozky(flatTextBox1.Text);
         }
 
+        private void flatComboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            dialog.ObsahSlozky(flatComboBox1.Text, true);
+        }
+
         private void flatButton1_Click(object sender, EventArgs e)
         {
-    
+            Soubor = Path.Combine(flatComboBox1.Text, flatTextBox2.Text);
+
+            ZavriOkno(DialogResult.OK);
         }
 
         private void flatButton2_Click(object sender, EventArgs e)
         {
             ZavriOkno(DialogResult.Cancel);
-        }
-
-        private void flatComboBox1_SelectedIndexChanged(object sender, EventArgs e)
-        {
-            dialog.ObsahSlozky(flatComboBox1.Text, true);
         }
     }
 }

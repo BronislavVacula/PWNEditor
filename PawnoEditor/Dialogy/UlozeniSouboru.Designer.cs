@@ -29,6 +29,8 @@
         private void InitializeComponent()
         {
             this.formSkin1 = new FlatUI.FormSkin();
+            this.flatTextBox2 = new FlatUI.FlatTextBox();
+            this.flatLabel3 = new FlatUI.FlatLabel();
             this.flatButton2 = new FlatUI.FlatButton();
             this.flatButton1 = new FlatUI.FlatButton();
             this.listView1 = new System.Windows.Forms.ListView();
@@ -48,6 +50,8 @@
             this.formSkin1.BackColor = System.Drawing.Color.White;
             this.formSkin1.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(70)))), ((int)(((byte)(73)))));
             this.formSkin1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(58)))), ((int)(((byte)(60)))));
+            this.formSkin1.Controls.Add(this.flatTextBox2);
+            this.formSkin1.Controls.Add(this.flatLabel3);
             this.formSkin1.Controls.Add(this.flatButton2);
             this.formSkin1.Controls.Add(this.flatButton1);
             this.formSkin1.Controls.Add(this.listView1);
@@ -63,9 +67,37 @@
             this.formSkin1.HeaderMaximize = false;
             this.formSkin1.Location = new System.Drawing.Point(0, 0);
             this.formSkin1.Name = "formSkin1";
-            this.formSkin1.Size = new System.Drawing.Size(706, 450);
+            this.formSkin1.Size = new System.Drawing.Size(706, 486);
             this.formSkin1.TabIndex = 0;
             this.formSkin1.Text = "Uložení souboru";
+            // 
+            // flatTextBox2
+            // 
+            this.flatTextBox2.BackColor = System.Drawing.Color.Transparent;
+            this.flatTextBox2.FocusOnHover = false;
+            this.flatTextBox2.Location = new System.Drawing.Point(122, 405);
+            this.flatTextBox2.MaxLength = 32767;
+            this.flatTextBox2.Multiline = false;
+            this.flatTextBox2.Name = "flatTextBox2";
+            this.flatTextBox2.ReadOnly = false;
+            this.flatTextBox2.Size = new System.Drawing.Size(572, 29);
+            this.flatTextBox2.TabIndex = 18;
+            this.flatTextBox2.Text = "Novy.pwn";
+            this.flatTextBox2.TextAlign = System.Windows.Forms.HorizontalAlignment.Left;
+            this.flatTextBox2.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(192)))), ((int)(((byte)(192)))), ((int)(((byte)(192)))));
+            this.flatTextBox2.UseSystemPasswordChar = false;
+            // 
+            // flatLabel3
+            // 
+            this.flatLabel3.AutoSize = true;
+            this.flatLabel3.BackColor = System.Drawing.Color.Transparent;
+            this.flatLabel3.Font = new System.Drawing.Font("Segoe UI", 10F);
+            this.flatLabel3.ForeColor = System.Drawing.Color.White;
+            this.flatLabel3.Location = new System.Drawing.Point(12, 408);
+            this.flatLabel3.Name = "flatLabel3";
+            this.flatLabel3.Size = new System.Drawing.Size(104, 19);
+            this.flatLabel3.TabIndex = 17;
+            this.flatLabel3.Text = "Název souboru:";
             // 
             // flatButton2
             // 
@@ -73,7 +105,7 @@
             this.flatButton2.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(168)))), ((int)(((byte)(109)))));
             this.flatButton2.Cursor = System.Windows.Forms.Cursors.Hand;
             this.flatButton2.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.flatButton2.Location = new System.Drawing.Point(12, 406);
+            this.flatButton2.Location = new System.Drawing.Point(12, 442);
             this.flatButton2.Name = "flatButton2";
             this.flatButton2.Rounded = false;
             this.flatButton2.Size = new System.Drawing.Size(106, 32);
@@ -88,7 +120,7 @@
             this.flatButton1.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(168)))), ((int)(((byte)(109)))));
             this.flatButton1.Cursor = System.Windows.Forms.Cursors.Hand;
             this.flatButton1.Font = new System.Drawing.Font("Segoe UI", 12F);
-            this.flatButton1.Location = new System.Drawing.Point(588, 406);
+            this.flatButton1.Location = new System.Drawing.Point(588, 442);
             this.flatButton1.Name = "flatButton1";
             this.flatButton1.Rounded = false;
             this.flatButton1.Size = new System.Drawing.Size(106, 32);
@@ -206,7 +238,7 @@
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(706, 450);
+            this.ClientSize = new System.Drawing.Size(706, 486);
             this.Controls.Add(this.formSkin1);
             this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.None;
             this.Name = "UlozeniSouboru";
@@ -233,5 +265,7 @@
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private FlatUI.FlatButton flatButton2;
         private FlatUI.FlatButton flatButton1;
+        private FlatUI.FlatTextBox flatTextBox2;
+        private FlatUI.FlatLabel flatLabel3;
     }
 }

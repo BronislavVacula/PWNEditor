@@ -37,6 +37,8 @@ namespace PawnoEditor.Dialogy
         private void VyberSlozku()
         {
             Slozka = listView1.SelectedItems[0].Tag.ToString();
+
+            flatTextBox1.Text = Slozka;
         }
 
         private void listView1_Click(object sender, EventArgs e)
@@ -66,13 +68,13 @@ namespace PawnoEditor.Dialogy
         {
             listView1_Click(sender, e);
 
-            if (Slozka == "")
-            {
-                DialogResult = DialogResult.Cancel;
-                return;
-            } else DialogResult = DialogResult.OK;
+            dialog.ObsahSlozky(flatTextBox1.Text, true);
+        }
 
-            Close();
+        private void flatButton1_Click(object sender, EventArgs e)
+        {
+            if(Slozka != "") ZavriOkno(DialogResult.OK);
+            else ZavriOkno(DialogResult.Cancel);
         }
     }
 }

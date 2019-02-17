@@ -57,6 +57,7 @@
   <ItemGroup>
     <Compile Include="Data\Kompilator.cs" />
     <Compile Include="Data\Nastaveni.cs" />
+    <Compile Include="Data\SAMPNastroje\DMapa.cs" />
     <Compile Include="Formulare\SampNastroje\Mapa.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -219,6 +220,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Formulare\SampNastroje\Mapa.resx">
       <DependentUpon>Mapa.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Formulare\SampNastroje\SampDialog.resx">
+      <DependentUpon>SampDialog.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Hlavni.resx">
       <DependentUpon>Hlavni.cs</DependentUpon>

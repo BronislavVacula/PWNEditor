@@ -31,11 +31,12 @@
             this.formSkin1 = new FlatUI.FormSkin();
             this.flatTabControl1 = new FlatUI.FlatTabControl();
             this.tabPage1 = new System.Windows.Forms.TabPage();
+            this.richTextBox1 = new System.Windows.Forms.RichTextBox();
+            this.flatLabel1 = new FlatUI.FlatLabel();
             this.flatTextBox1 = new FlatUI.FlatTextBox();
             this.tabPage3 = new System.Windows.Forms.TabPage();
             this.mapa_obr = new System.Windows.Forms.PictureBox();
             this.flatClose1 = new FlatUI.FlatClose();
-            this.flatLabel1 = new FlatUI.FlatLabel();
             this.formSkin1.SuspendLayout();
             this.flatTabControl1.SuspendLayout();
             this.tabPage1.SuspendLayout();
@@ -80,6 +81,7 @@
             // tabPage1
             // 
             this.tabPage1.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(70)))), ((int)(((byte)(73)))));
+            this.tabPage1.Controls.Add(this.richTextBox1);
             this.tabPage1.Controls.Add(this.flatLabel1);
             this.tabPage1.Controls.Add(this.flatTextBox1);
             this.tabPage1.Location = new System.Drawing.Point(4, 44);
@@ -88,6 +90,26 @@
             this.tabPage1.Size = new System.Drawing.Size(277, 595);
             this.tabPage1.TabIndex = 0;
             this.tabPage1.Text = "Spawny";
+            // 
+            // richTextBox1
+            // 
+            this.richTextBox1.Location = new System.Drawing.Point(15, 74);
+            this.richTextBox1.Name = "richTextBox1";
+            this.richTextBox1.Size = new System.Drawing.Size(248, 82);
+            this.richTextBox1.TabIndex = 2;
+            this.richTextBox1.Text = "";
+            // 
+            // flatLabel1
+            // 
+            this.flatLabel1.AutoSize = true;
+            this.flatLabel1.BackColor = System.Drawing.Color.Transparent;
+            this.flatLabel1.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.flatLabel1.ForeColor = System.Drawing.Color.White;
+            this.flatLabel1.Location = new System.Drawing.Point(6, 23);
+            this.flatLabel1.Name = "flatLabel1";
+            this.flatLabel1.Size = new System.Drawing.Size(68, 13);
+            this.flatLabel1.TabIndex = 1;
+            this.flatLabel1.Text = "Souřadnice:";
             // 
             // flatTextBox1
             // 
@@ -135,18 +157,6 @@
             this.flatClose1.Text = "flatClose1";
             this.flatClose1.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
             // 
-            // flatLabel1
-            // 
-            this.flatLabel1.AutoSize = true;
-            this.flatLabel1.BackColor = System.Drawing.Color.Transparent;
-            this.flatLabel1.Font = new System.Drawing.Font("Segoe UI", 8F);
-            this.flatLabel1.ForeColor = System.Drawing.Color.White;
-            this.flatLabel1.Location = new System.Drawing.Point(6, 23);
-            this.flatLabel1.Name = "flatLabel1";
-            this.flatLabel1.Size = new System.Drawing.Size(68, 13);
-            this.flatLabel1.TabIndex = 1;
-            this.flatLabel1.Text = "Souřadnice:";
-            // 
             // Mapa
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -177,5 +187,6 @@
         private FlatUI.FlatTextBox flatTextBox1;
         private System.Windows.Forms.TabPage tabPage3;
         private FlatUI.FlatLabel flatLabel1;
+        private System.Windows.Forms.RichTextBox richTextBox1;
     }
 }
