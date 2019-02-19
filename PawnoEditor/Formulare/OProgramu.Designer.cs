@@ -30,6 +30,7 @@
         {
             this.formSkin1 = new FlatUI.FormSkin();
             this.flatClose1 = new FlatUI.FlatClose();
+            this.flatButton1 = new FlatUI.FlatButton();
             this.formSkin1.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -38,6 +39,7 @@
             this.formSkin1.BackColor = System.Drawing.Color.White;
             this.formSkin1.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(60)))), ((int)(((byte)(70)))), ((int)(((byte)(73)))));
             this.formSkin1.BorderColor = System.Drawing.Color.FromArgb(((int)(((byte)(53)))), ((int)(((byte)(58)))), ((int)(((byte)(60)))));
+            this.formSkin1.Controls.Add(this.flatButton1);
             this.formSkin1.Controls.Add(this.flatClose1);
             this.formSkin1.Dock = System.Windows.Forms.DockStyle.Fill;
             this.formSkin1.FlatColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(168)))), ((int)(((byte)(109)))));
@@ -63,6 +65,20 @@
             this.flatClose1.Text = "flatClose1";
             this.flatClose1.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
             // 
+            // flatButton1
+            // 
+            this.flatButton1.BackColor = System.Drawing.Color.Transparent;
+            this.flatButton1.BaseColor = System.Drawing.Color.FromArgb(((int)(((byte)(35)))), ((int)(((byte)(168)))), ((int)(((byte)(109)))));
+            this.flatButton1.Cursor = System.Windows.Forms.Cursors.Hand;
+            this.flatButton1.Font = new System.Drawing.Font("Segoe UI", 12F);
+            this.flatButton1.Location = new System.Drawing.Point(255, 461);
+            this.flatButton1.Name = "flatButton1";
+            this.flatButton1.Rounded = false;
+            this.flatButton1.Size = new System.Drawing.Size(106, 32);
+            this.flatButton1.TabIndex = 1;
+            this.flatButton1.Text = "OK";
+            this.flatButton1.TextColor = System.Drawing.Color.FromArgb(((int)(((byte)(243)))), ((int)(((byte)(243)))), ((int)(((byte)(243)))));
+            // 
             // OProgramu
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -83,5 +99,6 @@
 
         private FlatUI.FormSkin formSkin1;
         private FlatUI.FlatClose flatClose1;
+        private FlatUI.FlatButton flatButton1;
     }
 }

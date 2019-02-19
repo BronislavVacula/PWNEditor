@@ -194,6 +194,11 @@ namespace PawnoEditor
             new Formulare.SampNastroje.Mapa().Show();
         }
 
+        private void povoláníToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            new Formulare.SampNastroje.Povolani(this).Show();
+        }
+
         #endregion
 
         #region Menu - Nápověda
