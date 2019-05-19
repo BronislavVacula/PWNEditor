@@ -15,7 +15,7 @@ namespace PawnoEditor.Funkce
 
         private string NastaveniSoubor()
         {
-            return new Data.Soubory.Cesty().app_slozka + "\\Nastaveni.xml";
+            return new Data.Soubory.Cesty().App_slozka + "\\Nastaveni.xml";
         }
 
         public void UlozNastaveni(Data.Nastaveni nastaveni)
@@ -26,6 +26,12 @@ namespace PawnoEditor.Funkce
 
         public void NactiNastaveni(Data.Nastaveni nastaveni)
         {
+            if (!File.Exists(NastaveniSoubor()))
+            {
+                UlozNastaveni(nastaveni);
+                return;
+            }
+
             using (var sr = new StreamReader(NastaveniSoubor()))
                 nastaveni = (Data.Nastaveni)serializer.Deserialize(sr);
         }

@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Text;
-using System.IO;
 using System.Drawing;
 using System.Windows.Forms;
 
@@ -55,7 +53,7 @@ namespace PawnoEditor.Komponenty
         {
             if (JeSouborOtevreny(soubor)) return;
 
-            PTab zalozka = NovaTabZalozka();
+            var zalozka = NovaTabZalozka();
             var editor = NovyEditor(zalozka);
             zalozka.Tag = editor;
             zalozka.OtevriSoubor(soubor);
@@ -72,11 +70,10 @@ namespace PawnoEditor.Komponenty
 
         public void ZavriZalozku(TabPage zalozka)
         {
-            if (TabCount > 0)
-            {
-                (zalozka as PTab).Editor.Dispose();
-                TabPages.Remove(zalozka);
-            }
+            if (TabCount == 0) return;
+
+            (zalozka as PTab).Editor.Dispose();
+            TabPages.Remove(zalozka);
         }
 
         public void ZavriVsechnyZalozky()
@@ -86,5 +83,10 @@ namespace PawnoEditor.Komponenty
         }
 
         public PTab VybranaZalozka { get { return (SelectedTab as PTab); } }
+
+        public bool ObsahujeZalozky()
+        {
+            return TabCount > 0;
+        }
     }
 }

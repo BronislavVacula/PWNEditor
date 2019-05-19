@@ -1,6 +1,10 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Drawing;
+using System.Text.RegularExpressions;
 using System.Threading;
+using System.Threading.Tasks;
+using System.IO;
 using System.Windows.Forms;
 using Cyotek.Windows.Forms;
 
@@ -10,6 +14,9 @@ namespace PawnoEditor
     {
         Funkce.FileManager fm = new Funkce.FileManager();
         Data.Soubory.Cesty cesty = new Data.Soubory.Cesty();
+        Funkce.Konzole prikazovaKonzole;
+
+        Data.Nastaveni nastaveniProgramu = new Data.Nastaveni();
 
         public Hlavni()
         {
@@ -22,13 +29,20 @@ namespace PawnoEditor
                 fm.NactiObrazky(cesty.Pickupy(), plistBox2);
                 fm.NactiObrazky(cesty.Skiny(), plistBox1);
             }).Start();
-
+            
             new Funkce.Parsovani.ParsujSoubory(cesty.Includy(), treeView1);
         }
 
         private void Form1_Load(object sender, EventArgs e)
         {
             pTabs1.ActiveColor = Color.FromArgb(26, 25, 25);
+
+            new Funkce.XML().NactiNastaveni(nastaveniProgramu);
+        }
+
+        private void Hlavni_FormClosing(object sender, FormClosingEventArgs e)
+        {
+            new Funkce.XML().UlozNastaveni(nastaveniProgramu);
         }
 
         private void formSkin1_MouseDoubleClick(object sender, MouseEventArgs e)
@@ -53,6 +67,8 @@ namespace PawnoEditor
 
             if (soubor_otevreni.ShowDialog() == DialogResult.OK)
                 pTabs1.PridejZalozku(soubor_otevreni.Soubor);
+
+            soubor_otevreni.Dispose();
         }
 
         private void zavřítZáložkuToolStripMenuItem_Click(object sender, EventArgs e)
@@ -167,14 +183,78 @@ namespace PawnoEditor
 
         #region Menu - Sestavit
 
+        private void ZobrazChyby(string kompilovanySoubor, List<string> chyby)
+        {
+            foreach(var chyba in chyby)
+            {
+                if (chyba == null || chyba == "") continue;
+
+                var rozdeleni = Regex.Split(chyba, ": ");
+                if (rozdeleni[0].IndexOf("(") < 0) continue;
+
+                var cisloChybovehoRadku = rozdeleni[0].Split(Convert.ToChar("("), Convert.ToChar(")"))[1];
+
+                var polozka = listView1.Items.Add((listView1.Items.Count + 1).ToString());
+                polozka.SubItems.Add(kompilovanySoubor);
+                polozka.SubItems.Add(cisloChybovehoRadku);
+                polozka.SubItems.Add(rozdeleni[1] + " - " + rozdeleni[2]);
+            }
+        }
+
+        private void ZkompilujSoubor(Komponenty.PTab zalozka)
+        {
+            if (!zalozka.BylSouborUlozeny())
+            {
+                new Dialogy.Zprava("Mód není uložení!");
+                return;
+            }
+
+            var aktualniSoubor = pTabs1.VybranaZalozka.Soubor;
+
+            Funkce.Kompilace kompilace = new Funkce.Kompilace(aktualniSoubor);
+
+            if (kompilace.Kompiluj() == false) ZobrazChyby(aktualniSoubor, kompilace.Chyby);
+            else KompilaceUspesna(aktualniSoubor);
+        }
+
+        public void KompilaceDokoncena(object sender, Eventy.KompilaceDokoncenaArgs e)
+        {
+            if (e.statusKompilace == Eventy.KompilaceDokoncenaArgs.STATUS.Uspesna)
+                KompilaceUspesna(e.kompilovanySoubor);
+            else
+                ZobrazChyby(e.kompilovanySoubor, e.Chyby);
+        }
+
+        private void KompilaceUspesna(string aktualniSoubor)
+        {
+            var polozka = listView1.Items.Add((listView1.Items.Count + 1).ToString());
+            polozka.SubItems.Add(aktualniSoubor);
+            polozka.SubItems.Add("0");
+            polozka.SubItems.Add("Soubor byl úspěšně zkompilován!");
+        }
+
         private void zkompilovatKódToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (pTabs1.VybranaZalozka.Soubor == "") return;
-
-            Funkce.Kompilace kompilace = new Funkce.Kompilace() { Soubor = pTabs1.VybranaZalozka.Soubor };
-            kompilace.Kompiluj();
-
             listView1.Items.Clear();
+            if (!pTabs1.ObsahujeZalozky()) return;
+
+            ZkompilujSoubor(pTabs1.VybranaZalozka);
+        }
+
+        private void zkompilovatVšeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            if (pTabs1.TabCount == 0) return;
+
+            foreach (var zalozka in pTabs1.TabPages)
+                ZkompilujSoubor(zalozka as Komponenty.PTab);
+        }
+
+        private void zkompilovatASpustitToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            listView1.Items.Clear();
+            if (pTabs1.TabCount == 0) return;
+
+            ZkompilujSoubor(pTabs1.VybranaZalozka);
         }
 
         #endregion
@@ -209,5 +289,51 @@ namespace PawnoEditor
         }
 
         #endregion
+
+        private void flatTabControl2_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (prikazovaKonzole == null)
+                prikazovaKonzole = new Funkce.Konzole();
+        }
+
+        private void flatButton1_Click(object sender, EventArgs e)
+        {
+            prikazovaKonzole.SpustPrikaz(flatTextBox1.Text);
+        }
+
+        private void KonzolovyPrikazVykonan(object sender, Eventy.KonzolovyPrikazVykonanArgs e)
+        {
+            if (richTextBox1.Text.Length == 0)
+                richTextBox1.Text = e.zprava;
+            else richTextBox1.Text += e.zprava;
+        }
+
+        private void treeView1_DoubleClick(object sender, EventArgs e)
+        {
+            if (treeView1.SelectedNode == null) return;
+            if (treeView1.SelectedNode.Level == 0) return;
+
+            Clipboard.SetText(treeView1.SelectedNode.Text);
+        }
+
+        private void listView1_DoubleClick(object sender, EventArgs e)
+        {
+            if (listView1.SelectedItems.Count == 0) return;
+
+            var listViewSoubor = listView1.SelectedItems[0].SubItems[1].Text;
+            var poziceChyby = Convert.ToInt32(listView1.SelectedItems[0].SubItems[2].Text);
+
+            foreach(var zalozka in pTabs1.TabPages)
+            {
+                var pTab = zalozka as Komponenty.PTab;
+
+                if (Path.GetFileName(listViewSoubor) == Path.GetFileName(pTab.Soubor))
+                {
+                    pTabs1.SelectedTab = pTab;
+                    pTab.Editor.GotoPosition(pTab.Editor.Lines[poziceChyby].Position);
+                    break;
+                }
+            }
+        }
     }
 }

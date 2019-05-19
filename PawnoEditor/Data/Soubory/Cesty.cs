@@ -7,36 +7,36 @@ namespace PawnoEditor.Data.Soubory
 {
     class Cesty
     {
-        public string app_slozka { get; } = "";
+        public string App_slozka { get; } = "";
 
         public Cesty()
         {
-            app_slozka = Path.GetDirectoryName(Application.ExecutablePath);
+            App_slozka = Path.GetDirectoryName(Application.ExecutablePath);
         }
 
         public string Obrazky()
         {
-            return $"{app_slozka}\\Obrazky\\";
+            return $"{App_slozka}\\Obrazky\\";
         }
 
         public string Includy()
         {
-            return $"{app_slozka}\\include\\";
+            return $"{App_slozka}\\include\\";
         }
 
         public string Pickupy()
         {
-            return $"{app_slozka}\\Obrazky\\Pickupy\\";
+            return $"{App_slozka}\\Obrazky\\Pickupy\\";
         }
 
         public string Skiny()
         {
-            return $"{app_slozka}\\Obrazky\\Skiny\\";
+            return $"{App_slozka}\\Obrazky\\Skiny\\";
         }
 
         public string Sablona(string nazev)
         {
-            return $"{app_slozka}\\Templaty\\{nazev}.pe";
+            return $"{App_slozka}\\Templaty\\{nazev}.pe";
         }
     }
 }

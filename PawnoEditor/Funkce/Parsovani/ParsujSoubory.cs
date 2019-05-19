@@ -26,7 +26,7 @@ namespace PawnoEditor.Funkce.Parsovani
 
         private TreeNode NovaLVPolozka(string soubor, List<string> seznam_funkci)
         {
-            TreeNode polozka = new TreeNode(Path.GetFileName(soubor));
+            var polozka = new TreeNode(Path.GetFileName(soubor));
 
             foreach(var funkce in seznam_funkci)
                 polozka.Nodes.Add(funkce);

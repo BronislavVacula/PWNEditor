@@ -78,7 +78,7 @@ namespace PawnoEditor.Dialogy
 
         private void flatButton1_Click(object sender, EventArgs e)
         {
-
+            ZavriOkno(Soubor == "" ? DialogResult.Cancel : DialogResult.OK);
         }
     }
 }

@@ -57,7 +57,18 @@
   <ItemGroup>
     <Compile Include="Data\Kompilator.cs" />
     <Compile Include="Data\Nastaveni.cs" />
+    <Compile Include="Data\NastaveniPolozky\TextovyEditor.cs" />
+    <Compile Include="Data\NastaveniPolozky\ZvyrazneniSyntaxe.cs" />
+    <Compile Include="Data\Preklad.cs" />
     <Compile Include="Data\SAMPNastroje\DMapa.cs" />
+    <Compile Include="Dialogy\Zprava.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Dialogy\Zprava.Designer.cs">
+      <DependentUpon>Zprava.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Eventy\KompilaceDokoncenaArgs.cs" />
+    <Compile Include="Eventy\KonzolovyPrikazVykonanArgs.cs" />
     <Compile Include="Formulare\SampNastroje\Mapa.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -105,6 +116,7 @@
       <DependentUpon>VyberSlozky.cs</DependentUpon>
     </Compile>
     <Compile Include="Funkce\Kompilace.cs" />
+    <Compile Include="Funkce\Konzole.cs" />
     <Compile Include="Funkce\Parsovani\ParsujSoubory.cs" />
     <Compile Include="Funkce\Parsovani\PNativeFunkce.cs" />
     <Compile Include="Funkce\XML.cs" />
@@ -215,6 +227,9 @@
     <EmbeddedResource Include="Dialogy\VyberSlozky.resx">
       <DependentUpon>VyberSlozky.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Dialogy\Zprava.resx">
+      <DependentUpon>Zprava.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Formulare\OProgramu.resx">
       <DependentUpon>OProgramu.cs</DependentUpon>
     </EmbeddedResource>
@@ -252,6 +267,9 @@
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
+  </ItemGroup>
+  <ItemGroup>
+    <Service Include="{508349B6-6B84-4DF5-91F0-309BEEBAD82D}" />
   </ItemGroup>
   <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

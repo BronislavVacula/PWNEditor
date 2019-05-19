@@ -11,18 +11,21 @@ namespace PawnoEditor.Funkce
         Process komp_process;
         public Data.Kompilator KompilatorNastaveni { get; set; } = new Data.Kompilator();
 
-        public string Soubor { get; set; } = "";
+        public string Soubor { get; set; }
         public List<string> Chyby { get; set; } = new List<string>();
 
-        public Kompilace()
+        public Kompilace(string cestaSouboru)
         {
+            Soubor = cestaSouboru;
+            KompilatorNastaveni.WorkingDirectory = Path.GetDirectoryName(Soubor);
+
             komp_process = new Process
             {
                 StartInfo =
                     {
                         FileName = KompilatorNastaveni.Pawncc,
                         WorkingDirectory = KompilatorNastaveni.WorkingDirectory,
-                        Arguments = KompilatorNastaveni.Argumenty,
+                        Arguments = Soubor + " " + KompilatorNastaveni.Argumenty(),
                         CreateNoWindow = true,
                         RedirectStandardError = true,
                         RedirectStandardOutput = true,
@@ -36,8 +39,18 @@ namespace PawnoEditor.Funkce
         {
             try
             {
-                Chyby = komp_process.StandardOutput.ReadToEnd().Split(Convert.ToChar("\n")).ToList();
-                return false;
+                if (komp_process.StandardOutput.ReadToEnd().IndexOf("Error") < 0) return false;
+
+                try
+                {
+                    var kompilatorVysledek = komp_process.StandardError.ReadToEnd();
+                    kompilatorVysledek = new Data.Preklad().PrelozTextDoCestiny(kompilatorVysledek);
+
+                    Chyby = kompilatorVysledek.Split(Convert.ToChar("\n")).ToList(); 
+                }
+                catch { }
+
+                return true;
             }
             catch (Exception)
             {
@@ -50,7 +63,7 @@ namespace PawnoEditor.Funkce
             komp_process.Start();
             komp_process.WaitForExit();
 
-            return ZiskejChyby();
+            return !ZiskejChyby(); 
         }
 
         public string VyslednySoubor()

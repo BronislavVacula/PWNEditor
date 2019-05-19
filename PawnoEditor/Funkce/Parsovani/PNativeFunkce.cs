@@ -34,5 +34,10 @@ namespace PawnoEditor.Funkce.Parsovani
 
             return funkce;
         }
+
+        public void Dispose()
+        {
+            reader.Dispose();
+        }
     }
 }

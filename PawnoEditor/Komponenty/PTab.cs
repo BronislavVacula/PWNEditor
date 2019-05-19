@@ -10,32 +10,24 @@ namespace PawnoEditor.Komponenty
         public string Soubor { get; set; } = "";
         public PTextEdit Editor { get { return (Tag as PTextEdit); } }
 
-        private bool JeCestaOK(string cesta)
-        {
-            return File.Exists(cesta) && cesta != "";
-        }
-
         public void OtevriSoubor(string cesta = "")
         {
-            if (!JeCestaOK(cesta)) return;
+            if (!JeCestaKSouboruOK(cesta)) return;
 
             Editor.Text = File.ReadAllText(cesta, Encoding.Default);
-
             Soubor = cesta;
-            UpravJmenoZalozky();
-        }
 
-        public bool BylSouborUlozeny()
-        {
-            return Soubor != "";
+            UpravJmenoZalozky();
         }
 
         public void UlozNovySoubor()
         {
-            SaveFileDialog sfd = new SaveFileDialog() { Filter = "Textové soubory (*.txt)|*.txt" };
+            SaveFileDialog sfd = new SaveFileDialog() { Filter = "Pawno soubor (*.pwn)|*.pwn" };
 
             if (sfd.ShowDialog() == DialogResult.OK)
                 if (sfd.FileName != "") UlozeniSouboru(sfd.FileName);
+
+            sfd.Dispose();
         }
 
         private void UlozeniSouboru(string cesta)
@@ -54,6 +46,16 @@ namespace PawnoEditor.Komponenty
         private void UpravJmenoZalozky()
         {
             Text = Path.GetFileName(Soubor);
+        }
+
+        private bool JeCestaKSouboruOK(string cesta)
+        {
+            return File.Exists(cesta) && cesta != "";
+        }
+
+        public bool BylSouborUlozeny()
+        {
+            return Soubor != "";
         }
     }
 }

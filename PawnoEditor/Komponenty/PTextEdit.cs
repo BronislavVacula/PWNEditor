@@ -3,6 +3,7 @@ using System.IO;
 using System.Drawing;
 using ScintillaNET;
 using System.Text;
+using PawnoEditor.Funkce.Barvy;
 
 namespace PawnoEditor.Komponenty
 {
@@ -53,22 +54,22 @@ namespace PawnoEditor.Komponenty
         {
             VychoziSyntaxe();
             
-            Styles[Style.Cpp.Identifier].ForeColor = IntToColor(0xD0DAE2);
-            Styles[Style.Cpp.Comment].ForeColor = IntToColor(0xBD758B);
-            Styles[Style.Cpp.CommentLine].ForeColor = IntToColor(0x40BF57);
-            Styles[Style.Cpp.CommentDoc].ForeColor = IntToColor(0x2FAE35);
-            Styles[Style.Cpp.Number].ForeColor = IntToColor(0xFFFF00);
-            Styles[Style.Cpp.String].ForeColor = IntToColor(0xFFFF00);
-            Styles[Style.Cpp.Character].ForeColor = IntToColor(0xE95454);
-            Styles[Style.Cpp.Preprocessor].ForeColor = IntToColor(0x8AAFEE);
-            Styles[Style.Cpp.Operator].ForeColor = IntToColor(0xE0E0E0);
-            Styles[Style.Cpp.Regex].ForeColor = IntToColor(0xff00ff);
-            Styles[Style.Cpp.CommentLineDoc].ForeColor = IntToColor(0x77A7DB);
-            Styles[Style.Cpp.Word].ForeColor = IntToColor(0x48A8EE);
-            Styles[Style.Cpp.Word2].ForeColor = IntToColor(0xF98906);
-            Styles[Style.Cpp.CommentDocKeyword].ForeColor = IntToColor(0xB3D991);
-            Styles[Style.Cpp.CommentDocKeywordError].ForeColor = IntToColor(0xFF0000);
-            Styles[Style.Cpp.GlobalClass].ForeColor = IntToColor(0x48A8EE);
+            Styles[Style.Cpp.Identifier].ForeColor = Prevod.IntRGBNaBarvu(0xD0DAE2);
+            Styles[Style.Cpp.Comment].ForeColor = Prevod.IntRGBNaBarvu(0xBD758B);
+            Styles[Style.Cpp.CommentLine].ForeColor = Prevod.IntRGBNaBarvu(0x40BF57);
+            Styles[Style.Cpp.CommentDoc].ForeColor = Prevod.IntRGBNaBarvu(0x2FAE35);
+            Styles[Style.Cpp.Number].ForeColor = Prevod.IntRGBNaBarvu(0xFFFF00);
+            Styles[Style.Cpp.String].ForeColor = Prevod.IntRGBNaBarvu(0xFFFF00);
+            Styles[Style.Cpp.Character].ForeColor = Prevod.IntRGBNaBarvu(0xE95454);
+            Styles[Style.Cpp.Preprocessor].ForeColor = Prevod.IntRGBNaBarvu(0x8AAFEE);
+            Styles[Style.Cpp.Operator].ForeColor = Prevod.IntRGBNaBarvu(0xE0E0E0);
+            Styles[Style.Cpp.Regex].ForeColor = Prevod.IntRGBNaBarvu(0xff00ff);
+            Styles[Style.Cpp.CommentLineDoc].ForeColor = Prevod.IntRGBNaBarvu(0x77A7DB);
+            Styles[Style.Cpp.Word].ForeColor = Prevod.IntRGBNaBarvu(0x48A8EE);
+            Styles[Style.Cpp.Word2].ForeColor = Prevod.IntRGBNaBarvu(0xF98906);
+            Styles[Style.Cpp.CommentDocKeyword].ForeColor = Prevod.IntRGBNaBarvu(0xB3D991);
+            Styles[Style.Cpp.CommentDocKeywordError].ForeColor = Prevod.IntRGBNaBarvu(0xFF0000);
+            Styles[Style.Cpp.GlobalClass].ForeColor = Prevod.IntRGBNaBarvu(0x48A8EE);
 
             Styles[Style.Cpp.HashQuotedString].ForeColor = Color.Red;
             Styles[Style.Cpp.PreprocessorComment].ForeColor = Color.Red;
@@ -126,11 +127,6 @@ namespace PawnoEditor.Komponenty
             Markers[Marker.FolderTail].Symbol = MarkerSymbol.LCorner;
 
             AutomaticFold = (AutomaticFold.Show | AutomaticFold.Click | AutomaticFold.Change);
-        }
-
-        public Color IntToColor(int rgb)
-        {
-            return Color.FromArgb(255, (byte)(rgb >> 16), (byte)(rgb >> 8), (byte)rgb);
         }
 
         public void OtevriSablonu()
