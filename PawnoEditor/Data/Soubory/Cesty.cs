@@ -34,6 +34,11 @@ namespace PawnoEditor.Data.Soubory
             return $"{App_slozka}\\Obrazky\\Skiny\\";
         }
 
+        public string Server()
+        {
+            return $"{App_slozka}\\SAMPServer\\";
+        }
+
         public string Sablona(string nazev)
         {
             return $"{App_slozka}\\Templaty\\{nazev}.pe";

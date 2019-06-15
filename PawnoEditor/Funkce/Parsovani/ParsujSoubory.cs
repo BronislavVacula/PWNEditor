@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.IO;
 using System.Windows.Forms;
 
@@ -19,9 +17,11 @@ namespace PawnoEditor.Funkce.Parsovani
 
         private void PridejFunkceDoLV(string soubor, TreeView ulozeni)
         {
-            var seznam_funkci = new PNativeFunkce(soubor).Seznam();
+            var nativeFunkce = new PNativeFunkce(soubor);
 
-            ulozeni.Nodes.Add(NovaLVPolozka(soubor, seznam_funkci));
+            ulozeni.Nodes.Add(NovaLVPolozka(soubor, nativeFunkce.Seznam()));
+
+            nativeFunkce.Dispose();
         }
 
         private TreeNode NovaLVPolozka(string soubor, List<string> seznam_funkci)

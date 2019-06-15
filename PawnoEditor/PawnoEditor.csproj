@@ -115,10 +115,14 @@
     <Compile Include="Dialogy\VyberSlozky.Designer.cs">
       <DependentUpon>VyberSlozky.cs</DependentUpon>
     </Compile>
+    <Compile Include="Funkce\Hra\Config.cs" />
+    <Compile Include="Funkce\Hra\Spoustec.cs" />
     <Compile Include="Funkce\Kompilace.cs" />
     <Compile Include="Funkce\Konzole.cs" />
+    <Compile Include="Funkce\Parsovani\HledaniFunkce.cs" />
     <Compile Include="Funkce\Parsovani\ParsujSoubory.cs" />
     <Compile Include="Funkce\Parsovani\PNativeFunkce.cs" />
+    <Compile Include="Funkce\Soubory.cs" />
     <Compile Include="Funkce\XML.cs" />
     <Compile Include="Hlavni.cs">
       <SubType>Form</SubType>

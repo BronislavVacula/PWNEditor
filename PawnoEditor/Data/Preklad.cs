@@ -33,12 +33,12 @@ namespace PawnoEditor.Data
             "nedefinovaná"
         };
 
-        public string PrelozTextDoCestiny(string anglickyText)
+        public string PrelozTextDoCestiny(string text)
         {
             for (int i = 0; i < Hledane.Count(); i++)
-                anglickyText = anglickyText.Replace(Hledane[i], Nahrazeni[i]);
+                text = text.Replace(Hledane[i], Nahrazeni[i]);
 
-            return anglickyText;
+            return text;
         }
     }
 }

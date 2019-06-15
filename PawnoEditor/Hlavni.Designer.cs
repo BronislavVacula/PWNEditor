@@ -111,6 +111,7 @@
             this.konzole_menu = new FlatUI.FlatContextMenuStrip();
             this.colorDialog1 = new System.Windows.Forms.ColorDialog();
             this.bindingSource1 = new System.Windows.Forms.BindingSource(this.components);
+            this.editorMenu = new FlatUI.FlatContextMenuStrip();
             this.formSkin1.SuspendLayout();
             this.panel1.SuspendLayout();
             this.flatTabControl2.SuspendLayout();
@@ -538,6 +539,8 @@
             this.toolStripMenuItem3,
             this.konecToolStripMenuItem});
             this.souborToolStripMenuItem.Name = "souborToolStripMenuItem";
+            this.souborToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.S)));
             this.souborToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
             this.souborToolStripMenuItem.Text = "Soubor";
             // 
@@ -545,7 +548,8 @@
             // 
             this.nováZáložkaToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.nováZáložkaToolStripMenuItem.Name = "nováZáložkaToolStripMenuItem";
-            this.nováZáložkaToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.nováZáložkaToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.N)));
+            this.nováZáložkaToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.nováZáložkaToolStripMenuItem.Text = "Nový";
             this.nováZáložkaToolStripMenuItem.Click += new System.EventHandler(this.nováZáložkaToolStripMenuItem_Click);
             // 
@@ -553,7 +557,8 @@
             // 
             this.otevřítToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.otevřítToolStripMenuItem.Name = "otevřítToolStripMenuItem";
-            this.otevřítToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.otevřítToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.O)));
+            this.otevřítToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.otevřítToolStripMenuItem.Text = "Otevřít";
             this.otevřítToolStripMenuItem.Click += new System.EventHandler(this.otevřítToolStripMenuItem_Click);
             // 
@@ -562,13 +567,13 @@
             this.toolStripMenuItem1.BackColor = System.Drawing.Color.White;
             this.toolStripMenuItem1.ForeColor = System.Drawing.Color.White;
             this.toolStripMenuItem1.Name = "toolStripMenuItem1";
-            this.toolStripMenuItem1.Size = new System.Drawing.Size(141, 6);
+            this.toolStripMenuItem1.Size = new System.Drawing.Size(191, 6);
             // 
             // zavřítZáložkuToolStripMenuItem
             // 
             this.zavřítZáložkuToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.zavřítZáložkuToolStripMenuItem.Name = "zavřítZáložkuToolStripMenuItem";
-            this.zavřítZáložkuToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.zavřítZáložkuToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.zavřítZáložkuToolStripMenuItem.Text = "Zavřít záložku";
             this.zavřítZáložkuToolStripMenuItem.Click += new System.EventHandler(this.zavřítZáložkuToolStripMenuItem_Click);
             // 
@@ -576,20 +581,21 @@
             // 
             this.zavřítVšeToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.zavřítVšeToolStripMenuItem.Name = "zavřítVšeToolStripMenuItem";
-            this.zavřítVšeToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.zavřítVšeToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.zavřítVšeToolStripMenuItem.Text = "Zavřít vše";
             this.zavřítVšeToolStripMenuItem.Click += new System.EventHandler(this.zavřítVšeToolStripMenuItem_Click);
             // 
             // toolStripMenuItem2
             // 
             this.toolStripMenuItem2.Name = "toolStripMenuItem2";
-            this.toolStripMenuItem2.Size = new System.Drawing.Size(141, 6);
+            this.toolStripMenuItem2.Size = new System.Drawing.Size(191, 6);
             // 
             // uložiToolStripMenuItem
             // 
             this.uložiToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.uložiToolStripMenuItem.Name = "uložiToolStripMenuItem";
-            this.uložiToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.uložiToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.S)));
+            this.uložiToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.uložiToolStripMenuItem.Text = "Uložit";
             this.uložiToolStripMenuItem.Click += new System.EventHandler(this.uložiToolStripMenuItem_Click);
             // 
@@ -597,20 +603,23 @@
             // 
             this.uložitVšeToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.uložitVšeToolStripMenuItem.Name = "uložitVšeToolStripMenuItem";
-            this.uložitVšeToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.uložitVšeToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)(((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Shift) 
+            | System.Windows.Forms.Keys.S)));
+            this.uložitVšeToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.uložitVšeToolStripMenuItem.Text = "Uložit vše";
             this.uložitVšeToolStripMenuItem.Click += new System.EventHandler(this.uložitVšeToolStripMenuItem_Click);
             // 
             // toolStripMenuItem3
             // 
             this.toolStripMenuItem3.Name = "toolStripMenuItem3";
-            this.toolStripMenuItem3.Size = new System.Drawing.Size(141, 6);
+            this.toolStripMenuItem3.Size = new System.Drawing.Size(191, 6);
             // 
             // konecToolStripMenuItem
             // 
             this.konecToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.konecToolStripMenuItem.Name = "konecToolStripMenuItem";
-            this.konecToolStripMenuItem.Size = new System.Drawing.Size(144, 22);
+            this.konecToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Alt | System.Windows.Forms.Keys.F4)));
+            this.konecToolStripMenuItem.Size = new System.Drawing.Size(194, 22);
             this.konecToolStripMenuItem.Text = "Konec";
             this.konecToolStripMenuItem.Click += new System.EventHandler(this.konecToolStripMenuItem_Click);
             // 
@@ -633,7 +642,8 @@
             // 
             this.zpěvToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.zpěvToolStripMenuItem.Name = "zpěvToolStripMenuItem";
-            this.zpěvToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.zpěvToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Z)));
+            this.zpěvToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.zpěvToolStripMenuItem.Text = "Zpěv";
             this.zpěvToolStripMenuItem.Click += new System.EventHandler(this.zpěvToolStripMenuItem_Click);
             // 
@@ -641,20 +651,22 @@
             // 
             this.vpředToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.vpředToolStripMenuItem.Name = "vpředToolStripMenuItem";
-            this.vpředToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.vpředToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.Y)));
+            this.vpředToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.vpředToolStripMenuItem.Text = "Vpřed";
             this.vpředToolStripMenuItem.Click += new System.EventHandler(this.vpředToolStripMenuItem_Click);
             // 
             // toolStripMenuItem4
             // 
             this.toolStripMenuItem4.Name = "toolStripMenuItem4";
-            this.toolStripMenuItem4.Size = new System.Drawing.Size(123, 6);
+            this.toolStripMenuItem4.Size = new System.Drawing.Size(163, 6);
             // 
             // vyjmoutToolStripMenuItem
             // 
             this.vyjmoutToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.vyjmoutToolStripMenuItem.Name = "vyjmoutToolStripMenuItem";
-            this.vyjmoutToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.vyjmoutToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.X)));
+            this.vyjmoutToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.vyjmoutToolStripMenuItem.Text = "Vyjmout";
             this.vyjmoutToolStripMenuItem.Click += new System.EventHandler(this.vyjmoutToolStripMenuItem_Click);
             // 
@@ -662,7 +674,8 @@
             // 
             this.kopírovatToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.kopírovatToolStripMenuItem.Name = "kopírovatToolStripMenuItem";
-            this.kopírovatToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.kopírovatToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.C)));
+            this.kopírovatToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.kopírovatToolStripMenuItem.Text = "Kopírovat";
             this.kopírovatToolStripMenuItem.Click += new System.EventHandler(this.kopírovatToolStripMenuItem_Click);
             // 
@@ -670,20 +683,22 @@
             // 
             this.vložitToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.vložitToolStripMenuItem.Name = "vložitToolStripMenuItem";
-            this.vložitToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.vložitToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.V)));
+            this.vložitToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.vložitToolStripMenuItem.Text = "Vložit";
             this.vložitToolStripMenuItem.Click += new System.EventHandler(this.vložitToolStripMenuItem_Click);
             // 
             // toolStripMenuItem5
             // 
             this.toolStripMenuItem5.Name = "toolStripMenuItem5";
-            this.toolStripMenuItem5.Size = new System.Drawing.Size(123, 6);
+            this.toolStripMenuItem5.Size = new System.Drawing.Size(163, 6);
             // 
             // vybratVšeToolStripMenuItem
             // 
             this.vybratVšeToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.vybratVšeToolStripMenuItem.Name = "vybratVšeToolStripMenuItem";
-            this.vybratVšeToolStripMenuItem.Size = new System.Drawing.Size(126, 22);
+            this.vybratVšeToolStripMenuItem.ShortcutKeys = ((System.Windows.Forms.Keys)((System.Windows.Forms.Keys.Control | System.Windows.Forms.Keys.A)));
+            this.vybratVšeToolStripMenuItem.Size = new System.Drawing.Size(166, 22);
             this.vybratVšeToolStripMenuItem.Text = "Vybrat vše";
             this.vybratVšeToolStripMenuItem.Click += new System.EventHandler(this.vybratVšeToolStripMenuItem_Click);
             // 
@@ -731,7 +746,8 @@
             // 
             this.zkompilovatKódToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.zkompilovatKódToolStripMenuItem.Name = "zkompilovatKódToolStripMenuItem";
-            this.zkompilovatKódToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.zkompilovatKódToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F6;
+            this.zkompilovatKódToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.zkompilovatKódToolStripMenuItem.Text = "Zkompilovat kód";
             this.zkompilovatKódToolStripMenuItem.Click += new System.EventHandler(this.zkompilovatKódToolStripMenuItem_Click);
             // 
@@ -739,20 +755,21 @@
             // 
             this.zkompilovatASpustitToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.zkompilovatASpustitToolStripMenuItem.Name = "zkompilovatASpustitToolStripMenuItem";
-            this.zkompilovatASpustitToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.zkompilovatASpustitToolStripMenuItem.ShortcutKeys = System.Windows.Forms.Keys.F5;
+            this.zkompilovatASpustitToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.zkompilovatASpustitToolStripMenuItem.Text = "Zkompilovat a spustit";
             this.zkompilovatASpustitToolStripMenuItem.Click += new System.EventHandler(this.zkompilovatASpustitToolStripMenuItem_Click);
             // 
             // toolStripMenuItem8
             // 
             this.toolStripMenuItem8.Name = "toolStripMenuItem8";
-            this.toolStripMenuItem8.Size = new System.Drawing.Size(181, 6);
+            this.toolStripMenuItem8.Size = new System.Drawing.Size(200, 6);
             // 
             // zkompilovatVšeToolStripMenuItem
             // 
             this.zkompilovatVšeToolStripMenuItem.ForeColor = System.Drawing.Color.White;
             this.zkompilovatVšeToolStripMenuItem.Name = "zkompilovatVšeToolStripMenuItem";
-            this.zkompilovatVšeToolStripMenuItem.Size = new System.Drawing.Size(184, 22);
+            this.zkompilovatVšeToolStripMenuItem.Size = new System.Drawing.Size(203, 22);
             this.zkompilovatVšeToolStripMenuItem.Text = "Zkompilovat vše";
             this.zkompilovatVšeToolStripMenuItem.Click += new System.EventHandler(this.zkompilovatVšeToolStripMenuItem_Click);
             // 
@@ -927,6 +944,14 @@
             this.konzole_menu.ShowImageMargin = false;
             this.konzole_menu.Size = new System.Drawing.Size(36, 4);
             // 
+            // editorMenu
+            // 
+            this.editorMenu.Font = new System.Drawing.Font("Segoe UI", 8F);
+            this.editorMenu.ForeColor = System.Drawing.Color.White;
+            this.editorMenu.Name = "editorMenu";
+            this.editorMenu.ShowImageMargin = false;
+            this.editorMenu.Size = new System.Drawing.Size(36, 4);
+            // 
             // Hlavni
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -1045,6 +1070,7 @@
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem9;
         private System.Windows.Forms.ToolStripMenuItem aktualizaceToolStripMenuItem;
         private System.Windows.Forms.ToolStripSeparator toolStripMenuItem10;
+        private FlatUI.FlatContextMenuStrip editorMenu;
     }
 }
 

@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Drawing;
 using System.Text.RegularExpressions;
 using System.Threading;
-using System.Threading.Tasks;
 using System.IO;
 using System.Windows.Forms;
 using Cyotek.Windows.Forms;
@@ -252,6 +251,7 @@ namespace PawnoEditor
         private void zkompilovatASpustitToolStripMenuItem_Click(object sender, EventArgs e)
         {
             listView1.Items.Clear();
+
             if (pTabs1.TabCount == 0) return;
 
             ZkompilujSoubor(pTabs1.VybranaZalozka);
@@ -298,11 +298,14 @@ namespace PawnoEditor
 
         private void flatButton1_Click(object sender, EventArgs e)
         {
-            prikazovaKonzole.SpustPrikaz(flatTextBox1.Text);
+            if(flatTextBox1.Text.Length > 0 && prikazovaKonzole != null)
+                prikazovaKonzole.SpustPrikaz(flatTextBox1.Text);
         }
 
         private void KonzolovyPrikazVykonan(object sender, Eventy.KonzolovyPrikazVykonanArgs e)
         {
+            richTextBox1.Text = richTextBox1.Text.Length == 0 ? e.zprava : richTextBox1.Text + e.zprava;
+
             if (richTextBox1.Text.Length == 0)
                 richTextBox1.Text = e.zprava;
             else richTextBox1.Text += e.zprava;
@@ -313,15 +316,24 @@ namespace PawnoEditor
             if (treeView1.SelectedNode == null) return;
             if (treeView1.SelectedNode.Level == 0) return;
 
-            Clipboard.SetText(treeView1.SelectedNode.Text);
+            if(nastaveniProgramu.ZpusobVkladaniScriptu == Data.Nastaveni.VKLADANI_SCRIPTU_Z_PANELU.SchrankaWindows)
+                Clipboard.SetText(treeView1.SelectedNode.Text);
+            else
+                pTabs1.VybranaZalozka?.Editor.InsertText(pTabs1.VybranaZalozka.Editor.CurrentPosition, treeView1.SelectedNode.Text);
         }
 
+
+        /// <summary>
+        /// Po dvojkliku na chybu v listViewu přejde na chybový řádek v text. editoru
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void listView1_DoubleClick(object sender, EventArgs e)
         {
             if (listView1.SelectedItems.Count == 0) return;
 
             var listViewSoubor = listView1.SelectedItems[0].SubItems[1].Text;
-            var poziceChyby = Convert.ToInt32(listView1.SelectedItems[0].SubItems[2].Text);
+            var radekSChybou = Convert.ToInt32(listView1.SelectedItems[0].SubItems[2].Text);
 
             foreach(var zalozka in pTabs1.TabPages)
             {
@@ -330,7 +342,7 @@ namespace PawnoEditor
                 if (Path.GetFileName(listViewSoubor) == Path.GetFileName(pTab.Soubor))
                 {
                     pTabs1.SelectedTab = pTab;
-                    pTab.Editor.GotoPosition(pTab.Editor.Lines[poziceChyby].Position);
+                    pTab.Editor.GotoPosition(pTab.Editor.Lines[radekSChybou].Position);
                     break;
                 }
             }
