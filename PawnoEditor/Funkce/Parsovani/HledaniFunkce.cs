@@ -35,7 +35,7 @@ namespace PawnoEditor.Funkce.Parsovani
             var poziceZavorky = NajdiNajblizsiSlozenouZavorku(poziceFunkce);
             if (poziceZavorky == -1) return;
 
-            Editor.InsertText(poziceZavorky + 1, script);
+            Editor.InsertText(poziceZavorky + 1, Environment.NewLine + script);
         }
     }
 }
