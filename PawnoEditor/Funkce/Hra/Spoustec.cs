@@ -1,12 +1,14 @@
 ﻿using System;
 using System.IO;
 using System.Diagnostics;
+using PawnoEditor.Data.Soubory;
 
 namespace PawnoEditor.Funkce.Hra
 {
     class Spoustec
     {
         Process hraProcess, serverProcess;
+        Cesty cesty = new Cesty();
 
         public Spoustec()
         {
@@ -37,7 +39,7 @@ namespace PawnoEditor.Funkce.Hra
             {
                 StartInfo =
                     {
-                        FileName = Path.Combine(new Data.Soubory.Cesty().Server(), "samp-server.exe"),
+                        FileName = Path.Combine(cesty.VratCestu(Cesty.CESTY_DRUHY.SAMPServer), "samp-server.exe"),
                         Arguments = "",
                         CreateNoWindow = false,
                         RedirectStandardError = true,

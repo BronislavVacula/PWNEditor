@@ -1,42 +1,34 @@
 ﻿using System;
-using System.Collections.Generic;
 using System.IO;
 using System.Windows.Forms;
 
 namespace PawnoEditor.Data.Soubory
 {
-    class Cesty
+    public class Cesty
     {
-        public string App_slozka { get; } = "";
-
-        public Cesty()
+        public enum CESTY_DRUHY
         {
-            App_slozka = Path.GetDirectoryName(Application.ExecutablePath);
+            Obrazky = 0,
+            Includy = 1,
+            Pickupy = 2,
+            Skiny = 3,
+            SAMPServer = 4
         }
 
-        public string Obrazky()
+        private readonly string[] UmisteniVeSlozceSProjektem =
         {
-            return $"{App_slozka}\\Obrazky\\";
-        }
+            "Obrazky\\",
+            "include\\",
+            "Obrazky\\Pickupy\\",
+            "Obrazky\\Skiny\\",
+            "SAMPServer\\"
+        };
 
-        public string Includy()
-        {
-            return $"{App_slozka}\\include\\";
-        }
+        public string App_slozka { get; } = Path.GetDirectoryName(Application.ExecutablePath);
 
-        public string Pickupy()
+        public string VratCestu(CESTY_DRUHY druhCesty)
         {
-            return $"{App_slozka}\\Obrazky\\Pickupy\\";
-        }
-
-        public string Skiny()
-        {
-            return $"{App_slozka}\\Obrazky\\Skiny\\";
-        }
-
-        public string Server()
-        {
-            return $"{App_slozka}\\SAMPServer\\";
+            return Path.Combine(App_slozka, UmisteniVeSlozceSProjektem[(int)druhCesty]);
         }
 
         public string Sablona(string nazev)

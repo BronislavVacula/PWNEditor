@@ -17,7 +17,7 @@ namespace PawnoEditor.Funkce
             return Directory.GetDirectories(slozka, "*", SearchOption.TopDirectoryOnly);
         }
 
-        public void NactiObrazky(string cesta, Komponenty.PlistBox umisteni)
+        public void VypisNazvyObrazku(string cesta, Komponenty.PlistBox umisteni)
         {
             if (!Directory.Exists(cesta)) return;
 

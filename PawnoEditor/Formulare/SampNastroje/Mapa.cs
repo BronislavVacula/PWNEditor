@@ -1,8 +1,7 @@
 ﻿using System;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 using PawnoEditor.Data.SAMPNastroje;
+using PawnoEditor.Funkce.Rozsireni;
 
 namespace PawnoEditor.Formulare.SampNastroje
 {
@@ -15,12 +14,7 @@ namespace PawnoEditor.Formulare.SampNastroje
         {
             InitializeComponent();
 
-            mapa_obr.Load($"{cesty.Obrazky()}radar.JPG");
-        }
-
-        private void PridejRadek(RichTextBox kam, string text)
-        {
-            kam.Text += text + Environment.NewLine;
+            mapa_obr.Load($"{cesty.VratCestu(Data.Soubory.Cesty.CESTY_DRUHY.Obrazky)}radar.JPG");
         }
 
         private void mapa_obr_MouseClick(object sender, MouseEventArgs e)
@@ -30,13 +24,14 @@ namespace PawnoEditor.Formulare.SampNastroje
                 DMapa.Souradnice vybrana_pozice = new DMapa.Souradnice()
                 {
                     X = (e.X - 320) * 9.375f,
-                    Y = (e.Y - 320) * 9.375f * -1
+                    Y = (e.Y - 320) * 9.375f * -1,
+                    Z = 0
                 };
 
                 switch (aktualni_akce)
                 {
                     case DMapa.Akce.NovySpawn:
-                        PridejRadek(richTextBox1, $"SetPlayerPos(playerid, {vybrana_pozice.X}, " +
+                        richTextBox1.PridejRadek($"SetPlayerPos(playerid, {vybrana_pozice.X}, " +
                             $"{vybrana_pozice.Y}, {vybrana_pozice.Z});");
                         break;
 

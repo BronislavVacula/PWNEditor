@@ -6,13 +6,14 @@ using System.Threading;
 using System.IO;
 using System.Windows.Forms;
 using Cyotek.Windows.Forms;
+using PawnoEditor.Data.Soubory;
 
 namespace PawnoEditor
 {
     public partial class Hlavni : Form
     {
         Funkce.FileManager fm = new Funkce.FileManager();
-        Data.Soubory.Cesty cesty = new Data.Soubory.Cesty();
+        Cesty cesty = new Cesty();
         Funkce.Konzole prikazovaKonzole;
 
         Data.Nastaveni nastaveniProgramu = new Data.Nastaveni();
@@ -25,11 +26,11 @@ namespace PawnoEditor
             {
                 Thread.CurrentThread.IsBackground = true;
 
-                fm.NactiObrazky(cesty.Pickupy(), plistBox2);
-                fm.NactiObrazky(cesty.Skiny(), plistBox1);
+                fm.VypisNazvyObrazku(cesty.VratCestu(Cesty.CESTY_DRUHY.Pickupy), plistBox2);
+                fm.VypisNazvyObrazku(cesty.VratCestu(Cesty.CESTY_DRUHY.Skiny), plistBox1);
             }).Start();
             
-            new Funkce.Parsovani.ParsujSoubory(cesty.Includy(), treeView1);
+            new Funkce.Parsovani.ParsujSoubory(cesty.VratCestu(Cesty.CESTY_DRUHY.Includy), treeView1);
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -109,7 +110,7 @@ namespace PawnoEditor
         private void plistBox1_SelectedValueChanged(object sender, EventArgs e)
         {
             if (plistBox1.SelectedItems.Count > 0)
-                pictureBox2.Image = Image.FromFile(cesty.Skiny() + plistBox1.SelectedItem.ToString() + ".png");
+                pictureBox2.Image = Image.FromFile(cesty.VratCestu(Cesty.CESTY_DRUHY.Skiny) + plistBox1.SelectedItem.ToString() + ".png");
         }
 
         private void zpěvToolStripMenuItem_Click(object sender, EventArgs e)

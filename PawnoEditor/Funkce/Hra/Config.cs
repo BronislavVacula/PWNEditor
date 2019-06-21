@@ -1,11 +1,12 @@
 ﻿using System;
 using System.IO;
+using PawnoEditor.Data.Soubory;
 
 namespace PawnoEditor.Funkce.Hra
 {
     class Config
     {
-       readonly Data.Soubory.Cesty cesty = new Data.Soubory.Cesty();
+       readonly Cesty cesty = new Cesty();
 
        public void ZmenMod(string amxCesta)
        {
@@ -18,7 +19,8 @@ namespace PawnoEditor.Funkce.Hra
         {
             if (!File.Exists(amxCesta)) return null;
 
-            var vyslednaCesta = Path.Combine(cesty.Server(), "\\gamemodes\\", Path.GetFileName(amxCesta));
+            var vyslednaCesta = Path.Combine(cesty.VratCestu(Cesty.CESTY_DRUHY.SAMPServer),
+                "\\gamemodes\\", Path.GetFileName(amxCesta));
             File.Copy(amxCesta, vyslednaCesta);
 
             return vyslednaCesta;
@@ -28,7 +30,7 @@ namespace PawnoEditor.Funkce.Hra
         {
             if (soubor == null) return;
 
-            var configCesta = Path.Combine(new Data.Soubory.Cesty().Server(), "server.cfg");
+            var configCesta = Path.Combine(cesty.VratCestu(Cesty.CESTY_DRUHY.SAMPServer), "server.cfg");
 
             Soubory.ZmenRadekVSouboru(configCesta, "gamemode0", 
                 $"gamemode0 {Path.GetFileNameWithoutExtension(soubor)} 1");
