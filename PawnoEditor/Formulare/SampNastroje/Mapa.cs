@@ -19,27 +19,29 @@ namespace PawnoEditor.Formulare.SampNastroje
 
         private void mapa_obr_MouseClick(object sender, MouseEventArgs e)
         {
-            if (e.Button == MouseButtons.Left)
+            if (e.Button != MouseButtons.Left) return;
+
+            DMapa.Souradnice vybrana_pozice = SouradniceVybranePozice(e);
+
+            switch (aktualni_akce)
             {
-                DMapa.Souradnice vybrana_pozice = new DMapa.Souradnice()
-                {
-                    X = (e.X - 320) * 9.375f,
-                    Y = (e.Y - 320) * 9.375f * -1,
-                    Z = 0
-                };
+                case DMapa.Akce.NovySpawn:
+                    richTextBox1.PridejRadek($"SetPlayerPos(playerid, {vybrana_pozice.X}, {vybrana_pozice.Y}, {vybrana_pozice.Z});");
+                    break;
 
-                switch (aktualni_akce)
-                {
-                    case DMapa.Akce.NovySpawn:
-                        richTextBox1.PridejRadek($"SetPlayerPos(playerid, {vybrana_pozice.X}, " +
-                            $"{vybrana_pozice.Y}, {vybrana_pozice.Z});");
-                        break;
-
-                    case DMapa.Akce.NovyPickup:
-                        break;
-                }
-
+                case DMapa.Akce.NovyPickup:
+                    break;
             }
+        }
+
+        private DMapa.Souradnice SouradniceVybranePozice(MouseEventArgs e)
+        {
+            return new DMapa.Souradnice()
+            {
+                X = (e.X - 320) * 9.375f,
+                Y = (e.Y - 320) * 9.375f * -1,
+                Z = 0
+            };
         }
     }
 }

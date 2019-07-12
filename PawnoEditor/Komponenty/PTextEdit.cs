@@ -129,10 +129,7 @@ namespace PawnoEditor.Komponenty
             AutomaticFold = (AutomaticFold.Show | AutomaticFold.Click | AutomaticFold.Change);
         }
 
-        public void OtevriSablonu()
-        {
-            Text = File.ReadAllText(new Data.Soubory.Cesty().Sablona("novy"), Encoding.Default);
-        }
+        public void OtevriSablonu() => Text = File.ReadAllText(new Data.Soubory.Cesty().Sablona("novy"), Encoding.Default);
     }
 }
 

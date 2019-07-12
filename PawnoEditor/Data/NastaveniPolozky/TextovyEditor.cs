@@ -13,8 +13,8 @@ namespace PawnoEditor.Data.NastaveniPolozky
         [Browsable(false)]
         public string FontSerialize
         {
-            get { return TypeDescriptor.GetConverter(typeof(Font)).ConvertToInvariantString(FontTextu); }
-            set { FontTextu = TypeDescriptor.GetConverter(typeof(Font)).ConvertFromInvariantString(value) as Font; }
+            get => TypeDescriptor.GetConverter(typeof(Font)).ConvertToInvariantString(FontTextu);
+            set => FontTextu = TypeDescriptor.GetConverter(typeof(Font)).ConvertFromInvariantString(value) as Font;
         }
     }
 }

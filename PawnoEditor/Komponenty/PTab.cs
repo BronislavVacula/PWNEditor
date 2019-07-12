@@ -8,7 +8,7 @@ namespace PawnoEditor.Komponenty
     public class PTab : TabPage
     {
         public string Soubor { get; set; } = "";
-        public PTextEdit Editor { get { return (Tag as PTextEdit); } }
+        public PTextEdit Editor { get => (Tag as PTextEdit); }
 
         public void OtevriSoubor(string cesta = "")
         {
@@ -38,24 +38,12 @@ namespace PawnoEditor.Komponenty
             UpravJmenoZalozky();
         }
 
-        public void UlozZmeny()
-        {
-            File.WriteAllText(Soubor, Editor.Text);
-        }
+        public void UlozZmeny() => File.WriteAllText(Soubor, Editor.Text);
 
-        private void UpravJmenoZalozky()
-        {
-            Text = Path.GetFileName(Soubor);
-        }
+        private void UpravJmenoZalozky() => Text = Path.GetFileName(Soubor);
 
-        private bool JeCestaKSouboruOK(string cesta)
-        {
-            return File.Exists(cesta) && cesta != "";
-        }
+        private bool JeCestaKSouboruOK(string cesta) => File.Exists(cesta) && cesta != "";
 
-        public bool BylSouborUlozeny()
-        {
-            return Soubor != "";
-        }
+        public bool BylSouborUlozeny() => Soubor != "";
     }
 }

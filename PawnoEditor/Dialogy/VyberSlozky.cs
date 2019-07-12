@@ -43,9 +43,9 @@ namespace PawnoEditor.Dialogy
 
         private void listView1_Click(object sender, EventArgs e)
         {
-            if (listView1.SelectedItems.Count < 1) return;
-            if (listView1.SelectedItems[0].ImageIndex == 1)
-                VyberSlozku();
+            if (listView1.SelectedItems.Count < 1 || listView1.SelectedItems[0].ImageIndex != 1) return;
+
+            VyberSlozku();
         }
 
         private void flatTextBox1_KeyDown(object sender, KeyEventArgs e)

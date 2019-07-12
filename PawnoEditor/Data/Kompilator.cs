@@ -9,9 +9,6 @@ namespace PawnoEditor.Data
         public string Includy { get; set; } = Path.Combine(new Soubory.Cesty().App_slozka, "/include");
         public string WorkingDirectory { get; set; } = "";
 
-        public string Argumenty()
-        {
-            return $"-Dpath={WorkingDirectory}";
-        }
+        public string Argumenty() => $"-Dpath={WorkingDirectory}";
     }
 }

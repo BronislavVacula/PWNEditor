@@ -27,16 +27,13 @@ namespace PawnoEditor.Komponenty
             return false;
         }
 
-        private PTextEdit NovyEditor(PTab zalozka)
+        private PTextEdit NovyEditor(PTab zalozka) => new PTextEdit()
         {
-            return new PTextEdit()
-            {
-                Parent = zalozka,
-                AutoComplete = AutoCompleteMenu,
-                Dock = DockStyle.Fill,
-                Visible = true
-            };
-        }
+            Parent = zalozka,
+            AutoComplete = AutoCompleteMenu,
+            Dock = DockStyle.Fill,
+            Visible = true
+        };
 
         private void UpravVelikostZalozek()
         {
@@ -63,10 +60,7 @@ namespace PawnoEditor.Komponenty
             if (soubor == "") editor.OtevriSablonu();
         }
 
-        public void ZavriAktualniZalozku()
-        {
-            ZavriZalozku(SelectedTab);
-        }
+        public void ZavriAktualniZalozku() => ZavriZalozku(SelectedTab);
 
         public void ZavriZalozku(TabPage zalozka)
         {
@@ -82,11 +76,8 @@ namespace PawnoEditor.Komponenty
                 if(zalozka != null) ZavriZalozku(zalozka);
         }
 
-        public PTab VybranaZalozka { get { return (SelectedTab as PTab); } }
+        public PTab VybranaZalozka { get => (SelectedTab as PTab); }
 
-        public bool ObsahujeZalozky()
-        {
-            return TabCount > 0;
-        }
+        public bool ObsahujeZalozky() => TabCount > 0;
     }
 }

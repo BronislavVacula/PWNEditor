@@ -1,7 +1,4 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace PawnoEditor.Eventy
 {
@@ -13,7 +10,5 @@ namespace PawnoEditor.Eventy
         {
             zprava = zpravaZKonzole;
         }
-
-        public delegate void KonzolovyPrikazVykonanEvent(object sender, KonzolovyPrikazVykonanArgs e);
     }
 }

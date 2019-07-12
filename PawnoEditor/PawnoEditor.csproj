@@ -94,6 +94,7 @@
       <DependentUpon>SampDialog.cs</DependentUpon>
     </Compile>
     <Compile Include="Funkce\Barvy\Prevod.cs" />
+    <Compile Include="Data\ChybovaZprava.cs" />
     <Compile Include="Funkce\Dialog.cs" />
     <Compile Include="Funkce\FileManager.cs" />
     <Compile Include="Data\Soubory\Cesty.cs" />
@@ -123,6 +124,7 @@
     <Compile Include="Funkce\Parsovani\ParsujSoubory.cs" />
     <Compile Include="Funkce\Parsovani\PNativeFunkce.cs" />
     <Compile Include="Funkce\Rozsireni\RozsireniRichTextBoxu.cs" />
+    <Compile Include="Funkce\Rozsireni\RozsireniTreeViewu.cs" />
     <Compile Include="Funkce\Soubory.cs" />
     <Compile Include="Funkce\XML.cs" />
     <Compile Include="Hlavni.cs">
@@ -145,6 +147,7 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Funkce\Rozsireni\ListViewChyb.cs" />
     <Compile Include="Vzhled\FlatUI\FlatAlertBox.cs">
       <SubType>Component</SubType>
     </Compile>

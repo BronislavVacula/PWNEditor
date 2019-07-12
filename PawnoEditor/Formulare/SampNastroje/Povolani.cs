@@ -18,15 +18,8 @@ namespace PawnoEditor.Formulare.SampNastroje
             hl_form = formular;
         }
 
-        private bool TextObsahujeCislo(object text)
-        {
-            return int.TryParse(text.ToString(), out int n);
-        }
-
-        private bool TextObsahujeDouble(object text)
-        {
-            return double.TryParse(text.ToString(), out double n);
-        }
+        private bool TextObsahujeCislo(object text) => int.TryParse(text.ToString(), out int n);
+        private bool TextObsahujeDouble(object text) => double.TryParse(text.ToString(), out double n);
 
         private bool ZkontrolujVsechnyID(string[] rozdelene)
         {

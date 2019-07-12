@@ -1,12 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
-using System.Text.RegularExpressions;
 using System.Threading;
 using System.IO;
 using System.Windows.Forms;
 using Cyotek.Windows.Forms;
 using PawnoEditor.Data.Soubory;
+using PawnoEditor.Funkce.Rozsireni;
 
 namespace PawnoEditor
 {
@@ -29,8 +29,8 @@ namespace PawnoEditor
                 fm.VypisNazvyObrazku(cesty.VratCestu(Cesty.CESTY_DRUHY.Pickupy), plistBox2);
                 fm.VypisNazvyObrazku(cesty.VratCestu(Cesty.CESTY_DRUHY.Skiny), plistBox1);
             }).Start();
-            
-            new Funkce.Parsovani.ParsujSoubory(cesty.VratCestu(Cesty.CESTY_DRUHY.Includy), treeView1);
+
+            treeView1.NactiSeznamIncludu();
         }
 
         private void Form1_Load(object sender, EventArgs e)
@@ -56,10 +56,9 @@ namespace PawnoEditor
 
         #region Menu - Soubor
 
-        private void nováZáložkaToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            pTabs1.PridejZalozku("");
-        }
+        private void nováZáložkaToolStripMenuItem_Click(object sender, EventArgs e) => pTabs1.PridejZalozku("");
+        private void zavřítZáložkuToolStripMenuItem_Click(object sender, EventArgs e) => pTabs1.ZavriAktualniZalozku();
+        private void zavřítVšeToolStripMenuItem_Click(object sender, EventArgs e) => pTabs1.ZavriVsechnyZalozky();
 
         private void otevřítToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -69,16 +68,6 @@ namespace PawnoEditor
                 pTabs1.PridejZalozku(soubor_otevreni.Soubor);
 
             soubor_otevreni.Dispose();
-        }
-
-        private void zavřítZáložkuToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            pTabs1.ZavriAktualniZalozku();
-        }
-
-        private void zavřítVšeToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            pTabs1.ZavriVsechnyZalozky();
         }
 
         private void Ulozeni(Komponenty.PTab zalozka)
@@ -98,10 +87,7 @@ namespace PawnoEditor
                 Ulozeni(zalozka as Komponenty.PTab);
         }
 
-        private void konecToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            Close();
-        }
+        private void konecToolStripMenuItem_Click(object sender, EventArgs e) => Close();
 
         #endregion
 
@@ -187,17 +173,10 @@ namespace PawnoEditor
         {
             foreach(var chyba in chyby)
             {
-                if (chyba == null || chyba == "") continue;
+                var chybovaZprava = new Data.ChybovaZprava(chyba);
 
-                var rozdeleni = Regex.Split(chyba, ": ");
-                if (rozdeleni[0].IndexOf("(") < 0) continue;
-
-                var cisloChybovehoRadku = rozdeleni[0].Split(Convert.ToChar("("), Convert.ToChar(")"))[1];
-
-                var polozka = listView1.Items.Add((listView1.Items.Count + 1).ToString());
-                polozka.SubItems.Add(kompilovanySoubor);
-                polozka.SubItems.Add(cisloChybovehoRadku);
-                polozka.SubItems.Add(rozdeleni[1] + " - " + rozdeleni[2]);
+                if (chybovaZprava.UspesnePrevedeno)
+                    listView1.PridejInformaciOKompilaci(kompilovanySoubor, chybovaZprava.Text, chybovaZprava.Radek);
             }
         }
 
@@ -226,12 +205,7 @@ namespace PawnoEditor
         }
 
         private void KompilaceUspesna(string aktualniSoubor)
-        {
-            var polozka = listView1.Items.Add((listView1.Items.Count + 1).ToString());
-            polozka.SubItems.Add(aktualniSoubor);
-            polozka.SubItems.Add("0");
-            polozka.SubItems.Add("Soubor byl úspěšně zkompilován!");
-        }
+            => listView1.PridejInformaciOKompilaci(aktualniSoubor, "Soubor byl úspěšně zkompilován!");
 
         private void zkompilovatKódToolStripMenuItem_Click(object sender, EventArgs e)
         {
@@ -271,23 +245,17 @@ namespace PawnoEditor
         }
 
         private void mapyToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            new Formulare.SampNastroje.Mapa().Show();
-        }
+            => new Formulare.SampNastroje.Mapa().Show();
 
         private void povoláníToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            new Formulare.SampNastroje.Povolani(this).Show();
-        }
+            => new Formulare.SampNastroje.Povolani(this).Show();
 
         #endregion
 
         #region Menu - Nápověda
 
         private void oProgramuToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-            new Formulare.OProgramu().ShowDialog();
-        }
+            => new Formulare.OProgramu().ShowDialog();
 
         #endregion
 

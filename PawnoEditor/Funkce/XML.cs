@@ -13,10 +13,7 @@ namespace PawnoEditor.Funkce
             serializer = new XmlSerializer(typeof(Data.Nastaveni));
         }
 
-        private string NastaveniSoubor()
-        {
-            return new Data.Soubory.Cesty().App_slozka + "\\Nastaveni.xml";
-        }
+        private string NastaveniSoubor() => new Data.Soubory.Cesty().App_slozka + "\\Nastaveni.xml";
 
         public void UlozNastaveni(Data.Nastaveni nastaveni)
         {

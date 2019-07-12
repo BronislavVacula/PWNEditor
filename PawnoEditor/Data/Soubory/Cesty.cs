@@ -26,14 +26,8 @@ namespace PawnoEditor.Data.Soubory
 
         public string App_slozka { get; } = Path.GetDirectoryName(Application.ExecutablePath);
 
-        public string VratCestu(CESTY_DRUHY druhCesty)
-        {
-            return Path.Combine(App_slozka, UmisteniVeSlozceSProjektem[(int)druhCesty]);
-        }
+        public string VratCestu(CESTY_DRUHY druhCesty) => Path.Combine(App_slozka, UmisteniVeSlozceSProjektem[(int)druhCesty]);
 
-        public string Sablona(string nazev)
-        {
-            return $"{App_slozka}\\Templaty\\{nazev}.pe";
-        }
+        public string Sablona(string nazev) => $"{App_slozka}\\Templaty\\{nazev}.pe";
     }
 }

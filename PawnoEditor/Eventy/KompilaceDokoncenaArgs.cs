@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 
 namespace PawnoEditor.Eventy
 {
@@ -23,7 +21,5 @@ namespace PawnoEditor.Eventy
             Chyby = chybyKompilace;
             this.kompilovanySoubor = kompilovanySoubor;
         }
-
-        public delegate void KompilaceDokoncenaEvent(object sender, KompilaceDokoncenaArgs e);
     }
 }
