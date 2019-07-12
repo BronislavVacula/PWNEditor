@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Windows.Forms;
+using FlatUI.Extensions;
 
 namespace FlatUI
 {
@@ -74,7 +75,7 @@ namespace FlatUI
             CheckedChanged?.Invoke(this);
         }
 
-        private Color BaseColor = Helpers.Main.FlatColor;
+        private Color BaseColor = Helpers.FlatColors.Instance().Flat;
         private Color BaseColorRed = Color.FromArgb(220, 85, 96);
         private Color BGColor = Color.FromArgb(84, 85, 86);
         private Color ToggleColor = Color.FromArgb(45, 47, 49);
@@ -93,10 +94,8 @@ namespace FlatUI
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            this.UpdateColors();
-
             Bitmap B = new Bitmap(Width, Height);
-            Graphics G = Graphics.FromImage(B);
+            Graphics graphics = Graphics.FromImage(B);
             int W = Width - 1, H = Height - 1;
 
             GraphicsPath GP = new GraphicsPath();
@@ -104,30 +103,25 @@ namespace FlatUI
             Rectangle Base = new Rectangle(0, 0, W, H);
             Rectangle Toggle = new Rectangle(Convert.ToInt32(W / 2), 0, 38, H);
 
-            var _with9 = G;
-            _with9.SmoothingMode = SmoothingMode.HighQuality;
-            _with9.PixelOffsetMode = PixelOffsetMode.HighQuality;
-            _with9.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
-            _with9.Clear(BackColor);
+            graphics.InitializeFlatGraphics(BackColor);
 
             switch (Options)
             {
                 case _Options.Style1:
                     GP = Helpers.Main.RoundRec(Base, 6); //-- Base
                     GP2 = Helpers.Main.RoundRec(Toggle, 6);
-                    _with9.FillPath(new SolidBrush(BGColor), GP);
-                    _with9.FillPath(new SolidBrush(ToggleColor), GP2);
-                    _with9.DrawString("OFF", Font, new SolidBrush(BGColor), 
+                    graphics.FillPath(new SolidBrush(BGColor), GP);
+                    graphics.FillPath(new SolidBrush(ToggleColor), GP2);
+                    graphics.DrawString("OFF", Font, new SolidBrush(BGColor),
                         new Rectangle(19, 1, W, H), Helpers.Main.CenterSF); //-- Text
 
                     if (Checked)
                     {
-                        //-- Base
                         GP = Helpers.Main.RoundRec(Base, 6);
                         GP2 = Helpers.Main.RoundRec(new Rectangle(Convert.ToInt32(W / 2), 0, 38, H), 6);
-                        _with9.FillPath(new SolidBrush(ToggleColor), GP);
-                        _with9.FillPath(new SolidBrush(BaseColor), GP2);
-                        _with9.DrawString("ON", Font, new SolidBrush(BaseColor), 
+                        graphics.FillPath(new SolidBrush(ToggleColor), GP);
+                        graphics.FillPath(new SolidBrush(BaseColor), GP2);
+                        graphics.DrawString("ON", Font, new SolidBrush(BaseColor),
                             new Rectangle(8, 7, W, H), Helpers.Main.NearSF); //-- Text
                     }
                     break;
@@ -135,14 +129,14 @@ namespace FlatUI
                     GP = Helpers.Main.RoundRec(Base, 6); //-- Base
                     Toggle = new Rectangle(4, 4, 36, H - 8);
                     GP2 = Helpers.Main.RoundRec(Toggle, 4);
-                    _with9.FillPath(new SolidBrush(BaseColorRed), GP);
-                    _with9.FillPath(new SolidBrush(ToggleColor), GP2);
+                    graphics.FillPath(new SolidBrush(BaseColorRed), GP);
+                    graphics.FillPath(new SolidBrush(ToggleColor), GP2);
 
                     //-- Lines
-                    _with9.DrawLine(new Pen(BGColor), 18, 20, 18, 12);
-                    _with9.DrawLine(new Pen(BGColor), 22, 20, 22, 12);
-                    _with9.DrawLine(new Pen(BGColor), 26, 20, 26, 12);
-                    _with9.DrawString("r", new Font("Marlett", 8), new SolidBrush(TextColor), 
+                    graphics.DrawLine(new Pen(BGColor), 18, 20, 18, 12);
+                    graphics.DrawLine(new Pen(BGColor), 22, 20, 22, 12);
+                    graphics.DrawLine(new Pen(BGColor), 26, 20, 26, 12);
+                    graphics.DrawString("r", new Font("Marlett", 8), new SolidBrush(TextColor),
                         new Rectangle(19, 2, Width, Height), Helpers.Main.CenterSF); //-- Text
 
                     if (Checked)
@@ -150,25 +144,25 @@ namespace FlatUI
                         GP = Helpers.Main.RoundRec(Base, 6);
                         Toggle = new Rectangle(Convert.ToInt32(W / 2) - 2, 4, 36, H - 8);
                         GP2 = Helpers.Main.RoundRec(Toggle, 4);
-                        _with9.FillPath(new SolidBrush(BaseColor), GP);
-                        _with9.FillPath(new SolidBrush(ToggleColor), GP2);
+                        graphics.FillPath(new SolidBrush(BaseColor), GP);
+                        graphics.FillPath(new SolidBrush(ToggleColor), GP2);
 
                         //-- Lines
-                        _with9.DrawLine(new Pen(BGColor), Convert.ToInt32(W / 2) + 12, 20, Convert.ToInt32(W / 2) + 12, 12);
-                        _with9.DrawLine(new Pen(BGColor), Convert.ToInt32(W / 2) + 16, 20, Convert.ToInt32(W / 2) + 16, 12);
-                        _with9.DrawLine(new Pen(BGColor), Convert.ToInt32(W / 2) + 20, 20, Convert.ToInt32(W / 2) + 20, 12);
-                        
-                        _with9.DrawString("ü", new Font("Wingdings", 14), new SolidBrush(TextColor), 
+                        graphics.DrawLine(new Pen(BGColor), Convert.ToInt32(W / 2) + 12, 20, Convert.ToInt32(W / 2) + 12, 12);
+                        graphics.DrawLine(new Pen(BGColor), Convert.ToInt32(W / 2) + 16, 20, Convert.ToInt32(W / 2) + 16, 12);
+                        graphics.DrawLine(new Pen(BGColor), Convert.ToInt32(W / 2) + 20, 20, Convert.ToInt32(W / 2) + 20, 12);
+
+                        graphics.DrawString("ü", new Font("Wingdings", 14), new SolidBrush(TextColor),
                             new Rectangle(8, 7, Width, Height), Helpers.Main.NearSF); //-- Text
                     }
                     break;
-                case _Options.Style3: 
+                case _Options.Style3:
                     GP = Helpers.Main.RoundRec(Base, 16); //-- Base
                     Toggle = new Rectangle(W - 28, 4, 22, H - 8);
                     GP2.AddEllipse(Toggle);
-                    _with9.FillPath(new SolidBrush(ToggleColor), GP);
-                    _with9.FillPath(new SolidBrush(BaseColorRed), GP2);
-                    _with9.DrawString("OFF", Font, new SolidBrush(BaseColorRed), new Rectangle(-12, 2, W, H), 
+                    graphics.FillPath(new SolidBrush(ToggleColor), GP);
+                    graphics.FillPath(new SolidBrush(BaseColorRed), GP2);
+                    graphics.DrawString("OFF", Font, new SolidBrush(BaseColorRed), new Rectangle(-12, 2, W, H),
                         Helpers.Main.CenterSF); //-- Text
 
                     if (Checked)
@@ -177,9 +171,9 @@ namespace FlatUI
                         Toggle = new Rectangle(6, 4, 22, H - 8);
                         GP2.Reset();
                         GP2.AddEllipse(Toggle);
-                        _with9.FillPath(new SolidBrush(ToggleColor), GP);
-                        _with9.FillPath(new SolidBrush(BaseColor), GP2);
-                        _with9.DrawString("ON", Font, new SolidBrush(BaseColor), new Rectangle(12, 2, W, H), 
+                        graphics.FillPath(new SolidBrush(ToggleColor), GP);
+                        graphics.FillPath(new SolidBrush(BaseColor), GP2);
+                        graphics.DrawString("ON", Font, new SolidBrush(BaseColor), new Rectangle(12, 2, W, H),
                             Helpers.Main.CenterSF); //-- Text
                     }
                     break;
@@ -200,15 +194,10 @@ namespace FlatUI
             }
 
             base.OnPaint(e);
-            G.Dispose();
+            graphics.Dispose();
             e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
             e.Graphics.DrawImageUnscaled(B, 0, 0);
             B.Dispose();
-        }
-
-        private void UpdateColors()
-        { 
-            BaseColor = Helpers.Main.GetColors(this).Flat;
         }
     }
 }

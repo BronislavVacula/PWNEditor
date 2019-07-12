@@ -1,17 +1,18 @@
 ﻿using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Drawing.Text;
 using System.Windows.Forms;
+using FlatUI.Extensions;
 
 namespace FlatUI
 {
     public class FormSkin : ContainerControl
     {
-        private int W, H;
         private bool Cap = false;
         private Point MousePoint = new Point(0, 0);
         private readonly int MoveHeight = 50;
+
+        #region Colors
 
         [Category("Colors")]
         private readonly Color TextColor = Color.FromArgb(234, 234, 234);
@@ -26,10 +27,38 @@ namespace FlatUI
         public Color BorderColor { get; set; } = Color.FromArgb(53, 58, 60);
 
         [Category("Colors")]
-        public Color FlatColor { get; set; } = Helpers.Main.FlatColor;
+        public Color FlatColor { get; set; } = Helpers.FlatColors.Instance().Flat;
+
+        #endregion
 
         [Category("Options")]
         public bool HeaderMaximize { get; set; } = false;
+
+        public FormSkin()
+        {
+            MouseDoubleClick += FormSkin_MouseDoubleClick;
+            DoubleBuffered = true;
+
+            SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.ResizeRedraw | ControlStyles.OptimizedDoubleBuffer, true);
+            BackColor = Color.White;
+            Font = new Font("Segoe UI", 12);
+        }
+
+        protected override void OnCreateControl()
+        {
+            base.OnCreateControl();
+
+            ParentForm.FormBorderStyle = FormBorderStyle.None;
+            ParentForm.AllowTransparency = false;
+            ParentForm.TransparencyKey = Color.Fuchsia;
+            ParentForm.FindForm().StartPosition = FormStartPosition.CenterScreen;
+
+            Dock = DockStyle.Fill;
+
+            Invalidate();
+        }
+
+        #region Mouse events
 
         protected override void OnMouseDown(MouseEventArgs e)
         {
@@ -44,22 +73,14 @@ namespace FlatUI
 
         private void FormSkin_MouseDoubleClick(object sender, MouseEventArgs e)
         {
-            if (HeaderMaximize)
-            {
-                if (e.Button == System.Windows.Forms.MouseButtons.Left & new Rectangle(0, 0, Width, MoveHeight).Contains(e.Location))
-                {
-                    if (FindForm().WindowState == FormWindowState.Normal)
-                    {
-                        FindForm().WindowState = FormWindowState.Maximized;
-                        FindForm().Refresh();
-                    }
-                    else if (FindForm().WindowState == FormWindowState.Maximized)
-                    {
-                        FindForm().WindowState = FormWindowState.Normal;
-                        FindForm().Refresh();
-                    }
-                }
-            }
+            if (!HeaderMaximize || !CanMaximize(e)) return;
+
+            var parentForm = FindForm();
+
+            if (parentForm.WindowState == FormWindowState.Normal)
+                ChangeWindowState(parentForm, FormWindowState.Maximized);
+            else if (parentForm.WindowState == FormWindowState.Maximized)
+                ChangeWindowState(parentForm, FormWindowState.Normal);
         }
 
         protected override void OnMouseUp(MouseEventArgs e)
@@ -77,63 +98,53 @@ namespace FlatUI
                 Parent.Location = new Point(MousePosition.X - MousePoint.X, MousePosition.Y - MousePoint.Y);
         }
 
-        protected override void OnCreateControl()
+        private void ChangeWindowState(Form parentForm, FormWindowState newState)
         {
-            base.OnCreateControl();
-
-            ParentForm.FormBorderStyle = FormBorderStyle.None;
-            ParentForm.AllowTransparency = false;
-            ParentForm.TransparencyKey = Color.Fuchsia;
-            ParentForm.FindForm().StartPosition = FormStartPosition.CenterScreen;
-
-            Dock = DockStyle.Fill;
-
-            Invalidate();
+            parentForm.WindowState = newState;
+            parentForm.Refresh();
         }
 
-        public FormSkin()
+        private bool CanMaximize(MouseEventArgs e)
         {
-            MouseDoubleClick += FormSkin_MouseDoubleClick;
-            DoubleBuffered = true;
-
-            SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.ResizeRedraw | ControlStyles.OptimizedDoubleBuffer, true);
-            BackColor = Color.White;
-            Font = new Font("Segoe UI", 12);
+            return e.Button == MouseButtons.Left & new Rectangle(0, 0, Width, MoveHeight).Contains(e.Location);
         }
+
+        #endregion
+
+        #region Paint event
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            Bitmap B = new Bitmap(Width, Height);
-            Graphics G = Graphics.FromImage(B);
-            W = Width;
-            H = Height;
+            using (Bitmap B = new Bitmap(Width, Height))
+            {
+                using (Graphics graphics = Graphics.FromImage(B))
+                {
+                    Rectangle Base = new Rectangle(0, 0, Width, Height);
 
-            Rectangle Base = new Rectangle(0, 0, W, H);
-            Rectangle Header = new Rectangle(0, 0, W, 50);
+                    graphics.InitializeFlatGraphics(BackColor);
 
-            var _with2 = G;
-            _with2.SmoothingMode = SmoothingMode.HighQuality;
-            _with2.PixelOffsetMode = PixelOffsetMode.HighQuality;
-            _with2.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
-            _with2.Clear(BackColor);
+                    graphics.FillRectangle(new SolidBrush(BaseColor), Base); //-- Base
+                    graphics.FillRectangle(new SolidBrush(HeaderColor), new Rectangle(0, 0, Width, 50)); //-- Header
 
-            _with2.FillRectangle(new SolidBrush(BaseColor), Base); //-- Base
-            _with2.FillRectangle(new SolidBrush(HeaderColor), Header); //-- Header
+                    DrawLogo(graphics);
 
-            //-- Logo
-            _with2.FillRectangle(new SolidBrush(Color.FromArgb(243, 243, 243)), new Rectangle(8, 16, 4, 18));
-            _with2.FillRectangle(new SolidBrush(FlatColor), 16, 16, 4, 18);
-            _with2.DrawString(Text, Font, new SolidBrush(TextColor), new Rectangle(26, 15, W, H), Helpers.Main.NearSF);
+                    graphics.DrawRectangle(new Pen(BorderColor), Base); //-- Border
 
-            //-- Border
-            _with2.DrawRectangle(new Pen(BorderColor), Base);
+                    base.OnPaint(e);
 
-            base.OnPaint(e);
-
-            G.Dispose();
-            e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            e.Graphics.DrawImageUnscaled(B, 0, 0);
-            B.Dispose();
+                    e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                    e.Graphics.DrawImageUnscaled(B, 0, 0);
+                }
+            }
         }
+
+        private void DrawLogo(Graphics graphics)
+        {
+            graphics.FillRectangle(new SolidBrush(Color.FromArgb(243, 243, 243)), new Rectangle(8, 16, 4, 18));
+            graphics.FillRectangle(new SolidBrush(FlatColor), 16, 16, 4, 18);
+            graphics.DrawString(Text, Font, new SolidBrush(TextColor), new Rectangle(26, 15, Width, Height), Helpers.Main.NearSF);
+        }
+
+        #endregion
     }
 }

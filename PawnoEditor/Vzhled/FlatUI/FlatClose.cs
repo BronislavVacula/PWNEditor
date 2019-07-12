@@ -2,62 +2,14 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Drawing.Text;
 using System.Windows.Forms;
+using FlatUI.Extensions;
 
 namespace FlatUI
 {
     public class FlatClose : Control
     {
         private Helpers.MouseState State = Helpers.MouseState.None;
-        private int x;
-
-        protected override void OnMouseEnter(EventArgs e)
-        {
-            base.OnMouseEnter(e);
-            State = Helpers.MouseState.Over;
-            Invalidate();
-        }
-
-        protected override void OnMouseDown(MouseEventArgs e)
-        {
-            base.OnMouseDown(e);
-            State = Helpers.MouseState.Down;
-            Invalidate();
-        }
-
-        protected override void OnMouseLeave(EventArgs e)
-        {
-            base.OnMouseLeave(e);
-            State = Helpers.MouseState.None;
-            Invalidate();
-        }
-
-        protected override void OnMouseUp(MouseEventArgs e)
-        {
-            base.OnMouseUp(e);
-            State = Helpers.MouseState.Over;
-            Invalidate();
-        }
-
-        protected override void OnMouseMove(MouseEventArgs e)
-        {
-            base.OnMouseMove(e);
-            x = e.X;
-            Invalidate();
-        }
-
-        protected override void OnClick(EventArgs e)
-        {
-            base.OnClick(e);
-            (Parent.Parent as Form).Close();
-        }
-
-        protected override void OnResize(EventArgs e)
-        {
-            base.OnResize(e);
-            Size = new Size(18, 18);
-        }
 
         [Category("Colors")]
         public Color BaseColor { get; set; } = Color.FromArgb(168, 35, 35);
@@ -76,45 +28,91 @@ namespace FlatUI
             Font = new Font("Marlett", 10);
         }
 
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+            Size = new Size(18, 18);
+        }
+
+        #region Mouse events
+
+        private void ChangeState(Helpers.MouseState newState)
+        {
+            State = newState;
+            Invalidate();
+        }
+
+        protected override void OnMouseEnter(EventArgs e)
+        {
+            base.OnMouseEnter(e);
+            ChangeState(Helpers.MouseState.Over);
+        }
+
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            base.OnMouseDown(e);
+            ChangeState(Helpers.MouseState.Down);
+        }
+
+        protected override void OnMouseLeave(EventArgs e)
+        {
+            base.OnMouseLeave(e);
+            ChangeState(Helpers.MouseState.None);
+        }
+
+        protected override void OnMouseUp(MouseEventArgs e)
+        {
+            base.OnMouseUp(e);
+            ChangeState(Helpers.MouseState.Over);
+        }
+
+        protected override void OnMouseMove(MouseEventArgs e)
+        {
+            base.OnMouseMove(e);
+            Invalidate();
+        }
+
+        protected override void OnClick(EventArgs e)
+        {
+            base.OnClick(e);
+            (Parent.Parent as Form).Close();
+        }
+
+        #endregion
+
+        #region Paint event
+
         protected override void OnPaint(PaintEventArgs e)
         {
-            Bitmap B = new Bitmap(Width, Height);
-            Graphics G = Graphics.FromImage(B);
-
-            Rectangle Base = new Rectangle(0, 0, Width, Height);
-
-            var _with3 = G;
-            _with3.SmoothingMode = SmoothingMode.HighQuality;
-            _with3.PixelOffsetMode = PixelOffsetMode.HighQuality;
-            _with3.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
-            _with3.Clear(BackColor);
-
-            _with3.FillRectangle(new SolidBrush(BaseColor), Base); //-- Base
-
-            //-- X
-            _with3.DrawString("r", Font, new SolidBrush(TextColor), new Rectangle(0, 0, Width, Height), 
-                Helpers.Main.CenterSF);
-
-            //-- Hover/down
-            switch (State)
+            using (var bitmap = new Bitmap(Width, Height))
             {
-                case Helpers.MouseState.Over:
-                    _with3.FillRectangle(new SolidBrush(Color.FromArgb(30, Color.White)), Base);
-                    break;
+                using (Graphics graphics = Graphics.FromImage(bitmap))
+                {
+                    Rectangle baseRectangle = new Rectangle(0, 0, Width, Height);
 
-                case Helpers.MouseState.Down:
-                    _with3.FillRectangle(new SolidBrush(Color.FromArgb(30, Color.Black)), Base);
-                    break;
+                    graphics.InitializeFlatGraphics(BackColor);
+                    graphics.FillRectangle(new SolidBrush(BaseColor), baseRectangle);
+                    graphics.DrawString("r", Font, new SolidBrush(TextColor), new Rectangle(0, 0, Width, Height), Helpers.Main.CenterSF);
+
+                    switch (State)
+                    {
+                        case Helpers.MouseState.Over:
+                            graphics.FillRectangle(new SolidBrush(Color.FromArgb(30, Color.White)), baseRectangle);
+                            break;
+
+                        case Helpers.MouseState.Down:
+                            graphics.FillRectangle(new SolidBrush(Color.FromArgb(30, Color.Black)), baseRectangle);
+                            break;
+                    }
+
+                    base.OnPaint(e);
+
+                    e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                    e.Graphics.DrawImageUnscaled(bitmap, 0, 0);
+                }
             }
-
-            base.OnPaint(e);
-
-            G.Dispose();
-
-            e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            e.Graphics.DrawImageUnscaled(B, 0, 0);
-
-            B.Dispose();
         }
+
+        #endregion
     }
 }

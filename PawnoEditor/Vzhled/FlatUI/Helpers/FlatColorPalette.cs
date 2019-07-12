@@ -1,8 +1,8 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Drawing.Text;
 using System.Windows.Forms;
+using FlatUI.Extensions;
 
 namespace FlatUI.Helpers
 {
@@ -40,29 +40,31 @@ namespace FlatUI.Helpers
         protected override void OnPaint(PaintEventArgs e)
         {
             Bitmap B = new Bitmap(Width, Height);
-            Graphics G = Graphics.FromImage(B);
+            Graphics graphics = Graphics.FromImage(B);
 
-            var _with6 = G;
-            _with6.SmoothingMode = SmoothingMode.HighQuality;
-            _with6.PixelOffsetMode = PixelOffsetMode.HighQuality;
-            _with6.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
-            _with6.Clear(BackColor);
+            graphics.InitializeFlatGraphics(BackColor);
 
-            //-- Colors 
-            for (int i = 0; i < colors.Length; i++)
-                _with6.FillRectangle(new SolidBrush(colors[i]), new Rectangle(i * 20, 0, 20, 40));
-
-            //-- Text
-            _with6.DrawString("Color Palette", Font, 
-                new SolidBrush(Color.FromArgb(243, 243, 243)),  //White color
-                new Rectangle(0, 22, Width - 1, Height - 1), Main.CenterSF);
+            DrawColorsRectangles(graphics);
+            DrawTextInfo(graphics);
 
             base.OnPaint(e);
 
-            G.Dispose();
+            graphics.Dispose();
             e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
             e.Graphics.DrawImageUnscaled(B, 0, 0);
             B.Dispose();
+        }
+
+        private void DrawTextInfo(Graphics graphics)
+        {
+            graphics.DrawString("Color Palette", Font, new SolidBrush(Color.White),  
+                new Rectangle(0, 22, Width - 1, Height - 1), Main.CenterSF);
+        }
+
+        private void DrawColorsRectangles(Graphics graphics)
+        {
+            for (int i = 0; i < colors.Length; i++)
+                graphics.FillRectangle(new SolidBrush(colors[i]), new Rectangle(i * 20, 0, 20, 40));
         }
     }
 }

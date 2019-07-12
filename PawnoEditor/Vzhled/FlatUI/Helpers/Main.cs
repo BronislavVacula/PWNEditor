@@ -1,14 +1,11 @@
 ﻿using System;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Windows.Forms;
 
 namespace FlatUI.Helpers
 {
     public static class Main
     {
-        public static Color FlatColor = Color.FromArgb(35, 168, 109);
-
         public static readonly StringFormat NearSF = new StringFormat
         {
             Alignment = StringAlignment.Near,
@@ -39,28 +36,27 @@ namespace FlatUI.Helpers
         public static GraphicsPath RoundRect(float x, float y, float w, float h, double r = 0.3,
             bool TL = true, bool TR = true, bool BR = true, bool BL = true)
         {
-            GraphicsPath functionReturnValue = new GraphicsPath();
+            GraphicsPath graphicsPath = new GraphicsPath();
 
             float d = Math.Min(w, h) * (float)r;
             float xw = x + w;
             float yh = y + h;
 
-            var _with1 = functionReturnValue;
+            if (TL) graphicsPath.AddArc(x, y, d, d, 180, 90);
+            else graphicsPath.AddLine(x, y, x, y);
 
-            if (TL) _with1.AddArc(x, y, d, d, 180, 90);
-            else _with1.AddLine(x, y, x, y);
+            if (TR) graphicsPath.AddArc(xw - d, y, d, d, 270, 90);
+            else graphicsPath.AddLine(xw, y, xw, y);
 
-            if (TR) _with1.AddArc(xw - d, y, d, d, 270, 90);
-            else _with1.AddLine(xw, y, xw, y);
+            if (BR) graphicsPath.AddArc(xw - d, yh - d, d, d, 0, 90);
+            else graphicsPath.AddLine(xw, yh, xw, yh);
 
-            if (BR) _with1.AddArc(xw - d, yh - d, d, d, 0, 90);
-            else _with1.AddLine(xw, yh, xw, yh);
+            if (BL) graphicsPath.AddArc(x, yh - d, d, d, 90, 90);
+            else graphicsPath.AddLine(x, yh, x, yh);
 
-            if (BL) _with1.AddArc(x, yh - d, d, d, 90, 90);
-            else _with1.AddLine(x, yh, x, yh);
+            graphicsPath.CloseFigure();
 
-            _with1.CloseFigure();
-            return functionReturnValue;
+            return graphicsPath;
         }
 
         //-- Credit: AeonHack
@@ -84,30 +80,6 @@ namespace FlatUI.Helpers
             GP.CloseFigure();
 
             return GP;
-        }
-
-        /// <summary>
-        /// Get the colorscheme of a Control from a parent FormSkin.
-        /// </summary>
-        /// <param name="control">Control</param>
-        /// <returns>Colors</returns>
-        /// <exception cref="System.ArgumentNullException"></exception>
-        public static FlatColors GetColors(Control control)
-        {
-            if (control == null) throw new ArgumentNullException();
-
-            FlatColors colors = new FlatColors();
-
-            while (control != null && (control.GetType() != typeof(FormSkin)))
-                control = control.Parent;
-
-            if (control != null)
-            {
-                FormSkin skin = (FormSkin)control;
-                colors.Flat = skin.FlatColor;
-            }
-
-            return colors;
         }
     }
 }

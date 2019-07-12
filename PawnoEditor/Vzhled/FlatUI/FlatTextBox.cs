@@ -2,8 +2,8 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Drawing.Text;
 using System.Windows.Forms;
+using FlatUI.Extensions;
 
 namespace FlatUI
 {
@@ -17,7 +17,7 @@ namespace FlatUI
         [Category("Options")]
         public HorizontalAlignment TextAlign
         {
-            get { return _TextAlign; }
+            get => _TextAlign;
             set
             {
                 _TextAlign = value;
@@ -29,7 +29,7 @@ namespace FlatUI
         [Category("Options")]
         public int MaxLength
         {
-            get { return _MaxLength; }
+            get => _MaxLength;
             set
             {
                 _MaxLength = value;
@@ -41,7 +41,7 @@ namespace FlatUI
         [Category("Options")]
         public bool ReadOnly
         {
-            get { return _ReadOnly; }
+            get => _ReadOnly;
             set
             {
                 _ReadOnly = value;
@@ -53,7 +53,7 @@ namespace FlatUI
         [Category("Options")]
         public bool UseSystemPasswordChar
         {
-            get { return _UseSystemPasswordChar; }
+            get => _UseSystemPasswordChar;
             set
             {
                 _UseSystemPasswordChar = value;
@@ -65,7 +65,7 @@ namespace FlatUI
         [Category("Options")]
         public bool Multiline
         {
-            get { return _Multiline; }
+            get => _Multiline;
             set
             {
                 _Multiline = value;
@@ -73,7 +73,7 @@ namespace FlatUI
                 {
                     TB.Multiline = value;
 
-                    if (value)  TB.Height = Height - 11;
+                    if (value) TB.Height = Height - 11;
                     else Height = TB.Height + 11;
                 }
             }
@@ -85,7 +85,7 @@ namespace FlatUI
         [Category("Options")]
         public override string Text
         {
-            get { return base.Text; }
+            get => base.Text;
             set
             {
                 base.Text = value;
@@ -96,7 +96,7 @@ namespace FlatUI
         [Category("Options")]
         public override Font Font
         {
-            get { return base.Font; }
+            get => base.Font;
             set
             {
                 base.Font = value;
@@ -134,8 +134,6 @@ namespace FlatUI
                 TB.Copy();
                 e.SuppressKeyPress = true;
             }
-
-            base.OnKeyDown(e);
         }
 
         protected override void OnResize(EventArgs e)
@@ -182,7 +180,6 @@ namespace FlatUI
         }
 
         private Color _BaseColor = Color.FromArgb(45, 47, 49);
-        private Color _BorderColor = Helpers.Main.FlatColor;
 
         public FlatTextBox()
         {
@@ -218,37 +215,21 @@ namespace FlatUI
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            UpdateColors();
-
             Bitmap B = new Bitmap(Width, Height);
-            Graphics G = Graphics.FromImage(B);
-            int W = Width - 1, H = Height - 1;
+            Graphics graphics = Graphics.FromImage(B);
 
-            Rectangle Base = new Rectangle(0, 0, W, H);
+            graphics.InitializeFlatGraphics(BackColor);
 
-            var _with12 = G;
-            _with12.SmoothingMode = SmoothingMode.HighQuality;
-            _with12.PixelOffsetMode = PixelOffsetMode.HighQuality;
-            _with12.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
-            _with12.Clear(BackColor);
-
-            //-- Colors
             TB.BackColor = _BaseColor;
             TB.ForeColor = TextColor;
 
-            //-- Base
-            _with12.FillRectangle(new SolidBrush(_BaseColor), Base);
+            graphics.FillRectangle(new SolidBrush(_BaseColor), new Rectangle(0, 0, Width - 1, Height - 1));
 
             base.OnPaint(e);
-            G.Dispose();
+            graphics.Dispose();
             e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
             e.Graphics.DrawImageUnscaled(B, 0, 0);
             B.Dispose();
-        }
-
-        private void UpdateColors()
-        {
-            _BorderColor = Helpers.Main.GetColors(this).Flat;
         }
     }
 }

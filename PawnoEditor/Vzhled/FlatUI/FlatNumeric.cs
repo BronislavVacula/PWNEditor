@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Windows.Forms;
+using FlatUI.Extensions;
 
 namespace FlatUI
 {
@@ -14,9 +15,28 @@ namespace FlatUI
         private long _Value, _Min, _Max;
         private bool Bool;
 
+        [Category("Colors")]
+        public Color BaseColor { get; set; } = Color.FromArgb(45, 47, 49);
+
+        [Category("Colors")]
+        public Color ButtonColor { get; set; } = Helpers.FlatColors.Instance().Flat;
+
+        public FlatNumeric()
+        {
+            SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.ResizeRedraw | ControlStyles.OptimizedDoubleBuffer | ControlStyles.SupportsTransparentBackColor, true);
+            DoubleBuffered = true;
+
+            Font = new Font("Segoe UI", 10);
+            BackColor = Color.FromArgb(60, 70, 73);
+            ForeColor = Color.White;
+
+            _Min = 0;
+            _Max = 9999999;
+        }
+
         public long Value
         {
-            get { return _Value; }
+            get => _Value;
             set
             {
                 if (value <= _Max & value >= _Min) _Value = value;
@@ -26,18 +46,18 @@ namespace FlatUI
 
         public long Maximum
         {
-            get { return _Max; }
+            get => _Max;
             set
             {
                 if (value > _Min) _Max = value;
-                if (_Value > _Max)_Value = _Max;
+                if (_Value > _Max) _Value = _Max;
                 Invalidate();
             }
         }
 
         public long Minimum
         {
-            get { return _Min; }
+            get => _Min;
             set
             {
                 if (value < _Max) _Min = value;
@@ -45,6 +65,8 @@ namespace FlatUI
                 Invalidate();
             }
         }
+
+        #region Mouse events
 
         protected override void OnMouseMove(MouseEventArgs e)
         {
@@ -66,7 +88,7 @@ namespace FlatUI
             {
                 if (y < 15)
                 {
-                    if ((Value + 1) <= _Max)  _Value += 1;
+                    if ((Value + 1) <= _Max) _Value += 1;
                 }
                 else if ((Value - 1) >= _Min) _Value -= 1;
             }
@@ -77,6 +99,10 @@ namespace FlatUI
             }
             Invalidate();
         }
+
+        #endregion
+
+        #region Keyboard events
 
         protected override void OnKeyPress(KeyPressEventArgs e)
         {
@@ -98,72 +124,35 @@ namespace FlatUI
             if (e.KeyCode == Keys.Back) Value = 0;
         }
 
+        #endregion
+
         protected override void OnResize(EventArgs e)
         {
             base.OnResize(e);
             Height = 30;
         }
 
-        [Category("Colors")]
-        public Color BaseColor { get; set; } = Color.FromArgb(45, 47, 49);
-
-        [Category("Colors")]
-        public Color ButtonColor { get; set; } = Helpers.Main.FlatColor;
-
-        public FlatNumeric()
-        {
-            SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.ResizeRedraw | ControlStyles.OptimizedDoubleBuffer | ControlStyles.SupportsTransparentBackColor, true);
-            DoubleBuffered = true;
-
-            Font = new Font("Segoe UI", 10);
-            BackColor = Color.FromArgb(60, 70, 73);
-            ForeColor = Color.White;
-
-            _Min = 0;
-            _Max = 9999999;
-        }
-
         protected override void OnPaint(PaintEventArgs e)
         {
-            UpdateColors();
-
             Bitmap B = new Bitmap(Width, Height);
-            Graphics G = Graphics.FromImage(B);
+            Graphics graphics = Graphics.FromImage(B);
 
-            int W = Width, H = Height;
-            Rectangle Base = new Rectangle(0, 0, W, H);
-
-            var _with18 = G;
-            _with18.SmoothingMode = SmoothingMode.HighQuality;
-            _with18.PixelOffsetMode = PixelOffsetMode.HighQuality;
-            _with18.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
-            _with18.Clear(BackColor);
+            graphics.InitializeFlatGraphics(BackColor);
 
             //-- Base
-            _with18.FillRectangle(new SolidBrush(BaseColor), Base);
-            _with18.FillRectangle(new SolidBrush(ButtonColor), new Rectangle(Width - 24, 0, 24, H));
+            graphics.FillRectangle(new SolidBrush(BaseColor), new Rectangle(0, 0, Width, Height));
+            graphics.FillRectangle(new SolidBrush(ButtonColor), new Rectangle(Width - 24, 0, 24, Height));
 
-            
-            _with18.DrawString("+", new Font("Segoe UI", 12), Brushes.White, new Point(Width - 12, 8), 
-                Helpers.Main.CenterSF); //-- Add
-            _with18.DrawString("-", new Font("Segoe UI", 10, FontStyle.Bold), Brushes.White, 
-                new Point(Width - 12, 22), Helpers.Main.CenterSF); //-- Subtract
-
-            //-- Text
-            _with18.DrawString(Value.ToString(), Font, Brushes.White, new Rectangle(5, 1, W, H), 
-                new StringFormat { LineAlignment = StringAlignment.Center });
+            graphics.DrawString("+", new Font("Segoe UI", 12), Brushes.White, new Point(Width - 12, 8), Helpers.Main.CenterSF); //-- Add
+            graphics.DrawString("-", new Font("Segoe UI", 10, FontStyle.Bold), Brushes.White, new Point(Width - 12, 22), Helpers.Main.CenterSF); //-- Subtract
+            graphics.DrawString(Value.ToString(), Font, Brushes.White, new Rectangle(5, 1, Width, Height), new StringFormat { LineAlignment = StringAlignment.Center });
 
             base.OnPaint(e);
 
-            G.Dispose();
+            graphics.Dispose();
             e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
             e.Graphics.DrawImageUnscaled(B, 0, 0);
             B.Dispose();
-        }
-
-        private void UpdateColors()
-        {
-            ButtonColor = Helpers.Main.GetColors(this).Flat;
         }
     }
 }

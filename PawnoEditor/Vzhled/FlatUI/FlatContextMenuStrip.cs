@@ -11,6 +11,7 @@ namespace FlatUI
         protected override void OnTextChanged(EventArgs e)
         {
             base.OnTextChanged(e);
+
             Invalidate();
         }
 
@@ -25,6 +26,7 @@ namespace FlatUI
         protected override void OnPaint(PaintEventArgs e)
         {
             base.OnPaint(e);
+
             e.Graphics.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
         }
 
@@ -34,70 +36,23 @@ namespace FlatUI
             public Color BackColor { get; set; } = Color.FromArgb(45, 47, 49);
 
             [Category("Colors")]
-            public Color CheckedColor { get; set; } = Helpers.Main.FlatColor;
+            public Color CheckedColor { get; set; } = Helpers.FlatColors.Instance().Flat;
 
             [Category("Colors")]
             public Color BorderColor { get; set; } = Color.FromArgb(53, 58, 60);
 
-            public override Color ButtonSelectedBorder
-            {
-                get { return BackColor; }
-            }
-
-            public override Color CheckBackground
-            {
-                get { return CheckedColor; }
-            }
-
-            public override Color CheckPressedBackground
-            {
-                get { return CheckedColor; }
-            }
-
-            public override Color CheckSelectedBackground
-            {
-                get { return CheckedColor; }
-            }
-
-            public override Color ImageMarginGradientBegin
-            {
-                get { return CheckedColor; }
-            }
-
-            public override Color ImageMarginGradientEnd
-            {
-                get { return CheckedColor; }
-            }
-
-            public override Color ImageMarginGradientMiddle
-            {
-                get { return CheckedColor; }
-            }
-
-            public override Color MenuBorder
-            {
-                get { return BorderColor; }
-            }
-
-            public override Color MenuItemBorder
-            {
-                get { return BorderColor; }
-            }
-
-            public override Color MenuItemSelected
-            {
-                get { return CheckedColor; }
-            }
-
-            public override Color SeparatorDark
-            {
-                get { return BorderColor; }
-            }
-
-            public override Color ToolStripDropDownBackground
-            {
-                get { return BackColor; }
-            }
+            public override Color ButtonSelectedBorder => BackColor;
+            public override Color CheckBackground => CheckedColor;
+            public override Color CheckPressedBackground => CheckedColor;
+            public override Color CheckSelectedBackground => CheckedColor;
+            public override Color ImageMarginGradientBegin => CheckedColor;
+            public override Color ImageMarginGradientEnd => CheckedColor;
+            public override Color ImageMarginGradientMiddle => CheckedColor;
+            public override Color MenuBorder => BorderColor;
+            public override Color MenuItemBorder => BorderColor;
+            public override Color MenuItemSelected => CheckedColor;
+            public override Color SeparatorDark => BorderColor;
+            public override Color ToolStripDropDownBackground => BackColor;
         }
     }
 }

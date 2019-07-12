@@ -2,8 +2,8 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Drawing.Text;
 using System.Windows.Forms;
+using FlatUI.Extensions;
 
 namespace FlatUI
 {
@@ -22,7 +22,7 @@ namespace FlatUI
         public Color BaseColor { get; set; } = Color.FromArgb(45, 47, 49);
 
         [Category("Colors")]
-        public Color ActiveColor { get; set; } = Color.FromArgb(26, 25, 25);
+        public Color ActiveColor { get; set; } = Helpers.FlatColors.Instance().Flat;
 
         public FlatTabControl()
         {
@@ -37,14 +37,10 @@ namespace FlatUI
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            Bitmap B = new Bitmap(Width, Height);
-            Graphics G = Graphics.FromImage(B);
+            Bitmap bitmap = new Bitmap(Width, Height);
+            Graphics graphics = Graphics.FromImage(bitmap);
 
-            var _with13 = G;
-            _with13.SmoothingMode = SmoothingMode.HighQuality;
-            _with13.PixelOffsetMode = PixelOffsetMode.HighQuality;
-            _with13.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
-            _with13.Clear(BaseColor);
+            graphics.InitializeFlatGraphics(BaseColor);
 
             try
             {
@@ -54,97 +50,49 @@ namespace FlatUI
 
             for (int i = 0; i <= TabCount - 1; i++)
             {
-                Rectangle Base = new Rectangle(new Point(GetTabRect(i).Location.X + 2, GetTabRect(i).Location.Y), new Size(GetTabRect(i).Width, GetTabRect(i).Height + 2));
-                Rectangle BaseSize = new Rectangle(Base.Location, new Size(Base.Width, Base.Height));
+                var tabRectangle = GetTabRect(i);
+                Rectangle BaseSize = new Rectangle(new Point(tabRectangle.Location.X + 2, tabRectangle.Location.Y),
+                    new Size(tabRectangle.Width, tabRectangle.Height));
+
+                graphics.FillRectangle(new SolidBrush(BaseColor), BaseSize);
 
                 if (i == SelectedIndex)
+                    graphics.FillRectangle(new SolidBrush(ActiveColor), BaseSize);
+
+                if (ImageList != null)
                 {
-                    _with13.FillRectangle(new SolidBrush(BaseColor), BaseSize); //-- Base
-                    _with13.FillRectangle(new SolidBrush(ActiveColor), BaseSize); //-- Gradiant .fill
-
-                    //-- ImageList
-                    if (ImageList != null)
+                    try
                     {
-                        try
-                        {
-                            if (ImageList.Images[TabPages[i].ImageIndex] != null)
-                            {
-                                //-- Image
-                                _with13.DrawImage(
-                                    ImageList.Images[TabPages[i].ImageIndex], 
-                                    new Point(BaseSize.Location.X + 8, BaseSize.Location.Y + 6)
-                                );
-
-                                //-- Text
-                                _with13.DrawString("      " + TabPages[i].Text,
-                                    Font, Brushes.White, BaseSize, Helpers.Main.CenterSF);
-                            }
-                            else _with13.DrawString(TabPages[i].Text, Font, Brushes.White, BaseSize, 
-                                    Helpers.Main.CenterSF); //-- Text
-                        }
-                        catch (Exception ex)
-                        {
-                            throw new Exception(ex.Message);
-                        }
+                        if (ImageList.Images[TabPages[i].ImageIndex] != null)
+                            DrawTabItemWithImage(graphics, BaseSize, TabPages[i]);
+                        else
+                            DrawTabItemText(graphics, BaseSize, TabPages[i].Text);
                     }
-                    else _with13.DrawString(TabPages[i].Text, Font, Brushes.White, BaseSize, 
-                            Helpers.Main.CenterSF); //-- Text
-                }
-                else
-                {
-                    //-- Base
-                    _with13.FillRectangle(new SolidBrush(BaseColor), BaseSize);
-
-                    //-- ImageList
-                    if (ImageList != null)
+                    catch (Exception ex)
                     {
-                        try
-                        {
-                            if (ImageList.Images[TabPages[i].ImageIndex] != null)
-                            {
-                                //-- Image
-                                _with13.DrawImage(ImageList.Images[TabPages[i].ImageIndex], 
-                                    new Point(BaseSize.Location.X + 8, BaseSize.Location.Y + 6));
-                                //-- Text
-                                _with13.DrawString("      " + TabPages[i].Text, Font, new SolidBrush(Color.White), BaseSize, new StringFormat
-                                {
-                                    LineAlignment = StringAlignment.Center,
-                                    Alignment = StringAlignment.Center
-                                });
-                            }
-                            else
-                            {
-                                //-- Text
-                                _with13.DrawString(TabPages[i].Text, Font, new SolidBrush(Color.White), BaseSize, new StringFormat
-                                {
-                                    LineAlignment = StringAlignment.Center,
-                                    Alignment = StringAlignment.Center
-                                });
-                            }
-                        }
-                        catch (Exception ex)
-                        {
-                            throw new Exception(ex.Message);
-                        }
-                    }
-                    else
-                    {
-                        //-- Text
-                        _with13.DrawString(TabPages[i].Text, Font, new SolidBrush(Color.White), BaseSize, 
-                            new StringFormat {
-                                LineAlignment = StringAlignment.Center,
-                                Alignment = StringAlignment.Center
-                        });
+                        throw new Exception(ex.Message);
                     }
                 }
+                else DrawTabItemText(graphics, BaseSize, TabPages[i].Text);
             }
 
             base.OnPaint(e);
 
-            G.Dispose();
+            graphics.Dispose();
             e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            e.Graphics.DrawImageUnscaled(B, 0, 0);
-            B.Dispose();
+            e.Graphics.DrawImageUnscaled(bitmap, 0, 0);
+            bitmap.Dispose();
+        }
+
+        private void DrawTabItemWithImage(Graphics graphics, Rectangle rect, TabPage page)
+        {
+            graphics.DrawImage(ImageList.Images[page.ImageIndex], new Point(base.Location.X + 8, rect.Location.Y + 6));
+            graphics.DrawString("      " + page.Text, Font, Brushes.White, rect, Helpers.Main.CenterSF);
+        }
+
+        private void DrawTabItemText(Graphics graphics, Rectangle rect, string text)
+        {
+            graphics.DrawString(text, Font, Brushes.White, rect, Helpers.Main.CenterSF);
         }
     }
 }

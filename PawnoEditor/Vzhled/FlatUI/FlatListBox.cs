@@ -4,6 +4,7 @@ using System.Drawing;
 using System.Drawing.Drawing2D;
 using System.Drawing.Text;
 using System.Windows.Forms;
+using FlatUI.Extensions;
 
 namespace FlatUI
 {
@@ -28,7 +29,7 @@ namespace FlatUI
         [Category("Options")]
         public string[] Items
         {
-            get { return _items; }
+            get => _items;
             set
             {
                 _items = value;
@@ -38,25 +39,11 @@ namespace FlatUI
             }
         }
 
-        public Color SelectedColor { get; set; } = Helpers.Main.FlatColor;  
+        public Color SelectedColor { get; set; } = Helpers.FlatColors.Instance().Flat;
+        public string SelectedItem { get => ListBx.SelectedItem.ToString(); }
+        public int SelectedIndex {  get => ListBx.SelectedIndex; }
 
-        public string SelectedItem
-        {
-            get { return ListBx.SelectedItem.ToString(); }
-        }
-
-        public int SelectedIndex
-        {
-            get
-            {
-                return ListBx.SelectedIndex;
-            }
-        }
-
-        public void Clear()
-        {
-            ListBx.Items.Clear();
-        }
+        public void Clear() => ListBx.Items.Clear();
 
         public void ClearSelected()
         {
@@ -76,23 +63,14 @@ namespace FlatUI
             e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
             e.Graphics.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
 
+            Rectangle rect = new Rectangle(e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height);
+
             if (e.State.ToString().IndexOf("Selected,") >= 0)
-            {
-                e.Graphics.FillRectangle(new SolidBrush(SelectedColor), 
-                    new Rectangle(e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height)); //-- Base
-
-                e.Graphics.DrawString(" " + ListBx.Items[e.Index].ToString(), new Font("Segoe UI", 8), 
-                    Brushes.White, e.Bounds.X, e.Bounds.Y + 2); //-- Text
-            }
+                e.Graphics.FillRectangle(new SolidBrush(SelectedColor), rect);
             else
-            {
-                e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(51, 53, 55)), 
-                    new Rectangle(e.Bounds.X, e.Bounds.Y, e.Bounds.Width, e.Bounds.Height)); //-- Base
+                e.Graphics.FillRectangle(new SolidBrush(Color.FromArgb(51, 53, 55)), rect);
 
-                e.Graphics.DrawString(" " + ListBx.Items[e.Index].ToString(), new Font("Segoe UI", 8), 
-                    Brushes.White, e.Bounds.X, e.Bounds.Y + 2); //-- Text 
-            }
-
+            e.Graphics.DrawString(" " + ListBx.Items[e.Index].ToString(), new Font("Segoe UI", 8), Brushes.White, e.Bounds.X, e.Bounds.Y + 2);
             e.Graphics.Dispose();
         }
 
@@ -140,36 +118,23 @@ namespace FlatUI
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            UpdateColors();
-
             Bitmap B = new Bitmap(Width, Height);
-            Graphics G = Graphics.FromImage(B);
+            Graphics graphics = Graphics.FromImage(B);
 
             Rectangle Base = new Rectangle(0, 0, Width, Height);
 
-            var _with19 = G;
-            _with19.SmoothingMode = SmoothingMode.HighQuality;
-            _with19.PixelOffsetMode = PixelOffsetMode.HighQuality;
-            _with19.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
-            _with19.Clear(BackColor);
+            graphics.InitializeFlatGraphics(BackColor);
 
-            //-- Size
             ListBx.Size = new Size(Width - 6, Height - 2);
 
-            //-- Base
-            _with19.FillRectangle(new SolidBrush(BaseColor), Base);
+            graphics.FillRectangle(new SolidBrush(BaseColor), Base);
 
             base.OnPaint(e);
 
-            G.Dispose();
+            graphics.Dispose();
             e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
             e.Graphics.DrawImageUnscaled(B, 0, 0);
             B.Dispose();
-        }
-
-        private void UpdateColors()
-        {
-            SelectedColor = Helpers.Main.GetColors(this).Flat;
         }
     }
 }

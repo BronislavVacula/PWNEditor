@@ -2,8 +2,8 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Drawing.Text;
 using System.Windows.Forms;
+using FlatUI.Extensions;
 
 namespace FlatUI
 {
@@ -12,41 +12,13 @@ namespace FlatUI
         private Helpers.MouseState State = Helpers.MouseState.None;
 
         [Category("Colors")]
-        public Color BaseColor { get; set; } = Helpers.Main.FlatColor;
+        public Color BaseColor { get; set; } = Helpers.FlatColors.Instance().Flat;
 
         [Category("Colors")]
         public Color TextColor { get; set; } = Color.FromArgb(243, 243, 243);
 
         [Category("Options")]
         public bool Rounded { get; set; } = false;
-
-        protected override void OnMouseDown(MouseEventArgs e)
-        {
-            base.OnMouseDown(e);
-            State = Helpers.MouseState.Down;
-            Invalidate();
-        }
-
-        protected override void OnMouseUp(MouseEventArgs e)
-        {
-            base.OnMouseUp(e);
-            State = Helpers.MouseState.Over;
-            Invalidate();
-        }
-
-        protected override void OnMouseEnter(EventArgs e)
-        {
-            base.OnMouseEnter(e);
-            State = Helpers.MouseState.Over;
-            Invalidate();
-        }
-
-        protected override void OnMouseLeave(EventArgs e)
-        {
-            base.OnMouseLeave(e);
-            State = Helpers.MouseState.None;
-            Invalidate();
-        }
 
         public FlatButton()
         {
@@ -59,92 +31,91 @@ namespace FlatUI
             Cursor = Cursors.Hand;
         }
 
+        #region Mouse states
+
+        private void ChangeMouseState(Helpers.MouseState newState)
+        {
+            State = newState;
+            Invalidate();
+        }
+
+        protected override void OnMouseDown(MouseEventArgs e)
+        {
+            base.OnMouseDown(e);
+            ChangeMouseState(Helpers.MouseState.Down);
+        }
+
+        protected override void OnMouseUp(MouseEventArgs e)
+        {
+            base.OnMouseUp(e);
+            ChangeMouseState(Helpers.MouseState.Over);
+        }
+
+        protected override void OnMouseEnter(EventArgs e)
+        {
+            base.OnMouseEnter(e);
+            ChangeMouseState(Helpers.MouseState.Over);
+        }
+
+        protected override void OnMouseLeave(EventArgs e)
+        {
+            base.OnMouseLeave(e);
+            ChangeMouseState(Helpers.MouseState.None);
+        }
+
+        #endregion
+
+        #region Paint event
+
         protected override void OnPaint(PaintEventArgs e)
         {
-            this.UpdateColors();
-
             Bitmap B = new Bitmap(Width, Height);
-            Graphics G = Graphics.FromImage(B);
+            Graphics graphics = Graphics.FromImage(B);
+            Rectangle baseRectangle = new Rectangle(0, 0, Width - 1, Height - 1);
 
-            int W = Width - 1, H = Height - 1;
-
-            Rectangle Base = new Rectangle(0, 0, W, H);
-
-            var _with8 = G;
-            _with8.SmoothingMode = SmoothingMode.HighQuality;
-            _with8.PixelOffsetMode = PixelOffsetMode.HighQuality;
-            _with8.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
-            _with8.Clear(BackColor);
+            graphics.InitializeFlatGraphics(BackColor);
 
             switch (State)
             {
                 case Helpers.MouseState.None:
-                    if (Rounded)
-                    {
-                        _with8.FillPath(new SolidBrush(BaseColor), Helpers.Main.RoundRec(Base, 6));
-                        _with8.DrawString(Text, Font, new SolidBrush(TextColor), Base, 
-                            Helpers.Main.CenterSF); //Text
-                    }
-                    else
-                    {
-                        _with8.FillRectangle(new SolidBrush(BaseColor), Base); //-- Base
-                        _with8.DrawString(Text, Font, new SolidBrush(TextColor), Base, 
-                            Helpers.Main.CenterSF); //-- Text
-                    }
+                    FillBaseColorPath(graphics, baseRectangle, Color.White, true);
                     break;
                 case Helpers.MouseState.Over:
-                    if (Rounded)
-                    {
-                        //-- Base
-                        _with8.FillPath(new SolidBrush(BaseColor), Helpers.Main.RoundRec(Base, 6));
-                        _with8.FillPath(new SolidBrush(Color.FromArgb(20, Color.White)), Helpers.Main.RoundRec(Base, 6));
-
-                        //-- Text
-                        _with8.DrawString(Text, Font, new SolidBrush(TextColor), Base, Helpers.Main.CenterSF);
-                    }
-                    else
-                    {
-                        //-- Base
-                        _with8.FillRectangle(new SolidBrush(BaseColor), Base);
-                        _with8.FillRectangle(new SolidBrush(Color.FromArgb(20, Color.White)), Base);
-
-                        //-- Text
-                        _with8.DrawString(Text, Font, new SolidBrush(TextColor), Base, Helpers.Main.CenterSF);
-                    }
+                    FillBaseColorPath(graphics, baseRectangle, Color.White);
                     break;
                 case Helpers.MouseState.Down:
-                    if (Rounded)
-                    {
-                        //-- Base
-                        _with8.FillPath(new SolidBrush(BaseColor), Helpers.Main.RoundRec(Base, 6));
-                        _with8.FillPath(new SolidBrush(Color.FromArgb(20, Color.Black)), Helpers.Main.RoundRec(Base, 6));
-
-                        //-- Text
-                        _with8.DrawString(Text, Font, new SolidBrush(TextColor), Base, Helpers.Main.CenterSF);
-                    }
-                    else
-                    {
-                        //-- Base
-                        _with8.FillRectangle(new SolidBrush(BaseColor), Base);
-                        _with8.FillRectangle(new SolidBrush(Color.FromArgb(20, Color.Black)), Base);
-
-                        //-- Text
-                        _with8.DrawString(Text, Font, new SolidBrush(TextColor), Base, Helpers.Main.CenterSF);
-                    }
+                    FillBaseColorPath(graphics, baseRectangle, Color.Black);
                     break;
             }
 
+            graphics.DrawString(Text, Font, new SolidBrush(TextColor), baseRectangle, Helpers.Main.CenterSF);
+
             base.OnPaint(e);
 
-            G.Dispose();
+            graphics.Dispose();
             e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
             e.Graphics.DrawImageUnscaled(B, 0, 0);
             B.Dispose();
         }
 
-        private void UpdateColors()
+        private void FillBaseColorPath(Graphics graphics, Rectangle baseRectangle, Color secondBrushColor, bool noEffect = false) //136
         {
-            BaseColor = Helpers.Main.GetColors(this).Flat;
+            if (Rounded) FillPaths(graphics, baseRectangle, secondBrushColor, noEffect);
+            else FillRectangles(graphics, baseRectangle, secondBrushColor, noEffect);
         }
+
+        private void FillPaths(Graphics graphics, Rectangle baseRectangle, Color secondBrushColor, bool noEffect)
+        {
+            graphics.FillPath(new SolidBrush(BaseColor), Helpers.Main.RoundRec(baseRectangle, 6));
+            if (!noEffect) graphics.FillPath(new SolidBrush(Color.FromArgb(20, secondBrushColor)), Helpers.Main.RoundRec(baseRectangle, 6));
+        }
+
+        private void FillRectangles(Graphics graphics, Rectangle baseRectangle, Color secondBrushColor, bool noEffect)
+        {
+            graphics.FillRectangle(new SolidBrush(BaseColor), baseRectangle);
+            if (!noEffect) graphics.FillRectangle(new SolidBrush(Color.FromArgb(20, secondBrushColor)), baseRectangle);
+        }
+
+        #endregion
     }
 }

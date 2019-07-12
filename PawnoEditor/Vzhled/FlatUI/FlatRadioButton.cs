@@ -2,8 +2,8 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Drawing.Text;
 using System.Windows.Forms;
+using FlatUI.Extensions;
 
 namespace FlatUI
 {
@@ -12,10 +12,25 @@ namespace FlatUI
     {
         private Helpers.MouseState State = Helpers.MouseState.None;
 
+        private Color _BaseColor = Color.FromArgb(45, 47, 49);
+        private Color _BorderColor = Helpers.FlatColors.Instance().Flat;
+        private Color _TextColor = Color.FromArgb(243, 243, 243);
+
+        public FlatRadioButton()
+        {
+            SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.ResizeRedraw | ControlStyles.OptimizedDoubleBuffer, true);
+            DoubleBuffered = true;
+
+            Cursor = Cursors.Hand;
+            Size = new Size(100, 22);
+            BackColor = Color.FromArgb(60, 70, 73);
+            Font = new Font("Segoe UI", 10);
+        }
+
         private bool _Checked;
         public bool Checked
         {
-            get { return _Checked; }
+            get => _Checked;
             set
             {
                 _Checked = value;
@@ -97,89 +112,56 @@ namespace FlatUI
             Invalidate();
         }
 
-        private Color _BaseColor = Color.FromArgb(45, 47, 49);
-        private Color _BorderColor = Helpers.Main.FlatColor;
-        private Color _TextColor = Color.FromArgb(243, 243, 243);
-
-        public FlatRadioButton()
-        {
-            SetStyle(ControlStyles.AllPaintingInWmPaint | ControlStyles.UserPaint | ControlStyles.ResizeRedraw | ControlStyles.OptimizedDoubleBuffer, true);
-            DoubleBuffered = true;
-
-            Cursor = Cursors.Hand;
-            Size = new Size(100, 22);
-            BackColor = Color.FromArgb(60, 70, 73);
-            Font = new Font("Segoe UI", 10);
-        }
-
         protected override void OnPaint(PaintEventArgs e)
         {
-            this.UpdateColors();
-
             Bitmap B = new Bitmap(Width, Height);
-            Graphics G = Graphics.FromImage(B);
-            int W = Width - 1, H = Height - 1;
+            Graphics graphics = Graphics.FromImage(B);
 
             Rectangle Base = new Rectangle(0, 2, Height - 5, Height - 5);
-            Rectangle Dot = new Rectangle(4, 6, H - 12, H - 12);
+            Rectangle Dot = new Rectangle(4, 6, Height - 13, Height - 13);
 
-            var _with10 = G;
-            _with10.SmoothingMode = SmoothingMode.HighQuality;
-            _with10.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
-            _with10.Clear(BackColor);
+            graphics.InitializeFlatGraphics(BackColor);
 
             switch (Options)
             {
                 case _Options.Style1:
-                    //-- Base
-                    _with10.FillEllipse(new SolidBrush(_BaseColor), Base);
+                    graphics.FillEllipse(new SolidBrush(_BaseColor), Base);
 
                     switch (State)
                     {
                         case Helpers.MouseState.Over:
-                            _with10.DrawEllipse(new Pen(_BorderColor), Base);
-                            break;
                         case Helpers.MouseState.Down:
-                            _with10.DrawEllipse(new Pen(_BorderColor), Base);
+                            graphics.DrawEllipse(new Pen(_BorderColor), Base);
                             break;
                     }
 
-                    //-- If Checked 
-                    if (Checked) _with10.FillEllipse(new SolidBrush(_BorderColor), Dot);
+                    if (Checked) graphics.FillEllipse(new SolidBrush(_BorderColor), Dot);
                     break;
+
                 case _Options.Style2:
-                    _with10.FillEllipse(new SolidBrush(_BaseColor), Base); //-- Base
+                    graphics.FillEllipse(new SolidBrush(_BaseColor), Base); //-- Base
 
                     switch (State)
                     {
                         case Helpers.MouseState.Over:
-                            _with10.DrawEllipse(new Pen(_BorderColor), Base); //-- Base
-                            _with10.FillEllipse(new SolidBrush(Color.FromArgb(118, 213, 170)), Base);
-                            break;
                         case Helpers.MouseState.Down:
-                            _with10.DrawEllipse(new Pen(_BorderColor), Base); //-- Base
-                            _with10.FillEllipse(new SolidBrush(Color.FromArgb(118, 213, 170)), Base);
+                            graphics.DrawEllipse(new Pen(_BorderColor), Base); //-- Base
+                            graphics.FillEllipse(new SolidBrush(Color.FromArgb(118, 213, 170)), Base);
                             break;
                     }
-                    
-                    if (Checked) _with10.FillEllipse(new SolidBrush(_BorderColor), Dot); //-- Base
+
+                    if (Checked) graphics.FillEllipse(new SolidBrush(_BorderColor), Dot); //-- Base
                     break;
             }
 
-            _with10.DrawString(Text, Font, new SolidBrush(_TextColor), new Rectangle(20, 2, W, H), 
-                Helpers.Main.NearSF);
+            graphics.DrawString(Text, Font, new SolidBrush(_TextColor), new Rectangle(20, 2, Width - 1, Height - 1), Helpers.Main.NearSF);
 
             base.OnPaint(e);
 
-            G.Dispose();
+            graphics.Dispose();
             e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
             e.Graphics.DrawImageUnscaled(B, 0, 0);
             B.Dispose();
-        }
-
-        private void UpdateColors()
-        {
-            _BorderColor = Helpers.Main.GetColors(this).Flat;
         }
     }
 }

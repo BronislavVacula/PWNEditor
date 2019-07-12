@@ -6,13 +6,6 @@ namespace FlatUI
 {
     public class FlatLabel : Label
     {
-        protected override void OnTextChanged(EventArgs e)
-        {
-            base.OnTextChanged(e);
-
-            Invalidate();
-        }
-
         public FlatLabel()
         {
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
@@ -22,6 +15,13 @@ namespace FlatUI
             BackColor = Color.Transparent;
 
             Text = Text;
+        }
+
+        protected override void OnTextChanged(EventArgs e)
+        {
+            base.OnTextChanged(e);
+
+            Invalidate();
         }
     }
 }

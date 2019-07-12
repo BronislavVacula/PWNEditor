@@ -1,8 +1,8 @@
 ﻿using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Drawing.Text;
 using System.Windows.Forms;
+using FlatUI.Extensions;
 
 namespace FlatUI
 {
@@ -14,7 +14,7 @@ namespace FlatUI
 
         [Category("Colors")]
         public Color BaseColor { get; set; } = Color.FromArgb(60, 70, 73);
-        private Color _TextColor = Helpers.Main.FlatColor;
+        private readonly Color TextColor = Helpers.FlatColors.Instance().Flat;
 
         public FlatGroupBox()
         {
@@ -28,52 +28,36 @@ namespace FlatUI
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            UpdateColors();
+            using (var bitmap = new Bitmap(Width, Height))
+            {
+                using (Graphics graphics = Graphics.FromImage(bitmap))
+                {
+                    Rectangle baseRectangle = new Rectangle(8, 8, Width - 17, Height - 17);
 
-            Bitmap B = new Bitmap(Width, Height);
-            Graphics G = Graphics.FromImage(B);
-            int W = Width - 1;
-            int H = Height - 1;
+                    graphics.InitializeFlatGraphics(BackColor);
 
-            GraphicsPath GP = new GraphicsPath();
-            GraphicsPath GP2 = new GraphicsPath();
-            GraphicsPath GP3 = new GraphicsPath();
-            Rectangle Base = new Rectangle(8, 8, W - 16, H - 16);
+                    var GP = Helpers.Main.RoundRec(baseRectangle, 8);  //-- Base
+                    graphics.FillPath(new SolidBrush(BaseColor), GP);  //-- Base
 
-            var _with7 = G;
-            _with7.SmoothingMode = SmoothingMode.HighQuality;
-            _with7.PixelOffsetMode = PixelOffsetMode.HighQuality;
-            _with7.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
-            _with7.Clear(BackColor);
+                    graphics.DrawArrow(28, 2, false, BaseColor);
+                    graphics.DrawArrow(28, 8, true, Color.FromArgb(60, 70, 73));
 
-            //-- Base
-            GP = Helpers.Main.RoundRec(Base, 8);
-            _with7.FillPath(new SolidBrush(BaseColor), GP);
+                    ShowTextIfIsEnabled(graphics, Width - 1, Height - 1);
 
-            //-- Arrows
-            GP2 = Helpers.Main.DrawArrow(28, 2, false);
-            _with7.FillPath(new SolidBrush(BaseColor), GP2);
-            GP3 = Helpers.Main.DrawArrow(28, 8, true);
-            _with7.FillPath(new SolidBrush(Color.FromArgb(60, 70, 73)), GP3);
+                    if (Border) graphics.DrawRectangle(Pens.LightSlateGray, new Rectangle(1, 1, Width - 1, Height - 1));
 
-            //-- if ShowText
-            if (ShowText)
-                _with7.DrawString(Text, Font, new SolidBrush(_TextColor), new Rectangle(16, 16, W, H), 
-                    Helpers.Main.NearSF);
+                    base.OnPaint(e);
 
-            if (Border) _with7.DrawRectangle(Pens.LightSlateGray, new Rectangle(1, 1, W, H));
-
-            base.OnPaint(e);
-
-            G.Dispose();
-            e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
-            e.Graphics.DrawImageUnscaled(B, 0, 0);
-            B.Dispose();
+                    e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                    e.Graphics.DrawImageUnscaled(bitmap, 0, 0);
+                }
+            }
         }
 
-        private void UpdateColors()
+        private void ShowTextIfIsEnabled(Graphics graphics, int width, int height)
         {
-            _TextColor = Helpers.Main.GetColors(this).Flat;
+            if (ShowText)
+                graphics.DrawString(Text, Font, new SolidBrush(TextColor), new Rectangle(16, 16, width, height), Helpers.Main.NearSF);
         }
     }
 }

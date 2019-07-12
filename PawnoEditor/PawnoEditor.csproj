@@ -148,6 +148,11 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="Funkce\Rozsireni\ListViewChyb.cs" />
+    <Compile Include="Vzhled\FlatUI\Enums\AlertBoxKind.cs" />
+    <Compile Include="Vzhled\FlatUI\Enums\CheckBoxStyles.cs" />
+    <Compile Include="Vzhled\FlatUI\Enums\FlatTrackBarStyle.cs" />
+    <Compile Include="Vzhled\FlatUI\Extensions\GraphicsExt.cs" />
+    <Compile Include="Vzhled\FlatUI\Extensions\TrackBarSlider.cs" />
     <Compile Include="Vzhled\FlatUI\FlatAlertBox.cs">
       <SubType>Component</SubType>
     </Compile>

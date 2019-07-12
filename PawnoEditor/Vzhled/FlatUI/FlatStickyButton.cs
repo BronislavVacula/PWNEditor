@@ -2,8 +2,8 @@
 using System.ComponentModel;
 using System.Drawing;
 using System.Drawing.Drawing2D;
-using System.Drawing.Text;
 using System.Windows.Forms;
+using FlatUI.Extensions;
 
 namespace FlatUI
 {
@@ -11,32 +11,34 @@ namespace FlatUI
     {
         private Helpers.MouseState State = Helpers.MouseState.None;
 
+        private void ChangeMouseState(Helpers.MouseState newState)
+        {
+            State = newState;
+            Invalidate();
+        }
+
         protected override void OnMouseDown(MouseEventArgs e)
         {
             base.OnMouseDown(e);
-            State = Helpers.MouseState.Down;
-            Invalidate();
+            ChangeMouseState(Helpers.MouseState.Down);
         }
 
         protected override void OnMouseUp(MouseEventArgs e)
         {
             base.OnMouseUp(e);
-            State = Helpers.MouseState.Over;
-            Invalidate();
+            ChangeMouseState(Helpers.MouseState.Over);
         }
 
         protected override void OnMouseEnter(EventArgs e)
         {
             base.OnMouseEnter(e);
-            State = Helpers.MouseState.Over;
-            Invalidate();
+            ChangeMouseState(Helpers.MouseState.Over);
         }
 
         protected override void OnMouseLeave(EventArgs e)
         {
             base.OnMouseLeave(e);
-            State = Helpers.MouseState.None;
-            Invalidate();
+            ChangeMouseState(Helpers.MouseState.None);
         }
 
         private bool[] GetConnectedSides()
@@ -47,7 +49,7 @@ namespace FlatUI
             {
                 if (B is FlatStickyButton)
                 {
-                    if (object.ReferenceEquals(B, this) || !Rect.IntersectsWith(Rect)) continue;
+                    if (ReferenceEquals(B, this) || !Rect.IntersectsWith(Rect)) continue;
                     double A = (Math.Atan2(Left - B.Left, Top - B.Top) * 2 / Math.PI);
                     if (A / 1 == A) Bool[(int)A + 1] = true;
                 }
@@ -56,13 +58,10 @@ namespace FlatUI
             return Bool;
         }
 
-        private Rectangle Rect
-        {
-            get { return new Rectangle(Left, Top, Width, Height); }
-        }
+        private Rectangle Rect => new Rectangle(Left, Top, Width, Height);
 
         [Category("Colors")]
-        public Color BaseColor { get; set; } = Helpers.Main.FlatColor;
+        public Color BaseColor { get; set; } = Helpers.FlatColors.Instance().Flat;
 
         [Category("Colors")]
         public Color TextColor { get; set; } = Color.FromArgb(243, 243, 243);
@@ -78,7 +77,7 @@ namespace FlatUI
         protected override void OnCreateControl()
         {
             base.OnCreateControl();
-        }        
+        }
 
         public FlatStickyButton()
         {
@@ -93,89 +92,59 @@ namespace FlatUI
 
         protected override void OnPaint(PaintEventArgs e)
         {
-            this.UpdateColors();
-
             Bitmap B = new Bitmap(Width, Height);
-            Graphics G = Graphics.FromImage(B);
-            int W = Width, H = Height;
+            Graphics graphics = Graphics.FromImage(B);
 
             GraphicsPath GP = new GraphicsPath();
 
             bool[] GCS = GetConnectedSides();
 
-            GraphicsPath RoundedBase = Helpers.Main.RoundRect(0, 0, W, H, 0.3, 
+            GraphicsPath RoundedBase = Helpers.Main.RoundRect(0, 0, Width, Height, 0.3,
                 !(GCS[2] || GCS[1]), !(GCS[1] || GCS[0]), !(GCS[3] || GCS[0]), !(GCS[3] || GCS[2]));
-            Rectangle Base = new Rectangle(0, 0, W, H);
+            Rectangle Base = new Rectangle(0, 0, Width, Height);
 
-            var _with17 = G;
-            _with17.SmoothingMode = SmoothingMode.HighQuality;
-            _with17.PixelOffsetMode = PixelOffsetMode.HighQuality;
-            _with17.TextRenderingHint = TextRenderingHint.ClearTypeGridFit;
-            _with17.Clear(BackColor);
+            graphics.InitializeFlatGraphics(BackColor);
 
             switch (State)
             {
                 case Helpers.MouseState.None:
                     if (Rounded)
-                    {
-                        GP = RoundedBase;
-                        _with17.FillPath(new SolidBrush(BaseColor), GP); //-- Base
-                        _with17.DrawString(Text, Font, new SolidBrush(TextColor), Base, 
-                            Helpers.Main.CenterSF); //-- Text
-                    }
+                        DrawRoundedButton(graphics, Base, Color.White, null, false);
                     else
-                    {
-                        _with17.FillRectangle(new SolidBrush(BaseColor), Base); //-- Base
-                        _with17.DrawString(Text, Font, new SolidBrush(TextColor), Base, 
-                            Helpers.Main.CenterSF);
-                    }
+                        DrawNormalButton(graphics, Base, Color.White, false);
                     break;
                 case Helpers.MouseState.Over:
                     if (Rounded)
-                    {
-                        GP = RoundedBase; //-- Base
-                        _with17.FillPath(new SolidBrush(BaseColor), GP);
-                        _with17.FillPath(new SolidBrush(Color.FromArgb(20, Color.White)), GP);
-                        _with17.DrawString(Text, Font, new SolidBrush(TextColor), Base, 
-                            Helpers.Main.CenterSF); //-- Text
-                    }
+                        DrawRoundedButton(graphics, Base, Color.White, RoundedBase);
                     else
-                    {
-                        _with17.FillRectangle(new SolidBrush(BaseColor), Base); //-- Base
-                        _with17.FillRectangle(new SolidBrush(Color.FromArgb(20, Color.White)), Base);
-                        _with17.DrawString(Text, Font, new SolidBrush(TextColor), Base, 
-                            Helpers.Main.CenterSF); //-- Text
-                    }
+                        DrawNormalButton(graphics, Base, Color.White);
                     break;
                 case Helpers.MouseState.Down:
                     if (Rounded)
-                    {
-                        GP = RoundedBase;
-                        _with17.FillPath(new SolidBrush(BaseColor), GP); //-- Base
-                        _with17.FillPath(new SolidBrush(Color.FromArgb(20, Color.Black)), GP);
-                        _with17.DrawString(Text, Font, new SolidBrush(TextColor), Base, 
-                            Helpers.Main.CenterSF); //-- Text
-                    }
+                        DrawRoundedButton(graphics, Base, Color.Black, RoundedBase);
                     else
-                    {
-                        _with17.FillRectangle(new SolidBrush(BaseColor), Base); //-- Base
-                        _with17.FillRectangle(new SolidBrush(Color.FromArgb(20, Color.Black)), Base);
-                        _with17.DrawString(Text, Font, new SolidBrush(TextColor), Base, 
-                            Helpers.Main.CenterSF); //-- Text
-                    }
+                        DrawNormalButton(graphics, Base, Color.Black);
                     break;
             }
 
             base.OnPaint(e);
-            G.Dispose();
+            graphics.Dispose();
             e.Graphics.InterpolationMode = InterpolationMode.HighQualityBicubic;
             e.Graphics.DrawImageUnscaled(B, 0, 0);
             B.Dispose();
         }
 
-        private void UpdateColors()
+        private void DrawRoundedButton(Graphics graphics, Rectangle rect, Color filledColor, GraphicsPath graphicsPath, bool multiRec = true)
         {
-            BaseColor = Helpers.Main.GetColors(this).Flat;
+            graphics.FillPath(new SolidBrush(BaseColor), graphicsPath);
+            if (multiRec) graphics.FillPath(new SolidBrush(Color.FromArgb(20, filledColor)), graphicsPath);
+            graphics.DrawString(Text, Font, new SolidBrush(TextColor), rect, Helpers.Main.CenterSF);
+        }
+        private void DrawNormalButton(Graphics graphics, Rectangle rect, Color filledColor, bool multiRec = true)
+        {
+            graphics.FillRectangle(new SolidBrush(BaseColor), rect);
+            if (multiRec) graphics.FillRectangle(new SolidBrush(Color.FromArgb(20, filledColor)), rect);
+            graphics.DrawString(Text, Font, new SolidBrush(TextColor), rect, Helpers.Main.CenterSF);
         }
     }
 }
