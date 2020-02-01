@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+﻿using PawnoEditor.Forms;
+using System;
 using System.Windows.Forms;
 
 namespace PawnoEditor
@@ -16,7 +14,7 @@ namespace PawnoEditor
         {
             Application.EnableVisualStyles();
             Application.SetCompatibleTextRenderingDefault(false);
-            Application.Run(new Hlavni());
+            Application.Run(new fmMain());
         }
     }
 }
