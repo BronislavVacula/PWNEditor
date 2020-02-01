@@ -62,6 +62,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\Panels\ucWorkspaceBrowser.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Panels\ucWorkspaceBrowser.Designer.cs">
+      <DependentUpon>ucWorkspaceBrowser.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Panels\ucIncludeList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Panels\ucIncludeList.Designer.cs">
+      <DependentUpon>ucIncludeList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Panels\ucSkinList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Panels\ucSkinList.Designer.cs">
+      <DependentUpon>ucSkinList.cs</DependentUpon>
+    </Compile>
     <Compile Include="Forms\fmAbout.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -94,6 +112,12 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Controls\Panels\ucSkinList.resx">
+      <DependentUpon>ucSkinList.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Forms\fmMain.resx">
+      <DependentUpon>fmMain.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
@@ -126,13 +150,7 @@
       <Project>{129f4976-1a1f-427c-8fcf-965245c7d661}</Project>
       <Name>Base</Name>
     </ProjectReference>
-    <ProjectReference Include="D:\Projects\FlatUIFinal\FlatUIFinal\FlatUI.csproj">
-      <Project>{4cd9c881-3e84-4601-a6be-cc9b911a2c59}</Project>
-      <Name>FlatUI</Name>
-    </ProjectReference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Controls\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

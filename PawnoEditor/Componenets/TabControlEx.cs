@@ -1,11 +1,12 @@
-﻿using System.Drawing;
+﻿using Syncfusion.Windows.Forms.Tools;
+using System.Drawing;
 using System.IO;
 using System.Linq;
 using System.Windows.Forms;
 
 namespace PawnoEditor.Komponenty
 {
-    public class TabControlEx : FlatUI.FlatTabControl
+    public class TabControlEx : TabControlAdv
     {
         #region Properties and fields
         /// <summary>

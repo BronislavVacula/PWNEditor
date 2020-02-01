@@ -7,8 +7,6 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "PawnoEditor", "PawnoEditor\
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Base", "Base\Base.csproj", "{129F4976-1A1F-427C-8FCF-965245C7D661}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FlatUI", "D:\Projects\FlatUIFinal\FlatUIFinal\FlatUI.csproj", "{4CD9C881-3E84-4601-A6BE-CC9B911A2C59}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -23,10 +21,6 @@ Global
 		{129F4976-1A1F-427C-8FCF-965245C7D661}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{129F4976-1A1F-427C-8FCF-965245C7D661}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{129F4976-1A1F-427C-8FCF-965245C7D661}.Release|Any CPU.Build.0 = Release|Any CPU
-		{4CD9C881-3E84-4601-A6BE-CC9B911A2C59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{4CD9C881-3E84-4601-A6BE-CC9B911A2C59}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{4CD9C881-3E84-4601-A6BE-CC9B911A2C59}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{4CD9C881-3E84-4601-A6BE-CC9B911A2C59}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
