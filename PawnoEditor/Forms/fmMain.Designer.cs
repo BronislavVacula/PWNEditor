@@ -33,9 +33,9 @@
             this.ribbonControlAdv1 = new Syncfusion.Windows.Forms.Tools.RibbonControlAdv();
             this.toolStripTabItem1 = new Syncfusion.Windows.Forms.Tools.ToolStripTabItem();
             this.toolStripEx1 = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
+            this.btnNewFile = new System.Windows.Forms.ToolStripButton();
             this.dockingManager = new Syncfusion.Windows.Forms.Tools.DockingManager(this.components);
             this.mdiManager = new Syncfusion.Windows.Forms.Tools.TabbedMDIManager(this.components);
-            this.btnNewFile = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControlAdv1)).BeginInit();
             this.ribbonControlAdv1.SuspendLayout();
             this.toolStripTabItem1.Panel.SuspendLayout();
@@ -106,6 +106,17 @@
             this.toolStripEx1.Size = new System.Drawing.Size(100, 53);
             this.toolStripEx1.TabIndex = 0;
             // 
+            // btnNewFile
+            // 
+            this.btnNewFile.Image = ((System.Drawing.Image)(resources.GetObject("btnNewFile.Image")));
+            this.btnNewFile.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnNewFile.Name = "btnNewFile";
+            this.btnNewFile.Size = new System.Drawing.Size(53, 36);
+            this.btnNewFile.Text = "New file";
+            this.btnNewFile.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnNewFile.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnNewFile.Click += new System.EventHandler(this.btnNewFile_Click);
+            // 
             // dockingManager
             // 
             this.dockingManager.AnimateAutoHiddenWindow = true;
@@ -137,17 +148,6 @@
             this.mdiManager.NeedUpdateHostedForm = false;
             this.mdiManager.TabStyle = typeof(Syncfusion.Windows.Forms.Tools.TabRendererOffice2016DarkGray);
             this.mdiManager.ThemeName = "TabRendererOffice2016DarkGray";
-            // 
-            // btnNewFile
-            // 
-            this.btnNewFile.Image = ((System.Drawing.Image)(resources.GetObject("btnNewFile.Image")));
-            this.btnNewFile.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.btnNewFile.Name = "btnNewFile";
-            this.btnNewFile.Size = new System.Drawing.Size(53, 36);
-            this.btnNewFile.Text = "New file";
-            this.btnNewFile.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.btnNewFile.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
-            this.btnNewFile.Click += new System.EventHandler(this.btnNewFile_Click);
             // 
             // fmMain
             // 
