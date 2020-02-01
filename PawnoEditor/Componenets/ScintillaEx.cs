@@ -3,7 +3,7 @@ using System.Text;
 using System.Drawing;
 using ScintillaNET;
 
-namespace PawnoEditor.Komponenty
+namespace PawnoEditor.Components
 {
     public class ScintillaEx : Scintilla
     {
@@ -181,9 +181,10 @@ namespace PawnoEditor.Komponenty
         /// <summary>
         /// Opens the template.
         /// </summary>
-        public void OpenTemplate()
+        /// <param name="applicationPath">The application path.</param>
+        public void OpenTemplate(string applicationPath)
         {
-            var filePath = Base.Helpers.Paths.Instance.GetTemplatePath("novy");
+            var filePath = applicationPath + Base.Helpers.Paths.Instance.GetTemplatePath("new");
 
             OpenFile(filePath);
         }

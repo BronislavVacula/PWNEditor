@@ -35,9 +35,11 @@
             this.toolStripEx1 = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
             this.dockingManager = new Syncfusion.Windows.Forms.Tools.DockingManager(this.components);
             this.mdiManager = new Syncfusion.Windows.Forms.Tools.TabbedMDIManager(this.components);
+            this.btnNewFile = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControlAdv1)).BeginInit();
             this.ribbonControlAdv1.SuspendLayout();
             this.toolStripTabItem1.Panel.SuspendLayout();
+            this.toolStripEx1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dockingManager)).BeginInit();
             this.SuspendLayout();
             // 
@@ -95,6 +97,8 @@
             this.toolStripEx1.ForeColor = System.Drawing.Color.MidnightBlue;
             this.toolStripEx1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStripEx1.Image = null;
+            this.toolStripEx1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnNewFile});
             this.toolStripEx1.Location = new System.Drawing.Point(0, 1);
             this.toolStripEx1.Name = "toolStripEx1";
             this.toolStripEx1.Office12Mode = false;
@@ -134,6 +138,17 @@
             this.mdiManager.TabStyle = typeof(Syncfusion.Windows.Forms.Tools.TabRendererOffice2016DarkGray);
             this.mdiManager.ThemeName = "TabRendererOffice2016DarkGray";
             // 
+            // btnNewFile
+            // 
+            this.btnNewFile.Image = ((System.Drawing.Image)(resources.GetObject("btnNewFile.Image")));
+            this.btnNewFile.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnNewFile.Name = "btnNewFile";
+            this.btnNewFile.Size = new System.Drawing.Size(53, 36);
+            this.btnNewFile.Text = "New file";
+            this.btnNewFile.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnNewFile.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnNewFile.Click += new System.EventHandler(this.btnNewFile_Click);
+            // 
             // fmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -151,6 +166,8 @@
             this.ribbonControlAdv1.ResumeLayout(false);
             this.ribbonControlAdv1.PerformLayout();
             this.toolStripTabItem1.Panel.ResumeLayout(false);
+            this.toolStripEx1.ResumeLayout(false);
+            this.toolStripEx1.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dockingManager)).EndInit();
             this.ResumeLayout(false);
 
@@ -163,5 +180,6 @@
         private Syncfusion.Windows.Forms.Tools.ToolStripEx toolStripEx1;
         private Syncfusion.Windows.Forms.Tools.DockingManager dockingManager;
         private Syncfusion.Windows.Forms.Tools.TabbedMDIManager mdiManager;
+        private System.Windows.Forms.ToolStripButton btnNewFile;
     }
 }

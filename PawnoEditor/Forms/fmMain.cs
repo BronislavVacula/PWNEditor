@@ -1,5 +1,6 @@
 ﻿using Syncfusion.Windows.Forms;
 using System;
+using System.IO;
 using System.Windows.Forms;
 
 namespace PawnoEditor.Forms
@@ -113,6 +114,55 @@ namespace PawnoEditor.Forms
         {
             dockingManager.SetEnableDocking(panel, true);
             dockingManager.SetDockLabel(panel, title);
+        }
+
+        /// <summary>
+        /// Creates the file.
+        /// </summary>
+        private void CreateFile(string filePath = null)
+        {
+            Components.ScintillaEx editor = new Components.ScintillaEx()
+            {
+                Parent = this,
+                Dock = DockStyle.Fill,
+            };
+
+            if (filePath == null)
+            {
+                editor.OpenTemplate(Path.GetDirectoryName(Application.ExecutablePath));
+
+                CreateFile(editor, "New.pwn");
+            }
+            else
+            {
+                editor.OpenFile(filePath);
+
+                CreateFile(editor, Path.GetFileName(filePath));
+            }
+        }
+
+        /// <summary>
+        /// Creates the file.
+        /// </summary>
+        /// <param name="editor">The editor.</param>
+        /// <param name="fileName">Name of the file.</param>
+        private void CreateFile(Components.ScintillaEx editor, string fileName)
+        {
+            dockingManager.SetEnableDocking(editor, true);
+            dockingManager.SetDockLabel(editor, fileName);
+            dockingManager.SetAsMDIChild(editor, true);
+        }
+        #endregion
+
+        #region Event handlers
+        /// <summary>
+        /// Handles the Click event of the btnNewFile control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void btnNewFile_Click(object sender, EventArgs e)
+        {
+            CreateFile();
         }
         #endregion
     }

@@ -104,9 +104,6 @@
     <Compile Include="Forms\Tools\fmMap.Designer.cs">
       <DependentUpon>fmMap.cs</DependentUpon>
     </Compile>
-    <Compile Include="Componenets\TabControlEx.cs">
-      <SubType>Component</SubType>
-    </Compile>
     <Compile Include="Componenets\ScintillaEx.cs">
       <SubType>Component</SubType>
     </Compile>
