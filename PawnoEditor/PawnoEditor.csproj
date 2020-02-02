@@ -130,7 +130,7 @@
     <Compile Include="Forms\Tools\fmMap.Designer.cs">
       <DependentUpon>fmMap.cs</DependentUpon>
     </Compile>
-    <Compile Include="Componenets\ScintillaEx.cs">
+    <Compile Include="Components\ScintillaEx.cs">
       <SubType>Component</SubType>
     </Compile>
     <Compile Include="Program.cs" />
