@@ -35,9 +35,6 @@
             this.toolStripEx1 = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
             this.btnNewFile = new System.Windows.Forms.ToolStripButton();
             this.btnOpenFile = new System.Windows.Forms.ToolStripButton();
-            this.dockingManager = new Syncfusion.Windows.Forms.Tools.DockingManager(this.components);
-            this.mdiManager = new Syncfusion.Windows.Forms.Tools.TabbedMDIManager(this.components);
-            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
@@ -45,16 +42,22 @@
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
             this.toolStripEx3 = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
+            this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
+            this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
             this.toolStripTabItem2 = new Syncfusion.Windows.Forms.Tools.ToolStripTabItem();
             this.toolStripTabItem3 = new Syncfusion.Windows.Forms.Tools.ToolStripTabItem();
             this.toolStripTabItem4 = new Syncfusion.Windows.Forms.Tools.ToolStripTabItem();
             this.toolStripTabItem5 = new Syncfusion.Windows.Forms.Tools.ToolStripTabItem();
+            this.dockingManager = new Syncfusion.Windows.Forms.Tools.DockingManager(this.components);
+            this.mdiManager = new Syncfusion.Windows.Forms.Tools.TabbedMDIManager(this.components);
+            this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControlAdv1)).BeginInit();
             this.ribbonControlAdv1.SuspendLayout();
             this.toolStripTabItem1.Panel.SuspendLayout();
             this.toolStripEx1.SuspendLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dockingManager)).BeginInit();
             this.toolStripEx2.SuspendLayout();
+            this.toolStripEx3.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dockingManager)).BeginInit();
             this.SuspendLayout();
             // 
             // ribbonControlAdv1
@@ -134,7 +137,7 @@
             // 
             // btnNewFile
             // 
-            this.btnNewFile.Image = ((System.Drawing.Image)(resources.GetObject("btnNewFile.Image")));
+            this.btnNewFile.Image = global::PawnoEditor.Properties.Resources.file;
             this.btnNewFile.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnNewFile.Name = "btnNewFile";
             this.btnNewFile.Size = new System.Drawing.Size(53, 36);
@@ -145,7 +148,7 @@
             // 
             // btnOpenFile
             // 
-            this.btnOpenFile.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenFile.Image")));
+            this.btnOpenFile.Image = global::PawnoEditor.Properties.Resources.folder;
             this.btnOpenFile.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.btnOpenFile.Name = "btnOpenFile";
             this.btnOpenFile.Size = new System.Drawing.Size(59, 36);
@@ -154,47 +157,9 @@
             this.btnOpenFile.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnOpenFile.Click += new System.EventHandler(this.btnOpenFile_Click);
             // 
-            // dockingManager
-            // 
-            this.dockingManager.AnimateAutoHiddenWindow = true;
-            this.dockingManager.AutoHideTabForeColor = System.Drawing.Color.Empty;
-            this.dockingManager.CloseTabOnMiddleClick = false;
-            this.dockingManager.DockLayoutStream = ((System.IO.MemoryStream)(resources.GetObject("dockingManager.DockLayoutStream")));
-            this.dockingManager.DragProviderStyle = Syncfusion.Windows.Forms.Tools.DragProviderStyle.Office2016DarkGray;
-            this.dockingManager.HostControl = this;
-            this.dockingManager.MetroButtonColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
-            this.dockingManager.MetroColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(158)))), ((int)(((byte)(218)))));
-            this.dockingManager.MetroSplitterBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(155)))), ((int)(((byte)(159)))), ((int)(((byte)(183)))));
-            this.dockingManager.ReduceFlickeringInRtl = false;
-            this.dockingManager.ShowMetroCaptionDottedLines = false;
-            this.dockingManager.ThemeName = "Office2016DarkGray";
-            this.dockingManager.VisualStyle = Syncfusion.Windows.Forms.VisualStyle.Office2016DarkGray;
-            this.dockingManager.CaptionButtons.Add(new Syncfusion.Windows.Forms.Tools.CaptionButton(Syncfusion.Windows.Forms.Tools.CaptionButtonType.Close, "CloseButton"));
-            this.dockingManager.CaptionButtons.Add(new Syncfusion.Windows.Forms.Tools.CaptionButton(Syncfusion.Windows.Forms.Tools.CaptionButtonType.Pin, "PinButton"));
-            this.dockingManager.CaptionButtons.Add(new Syncfusion.Windows.Forms.Tools.CaptionButton(Syncfusion.Windows.Forms.Tools.CaptionButtonType.Maximize, "MaximizeButton"));
-            this.dockingManager.CaptionButtons.Add(new Syncfusion.Windows.Forms.Tools.CaptionButton(Syncfusion.Windows.Forms.Tools.CaptionButtonType.Restore, "RestoreButton"));
-            this.dockingManager.CaptionButtons.Add(new Syncfusion.Windows.Forms.Tools.CaptionButton(Syncfusion.Windows.Forms.Tools.CaptionButtonType.Menu, "MenuButton"));
-            // 
-            // mdiManager
-            // 
-            this.mdiManager.AttachedTo = this;
-            this.mdiManager.CloseButtonBackColor = System.Drawing.Color.White;
-            this.mdiManager.CloseButtonToolTip = "";
-            this.mdiManager.DropDownButtonToolTip = "";
-            this.mdiManager.ImageSize = new System.Drawing.Size(16, 16);
-            this.mdiManager.NeedUpdateHostedForm = false;
-            this.mdiManager.TabStyle = typeof(Syncfusion.Windows.Forms.Tools.TabRendererOffice2016DarkGray);
-            this.mdiManager.ThemeName = "TabRendererOffice2016DarkGray";
-            this.mdiManager.TabControlAdded += new Syncfusion.Windows.Forms.Tools.TabbedMDITabControlEventHandler(this.mdiManager_TabControlAdded);
-            this.mdiManager.TabControlRemoved += new Syncfusion.Windows.Forms.Tools.TabbedMDITabControlEventHandler(this.mdiManager_TabControlRemoved);
-            // 
-            // openFileDialog
-            // 
-            this.openFileDialog.Filter = "Pwn files (*.pwn)|*.pwn|Include files (*.inc)|*.inc|Text files (*.txt)|*.txt";
-            // 
             // toolStripButton1
             // 
-            this.toolStripButton1.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton1.Image")));
+            this.toolStripButton1.Image = global::PawnoEditor.Properties.Resources.save;
             this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton1.Name = "toolStripButton1";
             this.toolStripButton1.Size = new System.Drawing.Size(53, 36);
@@ -204,7 +169,7 @@
             // 
             // toolStripButton2
             // 
-            this.toolStripButton2.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton2.Image")));
+            this.toolStripButton2.Image = global::PawnoEditor.Properties.Resources.saveas;
             this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton2.Name = "toolStripButton2";
             this.toolStripButton2.Size = new System.Drawing.Size(67, 36);
@@ -214,7 +179,7 @@
             // 
             // toolStripButton3
             // 
-            this.toolStripButton3.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton3.Image")));
+            this.toolStripButton3.Image = global::PawnoEditor.Properties.Resources.saveAll;
             this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton3.Name = "toolStripButton3";
             this.toolStripButton3.Size = new System.Drawing.Size(49, 36);
@@ -243,21 +208,21 @@
             // 
             // toolStripButton4
             // 
-            this.toolStripButton4.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton4.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton4.Image")));
+            this.toolStripButton4.Image = global::PawnoEditor.Properties.Resources.undo;
             this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton4.Name = "toolStripButton4";
-            this.toolStripButton4.Size = new System.Drawing.Size(23, 36);
+            this.toolStripButton4.Size = new System.Drawing.Size(35, 36);
             this.toolStripButton4.Text = "Back";
+            this.toolStripButton4.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
             // toolStripButton5
             // 
-            this.toolStripButton5.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.toolStripButton5.Image = ((System.Drawing.Image)(resources.GetObject("toolStripButton5.Image")));
+            this.toolStripButton5.Image = global::PawnoEditor.Properties.Resources.multimedia_option;
             this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton5.Name = "toolStripButton5";
-            this.toolStripButton5.Size = new System.Drawing.Size(23, 36);
+            this.toolStripButton5.Size = new System.Drawing.Size(50, 36);
             this.toolStripButton5.Text = "Foward";
+            this.toolStripButton5.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
             // toolStripEx3
             // 
@@ -267,13 +232,34 @@
             this.toolStripEx3.ForeColor = System.Drawing.Color.MidnightBlue;
             this.toolStripEx3.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStripEx3.Image = null;
+            this.toolStripEx3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.toolStripButton6,
+            this.toolStripButton7});
             this.toolStripEx3.Location = new System.Drawing.Point(399, 1);
             this.toolStripEx3.Name = "toolStripEx3";
             this.toolStripEx3.Office12Mode = false;
             this.toolStripEx3.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.toolStripEx3.Size = new System.Drawing.Size(119, 53);
+            this.toolStripEx3.Size = new System.Drawing.Size(162, 53);
             this.toolStripEx3.TabIndex = 2;
             this.toolStripEx3.Text = "Compiler actions";
+            // 
+            // toolStripButton6
+            // 
+            this.toolStripButton6.Image = global::PawnoEditor.Properties.Resources.process;
+            this.toolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton6.Name = "toolStripButton6";
+            this.toolStripButton6.Size = new System.Drawing.Size(53, 36);
+            this.toolStripButton6.Text = "Compile";
+            this.toolStripButton6.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            // 
+            // toolStripButton7
+            // 
+            this.toolStripButton7.Image = global::PawnoEditor.Properties.Resources.power;
+            this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.toolStripButton7.Name = "toolStripButton7";
+            this.toolStripButton7.Size = new System.Drawing.Size(97, 33);
+            this.toolStripButton7.Text = "Compile and run";
+            this.toolStripButton7.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
             // toolStripTabItem2
             // 
@@ -335,6 +321,44 @@
             this.toolStripTabItem5.Tag = "5";
             this.toolStripTabItem5.Text = "Help";
             // 
+            // dockingManager
+            // 
+            this.dockingManager.AnimateAutoHiddenWindow = true;
+            this.dockingManager.AutoHideTabForeColor = System.Drawing.Color.Empty;
+            this.dockingManager.CloseTabOnMiddleClick = false;
+            this.dockingManager.DockLayoutStream = ((System.IO.MemoryStream)(resources.GetObject("dockingManager.DockLayoutStream")));
+            this.dockingManager.DragProviderStyle = Syncfusion.Windows.Forms.Tools.DragProviderStyle.Office2016DarkGray;
+            this.dockingManager.HostControl = this;
+            this.dockingManager.MetroButtonColor = System.Drawing.Color.FromArgb(((int)(((byte)(255)))), ((int)(((byte)(255)))), ((int)(((byte)(255)))));
+            this.dockingManager.MetroColor = System.Drawing.Color.FromArgb(((int)(((byte)(17)))), ((int)(((byte)(158)))), ((int)(((byte)(218)))));
+            this.dockingManager.MetroSplitterBackColor = System.Drawing.Color.FromArgb(((int)(((byte)(155)))), ((int)(((byte)(159)))), ((int)(((byte)(183)))));
+            this.dockingManager.ReduceFlickeringInRtl = false;
+            this.dockingManager.ShowMetroCaptionDottedLines = false;
+            this.dockingManager.ThemeName = "Office2016DarkGray";
+            this.dockingManager.VisualStyle = Syncfusion.Windows.Forms.VisualStyle.Office2016DarkGray;
+            this.dockingManager.CaptionButtons.Add(new Syncfusion.Windows.Forms.Tools.CaptionButton(Syncfusion.Windows.Forms.Tools.CaptionButtonType.Close, "CloseButton"));
+            this.dockingManager.CaptionButtons.Add(new Syncfusion.Windows.Forms.Tools.CaptionButton(Syncfusion.Windows.Forms.Tools.CaptionButtonType.Pin, "PinButton"));
+            this.dockingManager.CaptionButtons.Add(new Syncfusion.Windows.Forms.Tools.CaptionButton(Syncfusion.Windows.Forms.Tools.CaptionButtonType.Maximize, "MaximizeButton"));
+            this.dockingManager.CaptionButtons.Add(new Syncfusion.Windows.Forms.Tools.CaptionButton(Syncfusion.Windows.Forms.Tools.CaptionButtonType.Restore, "RestoreButton"));
+            this.dockingManager.CaptionButtons.Add(new Syncfusion.Windows.Forms.Tools.CaptionButton(Syncfusion.Windows.Forms.Tools.CaptionButtonType.Menu, "MenuButton"));
+            // 
+            // mdiManager
+            // 
+            this.mdiManager.AttachedTo = this;
+            this.mdiManager.CloseButtonBackColor = System.Drawing.Color.White;
+            this.mdiManager.CloseButtonToolTip = "";
+            this.mdiManager.DropDownButtonToolTip = "";
+            this.mdiManager.ImageSize = new System.Drawing.Size(16, 16);
+            this.mdiManager.NeedUpdateHostedForm = false;
+            this.mdiManager.TabStyle = typeof(Syncfusion.Windows.Forms.Tools.TabRendererOffice2016DarkGray);
+            this.mdiManager.ThemeName = "TabRendererOffice2016DarkGray";
+            this.mdiManager.TabControlAdded += new Syncfusion.Windows.Forms.Tools.TabbedMDITabControlEventHandler(this.mdiManager_TabControlAdded);
+            this.mdiManager.TabControlRemoved += new Syncfusion.Windows.Forms.Tools.TabbedMDITabControlEventHandler(this.mdiManager_TabControlRemoved);
+            // 
+            // openFileDialog
+            // 
+            this.openFileDialog.Filter = "Pwn files (*.pwn)|*.pwn|Include files (*.inc)|*.inc|Text files (*.txt)|*.txt";
+            // 
             // fmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -354,9 +378,11 @@
             this.toolStripTabItem1.Panel.ResumeLayout(false);
             this.toolStripEx1.ResumeLayout(false);
             this.toolStripEx1.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.dockingManager)).EndInit();
             this.toolStripEx2.ResumeLayout(false);
             this.toolStripEx2.PerformLayout();
+            this.toolStripEx3.ResumeLayout(false);
+            this.toolStripEx3.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.dockingManager)).EndInit();
             this.ResumeLayout(false);
 
         }
@@ -382,5 +408,7 @@
         private Syncfusion.Windows.Forms.Tools.ToolStripTabItem toolStripTabItem5;
         private Syncfusion.Windows.Forms.Tools.ToolStripTabItem toolStripTabItem3;
         private Syncfusion.Windows.Forms.Tools.ToolStripTabItem toolStripTabItem4;
+        private System.Windows.Forms.ToolStripButton toolStripButton6;
+        private System.Windows.Forms.ToolStripButton toolStripButton7;
     }
 }
