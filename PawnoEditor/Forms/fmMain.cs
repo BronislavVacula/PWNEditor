@@ -1,13 +1,18 @@
 ﻿using Syncfusion.Windows.Forms;
+using Syncfusion.Windows.Forms.Tools;
 using System;
 using System.IO;
 using System.Windows.Forms;
 
 namespace PawnoEditor.Forms
 {
-    public partial class fmMain : Syncfusion.Windows.Forms.Tools.RibbonForm
+    public partial class fmMain : RibbonForm
     {
         #region Properties and fields
+        /// <summary>
+        /// The tab control
+        /// </summary>
+        private TabControlAdv tabControl;
         #endregion
 
         #region Constructor and initialization
@@ -61,17 +66,18 @@ namespace PawnoEditor.Forms
         /// </summary>
         private void InitPanels()
         {
-            //Left side
+            //Create panel
             var solutionPanel = CreatePanel<Controls.Panels.ucWorkspaceBrowser>("Solution files");
-
-            //Right side
             var includesPanel = CreatePanel<Controls.Panels.ucIncludeList>("Includes");
             var skinsPanel = CreatePanel<Controls.Panels.ucSkinList>("Skins");
 
-            dockingManager.DockControl(solutionPanel, this, Syncfusion.Windows.Forms.Tools.DockingStyle.Left, 250);
+            //Dock settings
+            dockingManager.DockControl(solutionPanel, this, DockingStyle.Left, 250);
+            dockingManager.DockControl(includesPanel, this, DockingStyle.Right, 250, true);
+            dockingManager.DockControl(skinsPanel, includesPanel, DockingStyle.Bottom, 250, true);
 
-            dockingManager.DockControl(includesPanel, this, Syncfusion.Windows.Forms.Tools.DockingStyle.Right, 250, true);
-            dockingManager.DockControl(skinsPanel, includesPanel, Syncfusion.Windows.Forms.Tools.DockingStyle.Bottom, 250, true);
+            //Events
+            includesPanel.InsertIncludeRequest += IncludesPanel_InsertIncludeRequest;
         }
         #endregion
 
@@ -152,6 +158,30 @@ namespace PawnoEditor.Forms
             dockingManager.SetDockLabel(editor, fileName);
             dockingManager.SetAsMDIChild(editor, true);
         }
+
+        /// <summary>
+        /// Gets the selected editor.
+        /// </summary>
+        /// <param name="controls">The controls.</param>
+        /// <returns></returns>
+        private Components.ScintillaEx GetSelectedEditor()
+        {
+            foreach (var form in mdiManager.MdiChildren)
+            {
+                if (mdiManager.GetTabPageAdvFromForm(form) != tabControl.SelectedTab)
+                    continue;
+
+                foreach (Control control in form.Controls)
+                {
+                    if(control is Components.ScintillaEx editor)
+                    {
+                        return editor;
+                    }
+                }
+            }
+
+            return null;
+        }
         #endregion
 
         #region Event handlers
@@ -163,6 +193,60 @@ namespace PawnoEditor.Forms
         private void btnNewFile_Click(object sender, EventArgs e)
         {
             CreateFile();
+        }
+
+        /// <summary>
+        /// Handles the Click event of the btnOpenFile control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void btnOpenFile_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        /// <summary>
+        /// Handles the TabControlAdded event of the mdiManager control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="args">The <see cref="TabbedMDITabControlEventArgs"/> instance containing the event data.</param>
+        private void mdiManager_TabControlAdded(object sender, TabbedMDITabControlEventArgs args)
+        {
+            tabControl = args.TabControl;
+        }
+
+        /// <summary>
+        /// Handles the TabControlRemoved event of the mdiManager control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="args">The <see cref="TabbedMDITabControlEventArgs"/> instance containing the event data.</param>
+        private void mdiManager_TabControlRemoved(object sender, TabbedMDITabControlEventArgs args)
+        {
+            tabControl = null;
+        }
+
+        /// <summary>
+        /// Handles the InsertIncludeRequest event of the IncludesPanel control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="Base.EventHandlers.InsertIncludeRequestEventArgs"/> instance containing the event data.</param>
+        private void IncludesPanel_InsertIncludeRequest(object sender, Base.EventHandlers.InsertIncludeRequestEventArgs e)
+        {
+            if (Base.Settings.Instance.ScriptInsertMode == Base.Enums.ScriptInsertMode.ScinitillaEditor && tabControl != null)
+            {
+                if (tabControl.TabCount > 0)
+                {
+                    var selectedEditor = GetSelectedEditor();
+                    if(selectedEditor != null)
+                    {
+                        selectedEditor.InsertText(selectedEditor.CurrentPosition, e.Include);
+                    }
+                }
+            }
+            else
+            {
+                Clipboard.SetText(e.Include);
+            }
         }
         #endregion
     }

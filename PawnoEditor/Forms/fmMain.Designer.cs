@@ -34,6 +34,7 @@
             this.toolStripTabItem1 = new Syncfusion.Windows.Forms.Tools.ToolStripTabItem();
             this.toolStripEx1 = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
             this.btnNewFile = new System.Windows.Forms.ToolStripButton();
+            this.btnOpenFile = new System.Windows.Forms.ToolStripButton();
             this.dockingManager = new Syncfusion.Windows.Forms.Tools.DockingManager(this.components);
             this.mdiManager = new Syncfusion.Windows.Forms.Tools.TabbedMDIManager(this.components);
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControlAdv1)).BeginInit();
@@ -98,12 +99,13 @@
             this.toolStripEx1.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStripEx1.Image = null;
             this.toolStripEx1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.btnNewFile});
+            this.btnNewFile,
+            this.btnOpenFile});
             this.toolStripEx1.Location = new System.Drawing.Point(0, 1);
             this.toolStripEx1.Name = "toolStripEx1";
             this.toolStripEx1.Office12Mode = false;
             this.toolStripEx1.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
-            this.toolStripEx1.Size = new System.Drawing.Size(100, 53);
+            this.toolStripEx1.Size = new System.Drawing.Size(170, 53);
             this.toolStripEx1.TabIndex = 0;
             // 
             // btnNewFile
@@ -116,6 +118,17 @@
             this.btnNewFile.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.btnNewFile.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnNewFile.Click += new System.EventHandler(this.btnNewFile_Click);
+            // 
+            // btnOpenFile
+            // 
+            this.btnOpenFile.Image = ((System.Drawing.Image)(resources.GetObject("btnOpenFile.Image")));
+            this.btnOpenFile.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnOpenFile.Name = "btnOpenFile";
+            this.btnOpenFile.Size = new System.Drawing.Size(59, 36);
+            this.btnOpenFile.Text = "Open file";
+            this.btnOpenFile.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnOpenFile.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnOpenFile.Click += new System.EventHandler(this.btnOpenFile_Click);
             // 
             // dockingManager
             // 
@@ -148,6 +161,8 @@
             this.mdiManager.NeedUpdateHostedForm = false;
             this.mdiManager.TabStyle = typeof(Syncfusion.Windows.Forms.Tools.TabRendererOffice2016DarkGray);
             this.mdiManager.ThemeName = "TabRendererOffice2016DarkGray";
+            this.mdiManager.TabControlAdded += new Syncfusion.Windows.Forms.Tools.TabbedMDITabControlEventHandler(this.mdiManager_TabControlAdded);
+            this.mdiManager.TabControlRemoved += new Syncfusion.Windows.Forms.Tools.TabbedMDITabControlEventHandler(this.mdiManager_TabControlRemoved);
             // 
             // fmMain
             // 
@@ -181,5 +196,6 @@
         private Syncfusion.Windows.Forms.Tools.DockingManager dockingManager;
         private Syncfusion.Windows.Forms.Tools.TabbedMDIManager mdiManager;
         private System.Windows.Forms.ToolStripButton btnNewFile;
+        private System.Windows.Forms.ToolStripButton btnOpenFile;
     }
 }

@@ -47,7 +47,6 @@ namespace PawnoEditor.Components
             if (AutoComplete != null) 
                 AutoComplete.TargetControlWrapper = new ScintillaWrapper(this);
         }
-        #endregion
 
         /// <summary>
         /// Initializes the styles.
@@ -177,7 +176,9 @@ namespace PawnoEditor.Components
 
             AutomaticFold = (AutomaticFold.Show | AutomaticFold.Click | AutomaticFold.Change);
         }
+        #endregion
 
+        #region Methods
         /// <summary>
         /// Opens the template.
         /// </summary>
@@ -199,5 +200,6 @@ namespace PawnoEditor.Components
 
             Text = File.ReadAllText(path, Encoding.Default);
         }
+        #endregion
     }
 }

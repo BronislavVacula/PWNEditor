@@ -54,6 +54,7 @@
     <Compile Include="Enums\ScinitillaEditor.cs" />
     <Compile Include="Enums\Tools\MapEnums.cs" />
     <Compile Include="EventHandlers\CompilationCompletedEventArgs.cs" />
+    <Compile Include="EventHandlers\InsertIncludeRequestEventArgs.cs" />
     <Compile Include="Helpers\ColorHelper.cs" />
     <Compile Include="Helpers\CompilerTranslation.cs" />
     <Compile Include="Helpers\Paths.cs" />
@@ -63,6 +64,7 @@
   </ItemGroup>
   <ItemGroup>
     <Folder Include="Constants\" />
+    <Folder Include="Extensions\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

@@ -86,6 +86,7 @@
             this.includes.ToolTipControl.TabIndex = 0;
             this.includes.ToolTipControl.Visible = true;
             this.includes.TransparentControls = true;
+            this.includes.DoubleClick += new System.EventHandler(this.includes_DoubleClick);
             // 
             // ucIncludeList
             // 
