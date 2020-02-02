@@ -10,9 +10,9 @@ using System.Windows.Forms;
 
 namespace PawnoEditor.Controls.Panels
 {
-    public partial class ucPickupList : UserControl
+    public partial class ucCompiler : UserControl
     {
-        public ucPickupList()
+        public ucCompiler()
         {
             InitializeComponent();
         }

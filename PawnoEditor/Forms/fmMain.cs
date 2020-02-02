@@ -68,9 +68,9 @@ namespace PawnoEditor.Forms
         {
             //Create panel
             var solutionPanel = CreatePanel<Controls.Panels.ucWorkspaceBrowser>("Solution files");
-            var skinsPanel = CreatePanel<Controls.Panels.ucSkinList>("Skins");
-            var carsPanel = CreatePanel<Controls.Panels.ucCarList>("Cars");
-            var pickupsPanel = CreatePanel<Controls.Panels.ucPickupList>("Pickups");
+            var skinsPanel = CreatePanel<Controls.Panels.ucImageList>("Skins", "Skins");
+            var carsPanel = CreatePanel<Controls.Panels.ucImageList>("Cars", "Cars");
+            var pickupsPanel = CreatePanel<Controls.Panels.ucImageList>("Pickups", "Pickups");
 
             var includesPanel = CreatePanel<Controls.Panels.ucIncludeList>("Includes");
             var colorPickerPanel = CreatePanel<Controls.Panels.ucColorPicker>("Color picker");
@@ -93,12 +93,13 @@ namespace PawnoEditor.Forms
         /// <summary>
         /// Creates the panel.
         /// </summary>
-        /// <typeparam name="PanelType">The type of the anel type.</typeparam>
+        /// <typeparam name="T"></typeparam>
         /// <param name="title">The title.</param>
-        /// <param name="startingPath">The starting path.</param>
-        private T CreatePanel<T>(string title) where T : UserControl
+        /// <param name="parameter">The parameter.</param>
+        /// <returns></returns>
+        private T CreatePanel<T>(string title, string parameter = null) where T : UserControl
         {
-            var panel = CreatePanel<T>();
+            var panel = CreatePanel<T>((object)parameter);
 
             CreatePanel<T>(title, panel);
 
@@ -111,9 +112,15 @@ namespace PawnoEditor.Forms
         /// <typeparam name="PanelType">The type of the anel type.</typeparam>
         /// <param name="startingPath">The starting path.</param>
         /// <returns></returns>
-        private T CreatePanel<T>() where T : UserControl
+        private T CreatePanel<T>(object parameter = null) where T : UserControl
         {
-            T panel = (T)Activator.CreateInstance(typeof(T));
+            T panel;
+
+            if (parameter == null)
+                panel = (T)Activator.CreateInstance(typeof(T));
+            else
+                panel = (T)Activator.CreateInstance(typeof(T), parameter);
+
             panel.Parent = this;
             panel.Visible = true;
 
@@ -210,7 +217,10 @@ namespace PawnoEditor.Forms
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnOpenFile_Click(object sender, EventArgs e)
         {
-
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                CreateFile(openFileDialog.FileName);
+            }
         }
 
         /// <summary>

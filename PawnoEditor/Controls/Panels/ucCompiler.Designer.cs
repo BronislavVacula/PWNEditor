@@ -1,6 +1,6 @@
 ﻿namespace PawnoEditor.Controls.Panels
 {
-    partial class ucCarList
+    partial class ucCompiler
     {
         /// <summary> 
         /// Vyžaduje se proměnná návrháře.

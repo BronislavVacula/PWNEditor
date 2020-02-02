@@ -7,22 +7,32 @@ using Syncfusion.Windows.Forms.Tools;
 
 namespace PawnoEditor.Controls.Panels
 {
-    public partial class ucSkinList : UserControl
+    public partial class ucImageList : UserControl
     {
         #region Properties and fields
         /// <summary>
         /// The skin directory
         /// </summary>
-        private readonly string skinDirectory = Path.GetDirectoryName(Application.ExecutablePath) + "\\Images\\Skins\\";
+        private readonly string imagesDirectory;
         #endregion
 
         #region Constructor and initialization
         /// <summary>
-        /// Initializes a new instance of the <see cref="ucSkinList"/> class.
+        /// Initializes a new instance of the <see cref="ucImageList"/> class.
         /// </summary>
-        public ucSkinList()
+        public ucImageList()
         {
             InitializeComponent();
+        }
+
+        /// <summary>
+        /// Initializes a new instance of the <see cref="ucImageList"/> class.
+        /// </summary>
+        /// <param name="itemName">Name of the item.</param>
+        public ucImageList(string itemName) : this()
+        {
+            imagesDirectory = Path.GetDirectoryName(Application.ExecutablePath) + $"\\Images\\{itemName}\\";
+
             LoadContent();
         }
 
@@ -31,11 +41,14 @@ namespace PawnoEditor.Controls.Panels
         /// </summary>
         private void LoadContent()
         {
-            var files = Directory.GetFiles(skinDirectory);
+            if (Directory.Exists(imagesDirectory))
+            {
+                var files = Directory.GetFiles(imagesDirectory);
 
-            skins.Nodes.AddRange((from skin in files select new TreeNodeAdv(Path.GetFileNameWithoutExtension(skin))).ToArray());
+                images.Nodes.AddRange((from file in files select new TreeNodeAdv(Path.GetFileNameWithoutExtension(file))).ToArray());
 
-            SelectFirstNode();
+                SelectFirstNode();
+            }
         }
         #endregion
 
@@ -45,9 +58,9 @@ namespace PawnoEditor.Controls.Panels
         /// </summary>
         private void SelectFirstNode()
         {
-            if (skins.Nodes.Count > 0)
+            if (images.Nodes.Count > 0)
             {
-                skins.SelectedNode = skins.Nodes[0];
+                images.SelectedNode = images.Nodes[0];
             }
         }
         #endregion
@@ -60,9 +73,9 @@ namespace PawnoEditor.Controls.Panels
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void skins_AfterSelect(object sender, EventArgs e)
         {
-            if (skins.SelectedNode != null)
+            if (images.SelectedNode != null)
             {
-                skinImage.Image = Image.FromFile(skinDirectory + "\\" + skins.SelectedNode.Text + ".jpg");
+                itemImage.Image = Image.FromFile(imagesDirectory + "\\" + images.SelectedNode.Text + ".jpg");
             }
         }
         #endregion

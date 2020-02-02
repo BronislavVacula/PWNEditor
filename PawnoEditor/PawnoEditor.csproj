@@ -65,23 +65,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Controls\Panels\ucCarList.cs">
-      <SubType>UserControl</SubType>
-    </Compile>
-    <Compile Include="Controls\Panels\ucCarList.Designer.cs">
-      <DependentUpon>ucCarList.cs</DependentUpon>
-    </Compile>
     <Compile Include="Controls\Panels\ucColorPicker.cs">
       <SubType>UserControl</SubType>
     </Compile>
     <Compile Include="Controls\Panels\ucColorPicker.Designer.cs">
       <DependentUpon>ucColorPicker.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Panels\ucPickupList.cs">
+    <Compile Include="Controls\Panels\ucCompiler.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\Panels\ucPickupList.Designer.cs">
-      <DependentUpon>ucPickupList.cs</DependentUpon>
+    <Compile Include="Controls\Panels\ucCompiler.Designer.cs">
+      <DependentUpon>ucCompiler.cs</DependentUpon>
     </Compile>
     <Compile Include="Controls\Panels\ucWorkspaceBrowser.cs">
       <SubType>UserControl</SubType>
@@ -95,11 +89,11 @@
     <Compile Include="Controls\Panels\ucIncludeList.Designer.cs">
       <DependentUpon>ucIncludeList.cs</DependentUpon>
     </Compile>
-    <Compile Include="Controls\Panels\ucSkinList.cs">
+    <Compile Include="Controls\Panels\ucImageList.cs">
       <SubType>UserControl</SubType>
     </Compile>
-    <Compile Include="Controls\Panels\ucSkinList.Designer.cs">
-      <DependentUpon>ucSkinList.cs</DependentUpon>
+    <Compile Include="Controls\Panels\ucImageList.Designer.cs">
+      <DependentUpon>ucImageList.cs</DependentUpon>
     </Compile>
     <Compile Include="Forms\fmAbout.cs">
       <SubType>Form</SubType>
@@ -133,8 +127,8 @@
     <EmbeddedResource Include="Controls\Panels\ucIncludeList.resx">
       <DependentUpon>ucIncludeList.cs</DependentUpon>
     </EmbeddedResource>
-    <EmbeddedResource Include="Controls\Panels\ucSkinList.resx">
-      <DependentUpon>ucSkinList.cs</DependentUpon>
+    <EmbeddedResource Include="Controls\Panels\ucImageList.resx">
+      <DependentUpon>ucImageList.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Forms\fmMain.resx">
       <DependentUpon>fmMain.cs</DependentUpon>
