@@ -124,6 +124,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="Controls\Panels\ucColorPicker.resx">
+      <DependentUpon>ucColorPicker.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Controls\Panels\ucIncludeList.resx">
       <DependentUpon>ucIncludeList.cs</DependentUpon>
     </EmbeddedResource>

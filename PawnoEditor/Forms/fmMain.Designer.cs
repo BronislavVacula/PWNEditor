@@ -257,7 +257,7 @@
             this.toolStripButton7.Image = global::PawnoEditor.Properties.Resources.power;
             this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton7.Name = "toolStripButton7";
-            this.toolStripButton7.Size = new System.Drawing.Size(97, 33);
+            this.toolStripButton7.Size = new System.Drawing.Size(97, 36);
             this.toolStripButton7.Text = "Compile and run";
             this.toolStripButton7.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
