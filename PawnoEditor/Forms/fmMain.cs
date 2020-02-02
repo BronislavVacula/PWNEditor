@@ -76,7 +76,7 @@ namespace PawnoEditor.Forms
             var colorPickerPanel = CreatePanel<Controls.Panels.ucColorPicker>("Color picker");
 
             //Dock settings
-            dockingManager.DockControl(solutionPanel, this, DockingStyle.Left, 250); 
+            dockingManager.DockControl(solutionPanel, this, DockingStyle.Left, 250);
             dockingManager.DockControl(carsPanel, solutionPanel, DockingStyle.Bottom, 250, true);
             dockingManager.DockControl(pickupsPanel, carsPanel, DockingStyle.Tabbed, 250, true);
             dockingManager.DockControl(skinsPanel, carsPanel, DockingStyle.Tabbed, 250, true);
@@ -172,6 +172,8 @@ namespace PawnoEditor.Forms
             dockingManager.SetEnableDocking(editor, true);
             dockingManager.SetDockLabel(editor, fileName);
             dockingManager.SetAsMDIChild(editor, true);
+
+            CheckClosedTabs(Controls);
         }
 
         /// <summary>
@@ -188,7 +190,7 @@ namespace PawnoEditor.Forms
 
                 foreach (Control control in form.Controls)
                 {
-                    if(control is Components.ScintillaEx editor)
+                    if (control is Components.ScintillaEx editor)
                     {
                         return editor;
                     }
@@ -196,6 +198,42 @@ namespace PawnoEditor.Forms
             }
 
             return null;
+        }
+
+        /// <summary>
+        /// Checks the closed tabs.
+        /// </summary>
+        private void CheckClosedTabs(Control.ControlCollection controls)
+        {
+            foreach (Control control in controls)
+            {
+                if (control.Controls.Count > 0)
+                {
+                    CheckClosedTabs(control.Controls);
+                }
+
+                if (control is Components.ScintillaEx editor)
+                {
+                    if (editor.Visible == false)
+                    {
+                        editor.Dispose();
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Updates the tab page text.
+        /// </summary>
+        /// <param name="editor">The editor.</param>
+        private void UpdateTabPageText(Components.ScintillaEx editor)
+        {
+            if (editor.Parent is Form parentForm)
+            {
+                var tabPage = mdiManager.GetTabPageAdvFromForm(parentForm);
+
+                tabPage.Text = Path.GetFileName(editor.OpenedFile);
+            }
         }
         #endregion
 
@@ -255,7 +293,7 @@ namespace PawnoEditor.Forms
                 if (tabControl.TabCount > 0)
                 {
                     var selectedEditor = GetSelectedEditor();
-                    if(selectedEditor != null)
+                    if (selectedEditor != null)
                     {
                         selectedEditor.InsertText(selectedEditor.CurrentPosition, e.Include);
                     }
@@ -264,6 +302,52 @@ namespace PawnoEditor.Forms
             else
             {
                 Clipboard.SetText(e.Include);
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of the btnSave control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void btnSave_Click(object sender, EventArgs e)
+        {
+            if (tabControl.TabCount > 0)
+            {
+                var selectedEditor = GetSelectedEditor();
+                if (selectedEditor != null)
+                {
+                    if (selectedEditor.IsTemplate && saveFileDialog.ShowDialog() == DialogResult.OK)
+                    {
+                        selectedEditor.SaveFile(saveFileDialog.FileName);
+
+                        UpdateTabPageText(selectedEditor);
+                    }
+                    else
+                    {
+                        selectedEditor.SaveFile();
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of the btnSaveFileAs control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void btnSaveFileAs_Click(object sender, EventArgs e)
+        {
+            var selectedEditor = GetSelectedEditor();
+
+            if (selectedEditor != null)
+            {
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    selectedEditor.SaveFile(saveFileDialog.FileName);
+
+                    UpdateTabPageText(selectedEditor);
+                }
             }
         }
         #endregion

@@ -14,13 +14,13 @@ namespace Base.Enums
     public enum PathsTypes
     {
         [Description("\\images\\")]
-        Obrazky = 0,
+        Images = 0,
         [Description("\\include\\")]
-        Includy = 1,
+        Includes = 1,
         [Description("\\images\\pickups\\")]
-        Pickupy = 2,
+        Pickups = 2,
         [Description("\\images\\skins\\")]
-        Skiny = 3,
+        Skins = 3,
         [Description("\\SAMPServer\\")]
         SAMPServer = 4
     }

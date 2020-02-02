@@ -35,8 +35,8 @@
             this.toolStripEx1 = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
             this.btnNewFile = new System.Windows.Forms.ToolStripButton();
             this.btnOpenFile = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton1 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton2 = new System.Windows.Forms.ToolStripButton();
+            this.btnSave = new System.Windows.Forms.ToolStripButton();
+            this.btnSaveFileAs = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
             this.toolStripEx2 = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
             this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
@@ -51,6 +51,7 @@
             this.dockingManager = new Syncfusion.Windows.Forms.Tools.DockingManager(this.components);
             this.mdiManager = new Syncfusion.Windows.Forms.Tools.TabbedMDIManager(this.components);
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
+            this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControlAdv1)).BeginInit();
             this.ribbonControlAdv1.SuspendLayout();
             this.toolStripTabItem1.Panel.SuspendLayout();
@@ -124,8 +125,8 @@
             this.toolStripEx1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.btnNewFile,
             this.btnOpenFile,
-            this.toolStripButton1,
-            this.toolStripButton2,
+            this.btnSave,
+            this.btnSaveFileAs,
             this.toolStripButton3});
             this.toolStripEx1.Location = new System.Drawing.Point(0, 1);
             this.toolStripEx1.Name = "toolStripEx1";
@@ -157,32 +158,34 @@
             this.btnOpenFile.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnOpenFile.Click += new System.EventHandler(this.btnOpenFile_Click);
             // 
-            // toolStripButton1
+            // btnSave
             // 
-            this.toolStripButton1.Image = global::PawnoEditor.Properties.Resources.save;
-            this.toolStripButton1.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton1.Name = "toolStripButton1";
-            this.toolStripButton1.Size = new System.Drawing.Size(53, 36);
-            this.toolStripButton1.Text = "Save file";
-            this.toolStripButton1.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.toolStripButton1.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnSave.Image = global::PawnoEditor.Properties.Resources.save;
+            this.btnSave.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnSave.Name = "btnSave";
+            this.btnSave.Size = new System.Drawing.Size(53, 36);
+            this.btnSave.Text = "Save file";
+            this.btnSave.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnSave.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnSave.Click += new System.EventHandler(this.btnSave_Click);
             // 
-            // toolStripButton2
+            // btnSaveFileAs
             // 
-            this.toolStripButton2.Image = global::PawnoEditor.Properties.Resources.saveas;
-            this.toolStripButton2.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton2.Name = "toolStripButton2";
-            this.toolStripButton2.Size = new System.Drawing.Size(67, 36);
-            this.toolStripButton2.Text = "Save file as";
-            this.toolStripButton2.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.toolStripButton2.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnSaveFileAs.Image = global::PawnoEditor.Properties.Resources.saveas;
+            this.btnSaveFileAs.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnSaveFileAs.Name = "btnSaveFileAs";
+            this.btnSaveFileAs.Size = new System.Drawing.Size(67, 36);
+            this.btnSaveFileAs.Text = "Save file as";
+            this.btnSaveFileAs.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnSaveFileAs.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnSaveFileAs.Click += new System.EventHandler(this.btnSaveFileAs_Click);
             // 
             // toolStripButton3
             // 
             this.toolStripButton3.Image = global::PawnoEditor.Properties.Resources.saveAll;
             this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(49, 36);
+            this.toolStripButton3.Size = new System.Drawing.Size(49, 33);
             this.toolStripButton3.Text = "Save all";
             this.toolStripButton3.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
             this.toolStripButton3.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
@@ -350,6 +353,7 @@
             this.mdiManager.DropDownButtonToolTip = "";
             this.mdiManager.ImageSize = new System.Drawing.Size(16, 16);
             this.mdiManager.NeedUpdateHostedForm = false;
+            this.mdiManager.ShowCloseButton = true;
             this.mdiManager.TabStyle = typeof(Syncfusion.Windows.Forms.Tools.TabRendererOffice2016DarkGray);
             this.mdiManager.ThemeName = "TabRendererOffice2016DarkGray";
             this.mdiManager.TabControlAdded += new Syncfusion.Windows.Forms.Tools.TabbedMDITabControlEventHandler(this.mdiManager_TabControlAdded);
@@ -358,6 +362,10 @@
             // openFileDialog
             // 
             this.openFileDialog.Filter = "Pwn files (*.pwn)|*.pwn|Include files (*.inc)|*.inc|Text files (*.txt)|*.txt";
+            // 
+            // saveFileDialog
+            // 
+            this.saveFileDialog.Filter = "Pwn files (*.pwn)|*.pwn|Include files (*.inc)|*.inc|Text files (*.txt)|*.txt";
             // 
             // fmMain
             // 
@@ -397,8 +405,8 @@
         private System.Windows.Forms.ToolStripButton btnNewFile;
         private System.Windows.Forms.ToolStripButton btnOpenFile;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
-        private System.Windows.Forms.ToolStripButton toolStripButton1;
-        private System.Windows.Forms.ToolStripButton toolStripButton2;
+        private System.Windows.Forms.ToolStripButton btnSave;
+        private System.Windows.Forms.ToolStripButton btnSaveFileAs;
         private System.Windows.Forms.ToolStripButton toolStripButton3;
         private Syncfusion.Windows.Forms.Tools.ToolStripEx toolStripEx2;
         private System.Windows.Forms.ToolStripButton toolStripButton4;
@@ -410,5 +418,6 @@
         private Syncfusion.Windows.Forms.Tools.ToolStripTabItem toolStripTabItem4;
         private System.Windows.Forms.ToolStripButton toolStripButton6;
         private System.Windows.Forms.ToolStripButton toolStripButton7;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog;
     }
 }

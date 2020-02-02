@@ -23,6 +23,22 @@ namespace PawnoEditor.Components
         /// The opened file.
         /// </value>
         public string OpenedFile { get; set; }
+
+        /// <summary>
+        /// Gets or sets a value indicating whether this instance is template.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance is template; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsTemplate { get; private set; }
+
+        /// <summary>
+        /// Gets a value indicating whether this instance is modified.
+        /// </summary>
+        /// <value>
+        ///   <c>true</c> if this instance is modified; otherwise, <c>false</c>.
+        /// </value>
+        public bool IsModified { get; private set; }
         #endregion
 
         #region Constructor and initialization
@@ -185,6 +201,8 @@ namespace PawnoEditor.Components
         /// <param name="applicationPath">The application path.</param>
         public void OpenTemplate(string applicationPath)
         {
+            IsTemplate = true;
+
             var filePath = applicationPath + Base.Helpers.Paths.Instance.GetTemplatePath("new");
 
             OpenFile(filePath);
@@ -196,9 +214,37 @@ namespace PawnoEditor.Components
         /// <param name="path">The path.</param>
         public void OpenFile(string path)
         {
-            OpenedFile = path;
+            try
+            {
+                Text = File.ReadAllText(path, Encoding.Default);
+            }
+            catch { return; }
 
-            Text = File.ReadAllText(path, Encoding.Default);
+            OpenedFile = path;
+        }
+
+        /// <summary>
+        /// Saves the file.
+        /// </summary>
+        /// <param name="path">The path.</param>
+        /// <returns></returns>
+        public bool SaveFile(string path = null)
+        {
+            if (!IsTemplate || path != null)
+            {
+                OpenedFile = path;
+                IsTemplate = false;
+
+                try
+                {
+                    File.WriteAllText(path, Text);
+
+                    return true;
+                }
+                catch { }
+            }
+
+            return false;
         }
         #endregion
     }
