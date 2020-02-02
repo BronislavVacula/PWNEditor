@@ -41,6 +41,7 @@
             this.skinImage.Location = new System.Drawing.Point(0, 0);
             this.skinImage.Name = "skinImage";
             this.skinImage.Size = new System.Drawing.Size(335, 112);
+            this.skinImage.SizeMode = System.Windows.Forms.PictureBoxSizeMode.CenterImage;
             this.skinImage.TabIndex = 0;
             this.skinImage.TabStop = false;
             // 
@@ -56,6 +57,7 @@
             new Syncfusion.Windows.Forms.Tools.StyleNamePair("Standard", treeNodeAdvStyleInfo1)});
             this.skins.BeforeTouchSize = new System.Drawing.Size(335, 249);
             this.skins.Dock = System.Windows.Forms.DockStyle.Fill;
+            this.skins.FullRowSelect = true;
             // 
             // 
             // 
@@ -73,6 +75,8 @@
             this.skins.Size = new System.Drawing.Size(335, 249);
             this.skins.TabIndex = 1;
             this.skins.Text = "treeViewAdv1";
+            this.skins.ThemeStyle.TreeNodeAdvStyle.CheckBoxTickThickness = 0;
+            this.skins.ThemeStyle.TreeNodeAdvStyle.EnsureDefaultOptionedChild = true;
             // 
             // 
             // 
@@ -82,6 +86,7 @@
             this.skins.ToolTipControl.Size = new System.Drawing.Size(392, 112);
             this.skins.ToolTipControl.TabIndex = 0;
             this.skins.ToolTipControl.Visible = true;
+            this.skins.AfterSelect += new System.EventHandler(this.skins_AfterSelect);
             // 
             // ucSkinList
             // 

@@ -65,6 +65,24 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Controls\Panels\ucCarList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Panels\ucCarList.Designer.cs">
+      <DependentUpon>ucCarList.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Panels\ucColorPicker.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Panels\ucColorPicker.Designer.cs">
+      <DependentUpon>ucColorPicker.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Controls\Panels\ucPickupList.cs">
+      <SubType>UserControl</SubType>
+    </Compile>
+    <Compile Include="Controls\Panels\ucPickupList.Designer.cs">
+      <DependentUpon>ucPickupList.cs</DependentUpon>
+    </Compile>
     <Compile Include="Controls\Panels\ucWorkspaceBrowser.cs">
       <SubType>UserControl</SubType>
     </Compile>

@@ -68,13 +68,21 @@ namespace PawnoEditor.Forms
         {
             //Create panel
             var solutionPanel = CreatePanel<Controls.Panels.ucWorkspaceBrowser>("Solution files");
-            var includesPanel = CreatePanel<Controls.Panels.ucIncludeList>("Includes");
             var skinsPanel = CreatePanel<Controls.Panels.ucSkinList>("Skins");
+            var carsPanel = CreatePanel<Controls.Panels.ucCarList>("Cars");
+            var pickupsPanel = CreatePanel<Controls.Panels.ucPickupList>("Pickups");
+
+            var includesPanel = CreatePanel<Controls.Panels.ucIncludeList>("Includes");
+            var colorPickerPanel = CreatePanel<Controls.Panels.ucColorPicker>("Color picker");
 
             //Dock settings
-            dockingManager.DockControl(solutionPanel, this, DockingStyle.Left, 250);
-            dockingManager.DockControl(includesPanel, this, DockingStyle.Right, 250, true);
-            dockingManager.DockControl(skinsPanel, includesPanel, DockingStyle.Bottom, 250, true);
+            dockingManager.DockControl(solutionPanel, this, DockingStyle.Left, 250); 
+            dockingManager.DockControl(carsPanel, solutionPanel, DockingStyle.Bottom, 250, true);
+            dockingManager.DockControl(pickupsPanel, carsPanel, DockingStyle.Tabbed, 250, true);
+            dockingManager.DockControl(skinsPanel, carsPanel, DockingStyle.Tabbed, 250, true);
+
+            dockingManager.DockControl(includesPanel, this, DockingStyle.Right, 250);
+            dockingManager.DockControl(colorPickerPanel, includesPanel, DockingStyle.Bottom, 250);
 
             //Events
             includesPanel.InsertIncludeRequest += IncludesPanel_InsertIncludeRequest;
