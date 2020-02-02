@@ -9,7 +9,7 @@
         /// <value>
         /// The pawncc.
         /// </value>
-        public string PawnccFilePath { get; set; } = "pawncc.exe";
+        public string PawnccFilePath { get; set; } = "\\pawncc.exe";
 
         /// <summary>
         /// Gets or sets the include directory.
@@ -17,7 +17,7 @@
         /// <value>
         /// The include directory.
         /// </value>
-        public string IncludeDirectory { get; set; } = "\\include";
+        public string IncludeDirectory { get; set; } = "\\Includes";
 
         /// <summary>
         /// Gets or sets the working directory.

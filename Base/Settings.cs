@@ -35,6 +35,14 @@ namespace Base
 
         #region Properties and fields
         /// <summary>
+        /// Gets or sets the compiler.
+        /// </summary>
+        /// <value>
+        /// The compiler.
+        /// </value>
+        public Entities.SettingsEntities.CompilerSettings Compiler { get; set; } = new Entities.SettingsEntities.CompilerSettings();
+
+        /// <summary>
         /// Gets or sets the script insert mode.
         /// </summary>
         /// <value>

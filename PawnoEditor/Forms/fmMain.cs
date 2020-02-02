@@ -1,7 +1,10 @@
-﻿using Syncfusion.Windows.Forms;
+﻿using Base.Constants;
+using Syncfusion.Windows.Forms;
 using Syncfusion.Windows.Forms.Tools;
 using System;
+using System.Collections.Generic;
 using System.IO;
+using System.Linq;
 using System.Windows.Forms;
 
 namespace PawnoEditor.Forms
@@ -13,6 +16,11 @@ namespace PawnoEditor.Forms
         /// The tab control
         /// </summary>
         private TabControlAdv tabControl;
+
+        /// <summary>
+        /// The compiler control
+        /// </summary>
+        private Controls.Panels.ucCompiler compilerControl;
         #endregion
 
         #region Constructor and initialization
@@ -235,6 +243,92 @@ namespace PawnoEditor.Forms
                 tabPage.Text = Path.GetFileName(editor.OpenedFile);
             }
         }
+
+        /// <summary>
+        /// Saves the editor.
+        /// </summary>
+        /// <param name="editor">The editor.</param>
+        private void SaveEditor(Components.ScintillaEx editor)
+        {
+            if (editor != null)
+            {
+                if (editor.IsTemplate && saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    editor.SaveFile(saveFileDialog.FileName);
+
+                    UpdateTabPageText(editor);
+                }
+                else
+                {
+                    editor.SaveFile();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Compiles the file.
+        /// </summary>
+        /// <param name="editor">The editor.</param>
+        /// <returns></returns>
+        private bool CompileFile(Components.ScintillaEx editor)
+        {
+            if (!editor.IsTemplate && !editor.IsModified)
+            {
+                var compilerDirectory = Path.GetDirectoryName(Application.ExecutablePath);
+
+                List<Base.Entities.CompilerMessageItem> result 
+                    = Base.Facades.SampServer.Instance.BuildGamemode(compilerDirectory, editor.OpenedFile);
+
+                if(result != null)
+                {
+                    ShowCompilerErrors(result);
+                }
+            }
+            else
+            {
+                MessageBoxAdv.Show("Soubor není uložený, nelze jej zkompilovat.");
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Runs the game mode.
+        /// </summary>
+        /// <param name="editor">The editor.</param>
+        /// <returns></returns>
+        private bool RunGameMode(Components.ScintillaEx editor)
+        {
+            if(CompileFile(editor))
+            {
+                var compiledFilePath = Path.GetDirectoryName(editor.OpenedFile) + "\\" + Path.GetFileNameWithoutExtension(editor.OpenedFile) + ".amx";
+                var serversPath = Path.GetDirectoryName(Application.ExecutablePath) + "\\" + EditorPaths.servers;
+
+                var servers = Base.Facades.SampServer.Instance.GetServers(serversPath);
+                if (servers.Count() > 0)
+                {
+                    Base.Facades.SampServer.Instance.Run(compiledFilePath, serversPath, servers.OrderBy(s => s).FirstOrDefault());
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
+        /// Shows the compiler errors.
+        /// </summary>
+        /// <param name="errors">The errors.</param>
+        private void ShowCompilerErrors(List<Base.Entities.CompilerMessageItem> errors)
+        {
+            if (compilerControl == null)
+            {
+                compilerControl = CreatePanel<Controls.Panels.ucCompiler>("Compiler");
+
+                dockingManager.DockControl(compilerControl, this, DockingStyle.Bottom, 200);
+            }
+
+            compilerControl.ShowErrors(errors);
+        }
         #endregion
 
         #region Event handlers
@@ -315,19 +409,8 @@ namespace PawnoEditor.Forms
             if (tabControl.TabCount > 0)
             {
                 var selectedEditor = GetSelectedEditor();
-                if (selectedEditor != null)
-                {
-                    if (selectedEditor.IsTemplate && saveFileDialog.ShowDialog() == DialogResult.OK)
-                    {
-                        selectedEditor.SaveFile(saveFileDialog.FileName);
 
-                        UpdateTabPageText(selectedEditor);
-                    }
-                    else
-                    {
-                        selectedEditor.SaveFile();
-                    }
-                }
+                SaveEditor(selectedEditor);
             }
         }
 
@@ -348,6 +431,72 @@ namespace PawnoEditor.Forms
 
                     UpdateTabPageText(selectedEditor);
                 }
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of the btnSaveAll control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void btnSaveAll_Click(object sender, EventArgs e)
+        {
+            foreach (var form in mdiManager.MdiChildren)
+            {
+                foreach (Control control in form.Controls)
+                {
+                    if (control is Components.ScintillaEx editor)
+                    {
+                        SaveEditor(editor);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of the btnBack control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void btnBack_Click(object sender, EventArgs e)
+        {
+            var selectedEditor = GetSelectedEditor();
+
+            if(selectedEditor != null)
+            {
+                if(selectedEditor.CanUndo)
+                    selectedEditor.Undo();
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of the btnForward control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void btnForward_Click(object sender, EventArgs e)
+        {
+            var selectedEditor = GetSelectedEditor();
+
+            if (selectedEditor != null)
+            {
+                if (selectedEditor.CanRedo)
+                    selectedEditor.Redo();
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of the btnCompile control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void btnCompile_Click(object sender, EventArgs e)
+        {
+            var selectedEditor = GetSelectedEditor();
+
+            if(selectedEditor != null)
+            {
+                CompileFile(selectedEditor);
             }
         }
         #endregion

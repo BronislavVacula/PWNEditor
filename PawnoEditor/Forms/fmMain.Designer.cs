@@ -37,12 +37,12 @@
             this.btnOpenFile = new System.Windows.Forms.ToolStripButton();
             this.btnSave = new System.Windows.Forms.ToolStripButton();
             this.btnSaveFileAs = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton3 = new System.Windows.Forms.ToolStripButton();
+            this.btnSaveAll = new System.Windows.Forms.ToolStripButton();
             this.toolStripEx2 = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
-            this.toolStripButton4 = new System.Windows.Forms.ToolStripButton();
-            this.toolStripButton5 = new System.Windows.Forms.ToolStripButton();
+            this.btnBack = new System.Windows.Forms.ToolStripButton();
+            this.btnForward = new System.Windows.Forms.ToolStripButton();
             this.toolStripEx3 = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
-            this.toolStripButton6 = new System.Windows.Forms.ToolStripButton();
+            this.btnCompile = new System.Windows.Forms.ToolStripButton();
             this.toolStripButton7 = new System.Windows.Forms.ToolStripButton();
             this.toolStripTabItem2 = new Syncfusion.Windows.Forms.Tools.ToolStripTabItem();
             this.toolStripTabItem3 = new Syncfusion.Windows.Forms.Tools.ToolStripTabItem();
@@ -127,7 +127,7 @@
             this.btnOpenFile,
             this.btnSave,
             this.btnSaveFileAs,
-            this.toolStripButton3});
+            this.btnSaveAll});
             this.toolStripEx1.Location = new System.Drawing.Point(0, 1);
             this.toolStripEx1.Name = "toolStripEx1";
             this.toolStripEx1.Office12Mode = false;
@@ -180,15 +180,16 @@
             this.btnSaveFileAs.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             this.btnSaveFileAs.Click += new System.EventHandler(this.btnSaveFileAs_Click);
             // 
-            // toolStripButton3
+            // btnSaveAll
             // 
-            this.toolStripButton3.Image = global::PawnoEditor.Properties.Resources.saveAll;
-            this.toolStripButton3.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton3.Name = "toolStripButton3";
-            this.toolStripButton3.Size = new System.Drawing.Size(49, 33);
-            this.toolStripButton3.Text = "Save all";
-            this.toolStripButton3.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
-            this.toolStripButton3.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnSaveAll.Image = global::PawnoEditor.Properties.Resources.saveAll;
+            this.btnSaveAll.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnSaveAll.Name = "btnSaveAll";
+            this.btnSaveAll.Size = new System.Drawing.Size(49, 36);
+            this.btnSaveAll.Text = "Save all";
+            this.btnSaveAll.TextAlign = System.Drawing.ContentAlignment.BottomCenter;
+            this.btnSaveAll.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnSaveAll.Click += new System.EventHandler(this.btnSaveAll_Click);
             // 
             // toolStripEx2
             // 
@@ -199,8 +200,8 @@
             this.toolStripEx2.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStripEx2.Image = null;
             this.toolStripEx2.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton4,
-            this.toolStripButton5});
+            this.btnBack,
+            this.btnForward});
             this.toolStripEx2.Location = new System.Drawing.Point(297, 1);
             this.toolStripEx2.Name = "toolStripEx2";
             this.toolStripEx2.Office12Mode = false;
@@ -209,23 +210,25 @@
             this.toolStripEx2.TabIndex = 1;
             this.toolStripEx2.Text = "Editor actions";
             // 
-            // toolStripButton4
+            // btnBack
             // 
-            this.toolStripButton4.Image = global::PawnoEditor.Properties.Resources.undo;
-            this.toolStripButton4.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton4.Name = "toolStripButton4";
-            this.toolStripButton4.Size = new System.Drawing.Size(35, 36);
-            this.toolStripButton4.Text = "Back";
-            this.toolStripButton4.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnBack.Image = global::PawnoEditor.Properties.Resources.undo;
+            this.btnBack.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnBack.Name = "btnBack";
+            this.btnBack.Size = new System.Drawing.Size(35, 36);
+            this.btnBack.Text = "Back";
+            this.btnBack.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnBack.Click += new System.EventHandler(this.btnBack_Click);
             // 
-            // toolStripButton5
+            // btnForward
             // 
-            this.toolStripButton5.Image = global::PawnoEditor.Properties.Resources.multimedia_option;
-            this.toolStripButton5.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton5.Name = "toolStripButton5";
-            this.toolStripButton5.Size = new System.Drawing.Size(50, 36);
-            this.toolStripButton5.Text = "Foward";
-            this.toolStripButton5.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnForward.Image = global::PawnoEditor.Properties.Resources.multimedia_option;
+            this.btnForward.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnForward.Name = "btnForward";
+            this.btnForward.Size = new System.Drawing.Size(50, 36);
+            this.btnForward.Text = "Foward";
+            this.btnForward.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnForward.Click += new System.EventHandler(this.btnForward_Click);
             // 
             // toolStripEx3
             // 
@@ -236,7 +239,7 @@
             this.toolStripEx3.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStripEx3.Image = null;
             this.toolStripEx3.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.toolStripButton6,
+            this.btnCompile,
             this.toolStripButton7});
             this.toolStripEx3.Location = new System.Drawing.Point(399, 1);
             this.toolStripEx3.Name = "toolStripEx3";
@@ -246,21 +249,22 @@
             this.toolStripEx3.TabIndex = 2;
             this.toolStripEx3.Text = "Compiler actions";
             // 
-            // toolStripButton6
+            // btnCompile
             // 
-            this.toolStripButton6.Image = global::PawnoEditor.Properties.Resources.process;
-            this.toolStripButton6.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.toolStripButton6.Name = "toolStripButton6";
-            this.toolStripButton6.Size = new System.Drawing.Size(53, 36);
-            this.toolStripButton6.Text = "Compile";
-            this.toolStripButton6.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnCompile.Image = global::PawnoEditor.Properties.Resources.process;
+            this.btnCompile.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnCompile.Name = "btnCompile";
+            this.btnCompile.Size = new System.Drawing.Size(53, 36);
+            this.btnCompile.Text = "Compile";
+            this.btnCompile.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnCompile.Click += new System.EventHandler(this.btnCompile_Click);
             // 
             // toolStripButton7
             // 
             this.toolStripButton7.Image = global::PawnoEditor.Properties.Resources.power;
             this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton7.Name = "toolStripButton7";
-            this.toolStripButton7.Size = new System.Drawing.Size(97, 36);
+            this.toolStripButton7.Size = new System.Drawing.Size(97, 33);
             this.toolStripButton7.Text = "Compile and run";
             this.toolStripButton7.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -407,16 +411,16 @@
         private System.Windows.Forms.OpenFileDialog openFileDialog;
         private System.Windows.Forms.ToolStripButton btnSave;
         private System.Windows.Forms.ToolStripButton btnSaveFileAs;
-        private System.Windows.Forms.ToolStripButton toolStripButton3;
+        private System.Windows.Forms.ToolStripButton btnSaveAll;
         private Syncfusion.Windows.Forms.Tools.ToolStripEx toolStripEx2;
-        private System.Windows.Forms.ToolStripButton toolStripButton4;
-        private System.Windows.Forms.ToolStripButton toolStripButton5;
+        private System.Windows.Forms.ToolStripButton btnBack;
+        private System.Windows.Forms.ToolStripButton btnForward;
         private Syncfusion.Windows.Forms.Tools.ToolStripEx toolStripEx3;
         private Syncfusion.Windows.Forms.Tools.ToolStripTabItem toolStripTabItem2;
         private Syncfusion.Windows.Forms.Tools.ToolStripTabItem toolStripTabItem5;
         private Syncfusion.Windows.Forms.Tools.ToolStripTabItem toolStripTabItem3;
         private Syncfusion.Windows.Forms.Tools.ToolStripTabItem toolStripTabItem4;
-        private System.Windows.Forms.ToolStripButton toolStripButton6;
+        private System.Windows.Forms.ToolStripButton btnCompile;
         private System.Windows.Forms.ToolStripButton toolStripButton7;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
     }

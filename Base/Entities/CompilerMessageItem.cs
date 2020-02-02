@@ -41,31 +41,16 @@ namespace Base.Entities
             if (string.IsNullOrEmpty(lineText)) 
                 return;
 
-            string[] parameters = SplitCompilerLineIntoParameters(lineText);
+            var secondColonPosition = lineText.IndexOf(" :");
 
-            if (parameters != null && parameters.Length > 2)
+            if(secondColonPosition > -1)
             {
-                if (parameters[0].IndexOf("(") > -1)
-                {
-                    LineNumber = parameters[0].Split(Convert.ToChar("("), Convert.ToChar(")"))[1];
-                    Text = $"{parameters[1]} - {parameters[2]}";
+                LineNumber = lineText.Split('(', ')')[1];
+                Text = lineText.Substring(secondColonPosition + 2);
 
-                    Success = true;
-                }
+                if (Text.StartsWith(" "))
+                    Text = Text.Substring(1);
             }
-        }
-
-        /// <summary>
-        /// Splits the compiler line into parameters.
-        /// </summary>
-        /// <returns></returns>
-        private string[] SplitCompilerLineIntoParameters(string line)
-        {
-            try
-            {
-                return Regex.Split(line, ": ");
-            }
-            catch { return null; }
         }
         #endregion
     }
