@@ -430,6 +430,25 @@ namespace PawnoEditor.Forms
 
             return true;
         }
+
+        /// <summary>
+        /// Closes all opened tabs.
+        /// </summary>
+        private void CloseAllOpenedTabs()
+        {
+            foreach (var form in mdiManager.MdiChildren)
+            {
+                foreach (Control control in form.Controls)
+                {
+                    if (control is Components.ScintillaEx editor)
+                    {
+                        editor.Dispose();
+                    }
+                }
+
+                form.Close();
+            }
+        }
         #endregion
 
         #region Event handlers
@@ -683,6 +702,16 @@ namespace PawnoEditor.Forms
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnOpenWorkspace_Click(object sender, EventArgs e)
         {
+            if(workspaceBrowser.workspace != null && workspaceBrowser.workspace.Items.Count > 0)
+            {
+                if(MessageBoxAdv.Show("All unsaved data will be lost. Continue?", "Question", MessageBoxButtons.YesNo) == DialogResult.No)
+                {
+                    return;
+                }
+            }
+
+            CloseAllOpenedTabs();
+
             openFileDialog.Filter = "Workspace (*.pws)|*.pws";
 
             if (openFileDialog.ShowDialog() == DialogResult.OK)
