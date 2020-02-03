@@ -52,13 +52,22 @@
             this.mdiManager = new Syncfusion.Windows.Forms.Tools.TabbedMDIManager(this.components);
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.toolStripEx4 = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
+            this.btnCreateWorkspace = new System.Windows.Forms.ToolStripButton();
+            this.btnSaveWorkspace = new System.Windows.Forms.ToolStripButton();
+            this.btnDeleteWorkspace = new System.Windows.Forms.ToolStripButton();
+            this.toolStripEx5 = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
+            this.toolStripEx6 = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControlAdv1)).BeginInit();
             this.ribbonControlAdv1.SuspendLayout();
             this.toolStripTabItem1.Panel.SuspendLayout();
             this.toolStripEx1.SuspendLayout();
             this.toolStripEx2.SuspendLayout();
             this.toolStripEx3.SuspendLayout();
+            this.toolStripTabItem2.Panel.SuspendLayout();
+            this.toolStripTabItem4.Panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dockingManager)).BeginInit();
+            this.toolStripEx4.SuspendLayout();
             this.SuspendLayout();
             // 
             // ribbonControlAdv1
@@ -105,6 +114,7 @@
             this.toolStripTabItem1.Panel.Controls.Add(this.toolStripEx1);
             this.toolStripTabItem1.Panel.Controls.Add(this.toolStripEx2);
             this.toolStripTabItem1.Panel.Controls.Add(this.toolStripEx3);
+            this.toolStripTabItem1.Panel.Controls.Add(this.toolStripEx4);
             this.toolStripTabItem1.Panel.Name = "ribbonPanel1";
             this.toolStripTabItem1.Panel.ScrollPosition = 0;
             this.toolStripTabItem1.Panel.TabIndex = 2;
@@ -246,7 +256,7 @@
             this.toolStripEx3.Office12Mode = false;
             this.toolStripEx3.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
             this.toolStripEx3.Size = new System.Drawing.Size(162, 53);
-            this.toolStripEx3.TabIndex = 2;
+            this.toolStripEx3.TabIndex = 3;
             this.toolStripEx3.Text = "Compiler actions";
             // 
             // btnCompile
@@ -264,7 +274,7 @@
             this.toolStripButton7.Image = global::PawnoEditor.Properties.Resources.power;
             this.toolStripButton7.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.toolStripButton7.Name = "toolStripButton7";
-            this.toolStripButton7.Size = new System.Drawing.Size(97, 33);
+            this.toolStripButton7.Size = new System.Drawing.Size(97, 36);
             this.toolStripButton7.Text = "Compile and run";
             this.toolStripButton7.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
             // 
@@ -274,6 +284,7 @@
             // 
             // ribbonControlAdv1.ribbonPanel2
             // 
+            this.toolStripTabItem2.Panel.Controls.Add(this.toolStripEx5);
             this.toolStripTabItem2.Panel.Name = "ribbonPanel2";
             this.toolStripTabItem2.Panel.ScrollPosition = 0;
             this.toolStripTabItem2.Panel.TabIndex = 3;
@@ -304,6 +315,7 @@
             // 
             // ribbonControlAdv1.ribbonPanel4
             // 
+            this.toolStripTabItem4.Panel.Controls.Add(this.toolStripEx6);
             this.toolStripTabItem4.Panel.Name = "ribbonPanel4";
             this.toolStripTabItem4.Panel.ScrollPosition = 0;
             this.toolStripTabItem4.Panel.TabIndex = 5;
@@ -371,6 +383,84 @@
             // 
             this.saveFileDialog.Filter = "Pwn files (*.pwn)|*.pwn|Include files (*.inc)|*.inc|Text files (*.txt)|*.txt";
             // 
+            // toolStripEx4
+            // 
+            this.toolStripEx4.AutoSize = false;
+            this.toolStripEx4.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStripEx4.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.toolStripEx4.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.toolStripEx4.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStripEx4.Image = null;
+            this.toolStripEx4.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnCreateWorkspace,
+            this.btnSaveWorkspace,
+            this.btnDeleteWorkspace});
+            this.toolStripEx4.Location = new System.Drawing.Point(563, 1);
+            this.toolStripEx4.Name = "toolStripEx4";
+            this.toolStripEx4.Office12Mode = false;
+            this.toolStripEx4.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.toolStripEx4.Size = new System.Drawing.Size(135, 53);
+            this.toolStripEx4.TabIndex = 2;
+            this.toolStripEx4.Text = "Workspaces";
+            // 
+            // btnCreateWorkspace
+            // 
+            this.btnCreateWorkspace.Image = ((System.Drawing.Image)(resources.GetObject("btnCreateWorkspace.Image")));
+            this.btnCreateWorkspace.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnCreateWorkspace.Name = "btnCreateWorkspace";
+            this.btnCreateWorkspace.Size = new System.Drawing.Size(44, 36);
+            this.btnCreateWorkspace.Text = "Create";
+            this.btnCreateWorkspace.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnCreateWorkspace.Click += new System.EventHandler(this.btnCreateWorkspace_Click);
+            // 
+            // btnSaveWorkspace
+            // 
+            this.btnSaveWorkspace.Image = ((System.Drawing.Image)(resources.GetObject("btnSaveWorkspace.Image")));
+            this.btnSaveWorkspace.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnSaveWorkspace.Name = "btnSaveWorkspace";
+            this.btnSaveWorkspace.Size = new System.Drawing.Size(34, 36);
+            this.btnSaveWorkspace.Text = "Save";
+            this.btnSaveWorkspace.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            // 
+            // btnDeleteWorkspace
+            // 
+            this.btnDeleteWorkspace.Image = ((System.Drawing.Image)(resources.GetObject("btnDeleteWorkspace.Image")));
+            this.btnDeleteWorkspace.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnDeleteWorkspace.Name = "btnDeleteWorkspace";
+            this.btnDeleteWorkspace.Size = new System.Drawing.Size(44, 36);
+            this.btnDeleteWorkspace.Text = "Delete";
+            this.btnDeleteWorkspace.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            // 
+            // toolStripEx5
+            // 
+            this.toolStripEx5.AutoSize = false;
+            this.toolStripEx5.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStripEx5.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.toolStripEx5.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.toolStripEx5.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStripEx5.Image = null;
+            this.toolStripEx5.Location = new System.Drawing.Point(0, 1);
+            this.toolStripEx5.Name = "toolStripEx5";
+            this.toolStripEx5.Office12Mode = false;
+            this.toolStripEx5.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.toolStripEx5.Size = new System.Drawing.Size(100, 53);
+            this.toolStripEx5.TabIndex = 0;
+            // 
+            // toolStripEx6
+            // 
+            this.toolStripEx6.AutoSize = false;
+            this.toolStripEx6.Dock = System.Windows.Forms.DockStyle.None;
+            this.toolStripEx6.Font = new System.Drawing.Font("Segoe UI", 8.25F);
+            this.toolStripEx6.ForeColor = System.Drawing.Color.MidnightBlue;
+            this.toolStripEx6.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
+            this.toolStripEx6.Image = null;
+            this.toolStripEx6.Location = new System.Drawing.Point(0, 1);
+            this.toolStripEx6.Name = "toolStripEx6";
+            this.toolStripEx6.Office12Mode = false;
+            this.toolStripEx6.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
+            this.toolStripEx6.Size = new System.Drawing.Size(100, 53);
+            this.toolStripEx6.TabIndex = 0;
+            // 
             // fmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -394,7 +484,11 @@
             this.toolStripEx2.PerformLayout();
             this.toolStripEx3.ResumeLayout(false);
             this.toolStripEx3.PerformLayout();
+            this.toolStripTabItem2.Panel.ResumeLayout(false);
+            this.toolStripTabItem4.Panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dockingManager)).EndInit();
+            this.toolStripEx4.ResumeLayout(false);
+            this.toolStripEx4.PerformLayout();
             this.ResumeLayout(false);
 
         }
@@ -423,5 +517,11 @@
         private System.Windows.Forms.ToolStripButton btnCompile;
         private System.Windows.Forms.ToolStripButton toolStripButton7;
         private System.Windows.Forms.SaveFileDialog saveFileDialog;
+        private Syncfusion.Windows.Forms.Tools.ToolStripEx toolStripEx4;
+        private System.Windows.Forms.ToolStripButton btnCreateWorkspace;
+        private System.Windows.Forms.ToolStripButton btnSaveWorkspace;
+        private System.Windows.Forms.ToolStripButton btnDeleteWorkspace;
+        private Syncfusion.Windows.Forms.Tools.ToolStripEx toolStripEx6;
+        private Syncfusion.Windows.Forms.Tools.ToolStripEx toolStripEx5;
     }
 }

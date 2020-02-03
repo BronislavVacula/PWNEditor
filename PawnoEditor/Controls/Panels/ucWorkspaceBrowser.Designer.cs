@@ -62,6 +62,8 @@
             this.files.Size = new System.Drawing.Size(338, 273);
             this.files.TabIndex = 0;
             this.files.Text = "treeViewAdv1";
+            this.files.ThemeStyle.TreeNodeAdvStyle.CheckBoxTickThickness = 0;
+            this.files.ThemeStyle.TreeNodeAdvStyle.EnsureDefaultOptionedChild = true;
             // 
             // 
             // 
@@ -71,6 +73,7 @@
             this.files.ToolTipControl.Size = new System.Drawing.Size(392, 112);
             this.files.ToolTipControl.TabIndex = 0;
             this.files.ToolTipControl.Visible = true;
+            this.files.DoubleClick += new System.EventHandler(this.files_DoubleClick);
             // 
             // ucWorkspaceBrowser
             // 

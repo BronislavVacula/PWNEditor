@@ -58,6 +58,7 @@
     <Compile Include="Enums\Tools\MapEnums.cs" />
     <Compile Include="EventHandlers\CompilationCompletedEventArgs.cs" />
     <Compile Include="EventHandlers\InsertIncludeRequestEventArgs.cs" />
+    <Compile Include="EventHandlers\OpenFileRequestEventArgs.cs" />
     <Compile Include="Facades\SampServer.cs" />
     <Compile Include="Helpers\ColorHelper.cs" />
     <Compile Include="Helpers\CompilerTranslation.cs" />

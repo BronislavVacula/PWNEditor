@@ -116,6 +116,7 @@ namespace PawnoEditor.Forms
 
             //Events
             includesPanel.InsertIncludeRequest += IncludesPanel_InsertIncludeRequest;
+            workspaceBrowser.OpenFileRequest += WorkspaceBrowser_OpenFileRequest;
         }
         #endregion
 
@@ -168,27 +169,66 @@ namespace PawnoEditor.Forms
         }
 
         /// <summary>
+        /// Determines whether [is file already opened] [the specified file path].
+        /// </summary>
+        /// <param name="filePath">The file path.</param>
+        /// <returns>
+        ///   <c>true</c> if [is file already opened] [the specified file path]; otherwise, <c>false</c>.
+        /// </returns>
+        private bool IsFileAlreadyOpened(string filePath)
+        {
+            foreach (var form in mdiManager.MdiChildren)
+            {
+                foreach (Control control in form.Controls)
+                {
+                    if (control is Components.ScintillaEx editor)
+                    {
+                        if (editor.OpenedFile == filePath)
+                            return true;
+                    }
+                }
+            }
+
+            return false;
+        }
+
+        /// <summary>
         /// Creates the file.
         /// </summary>
         private void CreateFile(string filePath = null)
         {
-            Components.ScintillaEx editor = new Components.ScintillaEx()
-            {
-                Parent = this,
-                Dock = DockStyle.Fill,
-            };
-
             if (filePath == null)
             {
+                Components.ScintillaEx editor = new Components.ScintillaEx()
+                {
+                    Parent = this,
+                    Dock = DockStyle.Fill,
+                };
+
                 editor.OpenTemplate(Path.GetDirectoryName(Application.ExecutablePath));
 
                 CreateFile(editor, "New.pwn");
             }
             else
             {
-                editor.OpenFile(filePath);
+                if (!IsFileAlreadyOpened(filePath))
+                {
+                    Components.ScintillaEx editor = new Components.ScintillaEx()
+                    {
+                        Parent = this,
+                        Dock = DockStyle.Fill,
+                    };
 
-                CreateFile(editor, Path.GetFileName(filePath));
+                    editor.OpenFile(filePath);
+
+                    workspaceBrowser.AddFile(filePath, editor);
+
+                    CreateFile(editor, Path.GetFileName(filePath));
+                }
+                else
+                {
+                    MessageBoxAdv.Show("Selected file is already opened.");
+                }
             }
         }
 
@@ -202,8 +242,6 @@ namespace PawnoEditor.Forms
             dockingManager.SetEnableDocking(editor, true);
             dockingManager.SetDockLabel(editor, fileName);
             dockingManager.SetAsMDIChild(editor, true);
-
-            workspaceBrowser.AddFile(fileName, editor);
 
             CheckClosedTabs(Controls);
         }
@@ -280,6 +318,8 @@ namespace PawnoEditor.Forms
                 {
                     editor.SaveFile(saveFileDialog.FileName);
 
+                    workspaceBrowser.AddFile(saveFileDialog.FileName, editor);
+
                     UpdateTabPageText(editor);
                 }
                 else
@@ -353,6 +393,25 @@ namespace PawnoEditor.Forms
 
             compilerControl.ShowErrors(errors);
         }
+
+        /// <summary>
+        /// Determines whether this instance [can create workspace].
+        /// </summary>
+        /// <returns>
+        ///   <c>true</c> if this instance [can create workspace]; otherwise, <c>false</c>.
+        /// </returns>
+        private bool CanCreateWorkspace()
+        {
+            if (tabControl?.TabCount > 0 || workspaceBrowser.workspace.Items.Count > 0)
+            {
+                if(MessageBoxAdv.Show("All unsaved data will be lost. Continue?", "Question", MessageBoxButtons.YesNo) == DialogResult.No)
+                {
+                    return false;
+                }
+            }
+
+            return true;
+        }
         #endregion
 
         #region Event handlers
@@ -377,6 +436,16 @@ namespace PawnoEditor.Forms
             {
                 CreateFile(openFileDialog.FileName);
             }
+        }
+
+        /// <summary>
+        /// Handles the OpenFileRequest event of the WorkspaceBrowser control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="Base.EventHandlers.OpenFileRequestEventArgs"/> instance containing the event data.</param>
+        private void WorkspaceBrowser_OpenFileRequest(object sender, Base.EventHandlers.OpenFileRequestEventArgs e)
+        {
+            CreateFile(e.Path);
         }
 
         /// <summary>
@@ -521,6 +590,19 @@ namespace PawnoEditor.Forms
             if(selectedEditor != null)
             {
                 CompileFile(selectedEditor);
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of the btnCreateWorkspace control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void btnCreateWorkspace_Click(object sender, EventArgs e)
+        {
+            if (CanCreateWorkspace())
+            {
+                
             }
         }
         #endregion

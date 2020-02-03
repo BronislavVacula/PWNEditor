@@ -1,6 +1,9 @@
 ﻿using Base.Entities;
 using System.IO;
 using System.Windows.Forms;
+using Syncfusion.Windows.Forms.Tools;
+using Base.EventHandlers;
+using System.Linq;
 
 namespace PawnoEditor.Controls.Panels
 {
@@ -10,7 +13,30 @@ namespace PawnoEditor.Controls.Panels
         /// <summary>
         /// The workspace
         /// </summary>
-        private Workspace workspace;
+        public Workspace workspace;
+        #endregion
+
+        #region Events
+        /// <summary>
+        /// Occurs when [open file request].
+        /// </summary>
+        public event OpenFileRequestEventHandler OpenFileRequest = null;
+
+        /// <summary>
+        /// Called when [open file request].
+        /// </summary>
+        /// <param name="path">The path.</param>
+        protected void OnOpenFileRequest(string path)
+        {
+            OpenFileRequest?.Invoke(this, new OpenFileRequestEventArgs(path));
+        }
+
+        /// <summary>
+        /// Delegate for [open file request].
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="OpenFileRequestEventArgs"/> instance containing the event data.</param>
+        public delegate void OpenFileRequestEventHandler(object sender, OpenFileRequestEventArgs e);
         #endregion
 
         #region Constructor and initialization
@@ -37,7 +63,7 @@ namespace PawnoEditor.Controls.Panels
                 Name = name,
             };
 
-            files.Nodes.Add(new Syncfusion.Windows.Forms.Tools.TreeNodeAdv(name));
+            files.Nodes.Add(new TreeNodeAdv(name));
         }
 
         /// <summary>
@@ -48,14 +74,17 @@ namespace PawnoEditor.Controls.Panels
         {
             if (workspace != null)
             {
-                var createdNode
-                    = files.Nodes[0].Nodes.Add(new Syncfusion.Windows.Forms.Tools.TreeNodeAdv(Path.GetFileName(path)));
-
-                workspace.AddFile(editor, files.Nodes[0].Nodes[createdNode]);
-
-                if(files.Nodes[0].Nodes.Count == 1)
+                if (workspace.CanAddFile(path))
                 {
-                    files.ExpandAll();
+                    var createdNode
+                        = files.Nodes[0].Nodes.Add(new TreeNodeAdv(Path.GetFileName(path)));
+
+                    workspace.AddFile(editor, files.Nodes[0].Nodes[createdNode]);
+
+                    if (files.Nodes[0].Nodes.Count == 1)
+                    {
+                        files.ExpandAll();
+                    }
                 }
             }
         }
@@ -70,6 +99,26 @@ namespace PawnoEditor.Controls.Panels
         #endregion
 
         #region Event handlers
+        /// <summary>
+        /// Handles the DoubleClick event of the files control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        private void files_DoubleClick(object sender, System.EventArgs e)
+        {
+            if (files.SelectedNode != null)
+            {
+                if (files.SelectedNode.Parent.Name != "root")
+                {
+                    var workspaceItem = workspace.Items.FirstOrDefault(item => item.Node == files.SelectedNode);
+
+                    if (workspaceItem != null)
+                    {
+                        OnOpenFileRequest(workspaceItem.FilePath);
+                    }
+                }
+            }
+        }
         #endregion
     }
 }

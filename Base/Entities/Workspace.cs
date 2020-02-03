@@ -50,6 +50,18 @@ namespace Base.Entities
         }
 
         /// <summary>
+        /// Determines whether this instance [can add file] the specified file path.
+        /// </summary>
+        /// <param name="filePath">The file path.</param>
+        /// <returns>
+        ///   <c>true</c> if this instance [can add file] the specified file path; otherwise, <c>false</c>.
+        /// </returns>
+        public bool CanAddFile(string filePath)
+        {
+            return Items.FirstOrDefault(item => item.FilePath == filePath) == null;
+        }
+
+        /// <summary>
         /// Removes the file.
         /// </summary>
         /// <param name="editor">The editor.</param>
