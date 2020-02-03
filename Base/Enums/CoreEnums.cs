@@ -11,20 +11,6 @@ namespace Base.Enums
         ScinitillaEditor = 2
     }
 
-    public enum PathsTypes
-    {
-        [Description("\\images\\")]
-        Images = 0,
-        [Description("\\include\\")]
-        Includes = 1,
-        [Description("\\images\\pickups\\")]
-        Pickups = 2,
-        [Description("\\images\\skins\\")]
-        Skins = 3,
-        [Description("\\SAMPServer\\")]
-        SAMPServer = 4
-    }
-
     public enum CompilationStatus
     {
         [Description("Úspěšná")]

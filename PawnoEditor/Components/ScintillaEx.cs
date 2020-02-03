@@ -3,6 +3,7 @@ using System.Text;
 using System.Drawing;
 using ScintillaNET;
 using Base.Interfaces;
+using Base.EventHandlers;
 
 namespace PawnoEditor.Components
 {
@@ -42,6 +43,28 @@ namespace PawnoEditor.Components
         public bool IsModified { get; private set; }
         #endregion
 
+        #region Events
+        /// <summary>
+        /// Occurs when [editor state changed].
+        /// </summary>
+        public event EditorStateChangedEventHandler EditorStateChanged = null;
+
+        /// <summary>
+        /// Called when [editor state changed].
+        /// </summary>
+        protected void OnEditorStateChanged()
+        {
+            EditorStateChanged?.Invoke(this, new EditorStateChangedEventArgs());
+        }
+
+        /// <summary>
+        /// Delegate for [editor state changed]
+        /// </summary>
+        /// <param name="sender">The sender.</param>
+        /// <param name="e">The <see cref="EditorStateChangedEventArgs"/> instance containing the event data.</param>
+        public delegate void EditorStateChangedEventHandler(object sender, EditorStateChangedEventArgs e);
+        #endregion
+
         #region Constructor and initialization
         /// <summary>
         /// Initializes a new instance of the <see cref="ScintillaEx"/> class.
@@ -63,6 +86,8 @@ namespace PawnoEditor.Components
 
             if (AutoComplete != null) 
                 AutoComplete.TargetControlWrapper = new ScintillaWrapper(this);
+
+            TextChanged += ScintillaEx_TextChanged;
         }
 
         /// <summary>
@@ -218,10 +243,12 @@ namespace PawnoEditor.Components
             try
             {
                 Text = File.ReadAllText(path, Encoding.Default);
+
+                IsModified = false; 
             }
             catch { return; }
 
-            OpenedFile = path;
+            OpenedFile = IsTemplate ? Path.GetDirectoryName(path) + "\\New.pwn" : path;
         }
 
         /// <summary>
@@ -233,8 +260,13 @@ namespace PawnoEditor.Components
         {
             if (!IsTemplate || path != null)
             {
-                OpenedFile = path;
+                if(path != null)
+                    OpenedFile = path;
+
                 IsTemplate = false;
+                IsModified = false;
+
+                OnEditorStateChanged();
 
                 try
                 {
@@ -246,6 +278,23 @@ namespace PawnoEditor.Components
             }
 
             return false;
+        }
+        #endregion
+
+        #region Event handlers
+        /// <summary>
+        /// Handles the TextChanged event of the ScintillaEx control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
+        private void ScintillaEx_TextChanged(object sender, System.EventArgs e)
+        {
+            if (IsModified == false)
+            {
+                IsModified = true;
+
+                OnEditorStateChanged();
+            }
         }
         #endregion
     }

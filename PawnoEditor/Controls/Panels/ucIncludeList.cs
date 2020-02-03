@@ -57,7 +57,7 @@ namespace PawnoEditor.Controls.Panels
                 includes.Nodes.Clear();
             }
 
-            resolver.Resolve(includes, Path.GetDirectoryName(Application.ExecutablePath) + "\\Includes\\");
+            resolver.LoadIncludes(includes, Path.GetDirectoryName(Application.ExecutablePath) + "\\Includes\\");
         }
         #endregion
 

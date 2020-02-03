@@ -22,6 +22,15 @@ namespace PawnoEditor.Controls.Panels
         /// <param name="errors">The errors.</param>
         public void ShowErrors(List<Base.Entities.CompilerMessageItem> errors)
         {
+            if(errors.Count == 0)
+            {
+                errors.Add(new Base.Entities.CompilerMessageItem()
+                {
+                    LineNumber = "-",
+                    Text = "Compilation was success.",
+                });
+            }
+
             gridErrors.DataSource = errors;
         }
         #endregion

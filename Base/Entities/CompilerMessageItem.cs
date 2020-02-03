@@ -33,6 +33,14 @@ namespace Base.Entities
 
         #region Methods
         /// <summary>
+        /// Initializes a new instance of the <see cref="CompilerMessageItem"/> class.
+        /// </summary>
+        public CompilerMessageItem()
+        {
+
+        }
+
+        /// <summary>
         /// Initializes a new instance of the <see cref="CompilerMessageItem" /> class.
         /// </summary>
         /// <param name="lineText">The line text.</param>

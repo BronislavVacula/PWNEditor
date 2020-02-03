@@ -1,8 +1,9 @@
-﻿using Base.Helpers;
+﻿using Base.Constants;
 using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
+using System.Linq;
 
 namespace Base.Facades
 {
@@ -69,16 +70,71 @@ namespace Base.Facades
         /// <param name="serverName">Name of the server.</param>
         public void Run(string gamemodePath, string serversPath, string serverName = null)
         {
-            if (ServerExists(serversPath, serverName))
+            if (serverName == null)
             {
-                //Copy gamemode
+                var servers = GetServers(serversPath);
 
-                //Edit config
-
-                //Run server
-
-                //Run SA-MP
+                if (servers.Count() > 0)
+                {
+                    serverName = servers.FirstOrDefault();
+                }
+                else return;
             }
+
+            var amxPath = Path.GetDirectoryName(gamemodePath) + "\\" + Path.GetFileNameWithoutExtension(gamemodePath) + ".amx";
+
+            if (ServerExists(serversPath, serverName) && File.Exists(amxPath))
+            {
+                if (File.Exists(serversPath + "\\" + serverName + "\\gamemodes\\" + Path.GetFileName(amxPath)))
+                    File.Delete(serversPath + "\\" + serverName + "\\gamemodes\\" + Path.GetFileName(amxPath));
+
+                File.Copy(amxPath, serversPath + "\\" + serverName + "\\gamemodes\\" + Path.GetFileName(amxPath));
+
+                EditServerConfig(serversPath, serverName, Path.GetFileNameWithoutExtension(gamemodePath));
+
+                RunSAMPServer(serversPath, serverName);
+                RunSAMPClient();
+            }
+        }
+
+        /// <summary>
+        /// Edits the server configuration.
+        /// </summary>
+        /// <param name="serversPath">The servers path.</param>
+        /// <param name="serverName">Name of the server.</param>
+        /// <param name="gamemode">The gamemode.</param>
+        private void EditServerConfig(string serversPath, string serverName, string gamemode)
+        {
+            Entities.ServerConfig config = new Entities.ServerConfig() { Gamemode0 = gamemode };
+
+            string configPath = serversPath + "\\" + serverName + "\\" + serverFiles[3];
+
+            File.WriteAllText(configPath, config.ToString());
+        }
+
+        /// <summary>
+        /// Runs the samp server.
+        /// </summary>
+        /// <param name="serversPath">The servers path.</param>
+        /// <param name="serverName">Name of the server.</param>
+        private void RunSAMPServer(string serversPath, string serverName)
+        {
+            ProcessStartInfo startInfo = new ProcessStartInfo()
+            {
+                WorkingDirectory = serversPath + "\\" + serverName,
+                CreateNoWindow = false,
+                FileName = serversPath + "\\" + serverName + "\\" + serverFiles[2],
+            };
+
+            Process.Start(startInfo);
+        }
+
+        /// <summary>
+        /// Runs the samp client.
+        /// </summary>
+        private void RunSAMPClient()
+        {
+
         }
 
         /// <summary>
@@ -101,7 +157,7 @@ namespace Base.Facades
 
             foreach (var directory in Directory.GetDirectories(serversPath, "*", SearchOption.TopDirectoryOnly))
             {
-                if(IsValidServer(directory))
+                if (IsValidServer(directory))
                 {
                     servers.Add(new DirectoryInfo(directory).Name);
                 }
@@ -119,13 +175,13 @@ namespace Base.Facades
         /// </returns>
         public bool IsValidServer(string serverPath)
         {
-            foreach(var directory in serverDirectories)
+            foreach (var directory in serverDirectories)
             {
                 if (!Directory.Exists(serverPath + "\\" + directory))
                     return false;
             }
 
-            foreach(var file in serverFiles)
+            foreach (var file in serverFiles)
             {
                 if (!File.Exists(serverPath + "\\" + file))
                     return false;
@@ -149,10 +205,11 @@ namespace Base.Facades
                 FileName = compilerDirectory + "\\pawncc.exe",
                 RedirectStandardError = true,
                 RedirectStandardOutput = true,
-                Arguments = gamemodePath + " " +  $"-Dpath={Path.GetDirectoryName(gamemodePath)}",
+                Arguments = gamemodePath + " " + $"-Dpath={Path.GetDirectoryName(gamemodePath)} -i={compilerDirectory + EditorPaths.includes}",
                 CreateNoWindow = true,
                 UseShellExecute = false,
                 Verb = "runas",
+                WorkingDirectory = Path.GetDirectoryName(gamemodePath)
             };
 
             using (var process = Process.Start(startInfo))
@@ -177,11 +234,11 @@ namespace Base.Facades
             var readTask = reader.ReadToEndAsync();
             readTask.Wait();
 
-            if(readTask.IsCompleted)
+            if (readTask.IsCompleted)
             {
                 var compilerResult = readTask.Result.Replace("\r", "");
 
-                if(compilerResult != null)
+                if (compilerResult != null)
                 {
                     string[] lines = compilerResult.Split(Convert.ToChar("\n"));
 

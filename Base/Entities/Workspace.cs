@@ -37,14 +37,13 @@ namespace Base.Entities
         /// <summary>
         /// Adds the file.
         /// </summary>
-        /// <param name="editor">The editor.</param>
         /// <param name="node">The node.</param>
-        public void AddFile(IEditor editor, TreeNodeAdv node)
+        /// <param name="filePath">The file path.</param>
+        public void AddFile(TreeNodeAdv node, string filePath)
         {
             Items.Add(new WorkspaceItem()
             {
-                FilePath = editor.OpenedFile,
-                Editor = editor,
+                FilePath = filePath,
                 Node = node,
             });
         }
@@ -64,11 +63,10 @@ namespace Base.Entities
         /// <summary>
         /// Removes the file.
         /// </summary>
-        /// <param name="editor">The editor.</param>
-        /// <param name="node">The node.</param>
-        public void RemoveFile(IEditor editor, TreeNodeAdv node)
+        /// <param name="filePath">The file path.</param>
+        public void RemoveFile(string filePath)
         {
-            var foundItem = Items.FirstOrDefault(item => item.Editor == editor && item.Node == node);
+            var foundItem = Items.FirstOrDefault(item => item.FilePath == filePath);
 
             if (foundItem != null)
             {
@@ -79,12 +77,11 @@ namespace Base.Entities
         /// <summary>
         /// Updates the file.
         /// </summary>
-        /// <param name="editor">The editor.</param>
         /// <param name="oldPath">The old path.</param>
         /// <param name="newPath">The new path.</param>
-        public void UpdateFile(IEditor editor, string oldPath, string newPath)
+        public void UpdateFile(string oldPath, string newPath)
         {
-            var foundItem = Items.FirstOrDefault(item => item.Editor == editor && item.FilePath == oldPath);
+            var foundItem = Items.FirstOrDefault(item => item.FilePath == oldPath);
 
             if (foundItem != null)
             {

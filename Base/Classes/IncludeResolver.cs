@@ -10,16 +10,25 @@ namespace Base.Classes
         /// </summary>
         /// <param name="treeView">The tree view.</param>
         /// <param name="includeDirectory">The include directory.</param>
-        public void Resolve(TreeViewAdv treeView, string includeDirectory)
+        public void LoadIncludes(TreeViewAdv treeView, string includeDirectory)
         {
-            var files = Directory.GetFiles(includeDirectory, "*.inc", SearchOption.AllDirectories);
+            string[] files = null;
 
-            foreach(var file in files)
+            try
             {
-                TreeNodeAdv includeName = new TreeNodeAdv(Path.GetFileName(file));
-                treeView.Nodes.Add(includeName);
+                files = Directory.GetFiles(includeDirectory, "*.inc", SearchOption.AllDirectories);
+            }
+            catch { }
 
-                Resolve(includeName, file);
+            if (files != null)
+            {
+                foreach (var file in files)
+                {
+                    var includeName = new TreeNodeAdv(Path.GetFileName(file));
+                    treeView.Nodes.Add(includeName);
+
+                    LoadMethods(includeName, file);
+                }
             }
         }
 
@@ -28,16 +37,25 @@ namespace Base.Classes
         /// </summary>
         /// <param name="node">The node.</param>
         /// <param name="filePath">The file path.</param>
-        private void Resolve(TreeNodeAdv node, string filePath)
+        private void LoadMethods(TreeNodeAdv node, string filePath)
         {
-            string[] lines = File.ReadAllLines(filePath);
+            string[] lines = null;
 
-            foreach(var line in lines)
+            try
             {
-                if(line.StartsWith("native "))
+                lines = File.ReadAllLines(filePath);
+            }
+            catch { }
+
+            if (lines != null)
+            {
+                foreach (var line in lines)
                 {
-                    TreeNodeAdv methodName = new TreeNodeAdv(line.Replace("native ", ""));
-                    node.Nodes.Add(methodName);
+                    if (line.StartsWith("native "))
+                    {
+                        TreeNodeAdv methodName = new TreeNodeAdv(line.Replace("native ", ""));
+                        node.Nodes.Add(methodName);
+                    }
                 }
             }
         }

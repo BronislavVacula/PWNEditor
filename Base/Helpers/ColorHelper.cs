@@ -7,11 +7,11 @@ namespace Base.Helpers
         /// <summary>
         /// Converts to hexadecimal.
         /// </summary>
-        /// <param name="barva">The barva.</param>
+        /// <param name="color">The color.</param>
         /// <returns></returns>
-        public static string ConvertToHex(Color barva)
+        public static string ConvertToHex(Color color)
         {
-            return "#" + barva.R.ToString("X2") + barva.G.ToString("X2") + barva.B.ToString("X2");
+            return "#" + color.R.ToString("X2") + color.G.ToString("X2") + color.B.ToString("X2");
         }
 
         /// <summary>

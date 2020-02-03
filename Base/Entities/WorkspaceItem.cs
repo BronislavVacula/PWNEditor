@@ -1,5 +1,5 @@
-﻿using Base.Interfaces;
-using Syncfusion.Windows.Forms.Tools;
+﻿using Syncfusion.Windows.Forms.Tools;
+using System.Xml.Serialization;
 
 namespace Base.Entities
 {
@@ -19,14 +19,7 @@ namespace Base.Entities
         /// <value>
         /// The node.
         /// </value>
+        [XmlIgnore()]
         public TreeNodeAdv Node { get; set; }
-
-        /// <summary>
-        /// Gets or sets the editor.
-        /// </summary>
-        /// <value>
-        /// The editor.
-        /// </value>
-        public IEditor Editor { get; set; }
     }
 }

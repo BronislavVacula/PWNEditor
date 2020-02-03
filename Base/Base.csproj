@@ -37,6 +37,8 @@
     <Reference Include="System" />
     <Reference Include="System.Core" />
     <Reference Include="System.Drawing" />
+    <Reference Include="System.Runtime.Serialization" />
+    <Reference Include="System.Windows.Forms" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -48,7 +50,7 @@
     <Compile Include="Classes\IncludeResolver.cs" />
     <Compile Include="Constants\EditorPaths.cs" />
     <Compile Include="Entities\CompilerMessageItem.cs" />
-    <Compile Include="Entities\SettingsEntities\CompilerSettings.cs" />
+    <Compile Include="Entities\ServerConfig.cs" />
     <Compile Include="Entities\SettingsEntities\TextEditor.cs" />
     <Compile Include="Entities\Tools\MapCords.cs" />
     <Compile Include="Entities\Workspace.cs" />
@@ -57,9 +59,12 @@
     <Compile Include="Enums\ScinitillaEditor.cs" />
     <Compile Include="Enums\Tools\MapEnums.cs" />
     <Compile Include="EventHandlers\CompilationCompletedEventArgs.cs" />
+    <Compile Include="EventHandlers\EditorStateChangedEventArgs.cs" />
     <Compile Include="EventHandlers\InsertIncludeRequestEventArgs.cs" />
     <Compile Include="EventHandlers\OpenFileRequestEventArgs.cs" />
+    <Compile Include="Extensions\DescriptionExtension.cs" />
     <Compile Include="Facades\SampServer.cs" />
+    <Compile Include="Facades\Translator.cs" />
     <Compile Include="Helpers\ColorHelper.cs" />
     <Compile Include="Helpers\CompilerTranslation.cs" />
     <Compile Include="Helpers\Paths.cs" />
@@ -69,8 +74,6 @@
     <Compile Include="Serializer.cs" />
     <Compile Include="Settings.cs" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="Extensions\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

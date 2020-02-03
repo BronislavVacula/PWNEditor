@@ -29,6 +29,11 @@ namespace PawnoEditor.Forms
         private Controls.Panels.ucWorkspaceBrowser workspaceBrowser;
 
         /// <summary>
+        /// The workspace serializer
+        /// </summary>
+        private Base.Serializer<Base.Entities.Workspace> workspaceSerializer = new Base.Serializer<Base.Entities.Workspace>();
+
+        /// <summary>
         /// Gets the application path.
         /// </summary>
         /// <value>
@@ -103,7 +108,7 @@ namespace PawnoEditor.Forms
             var includesPanel = CreatePanel<Controls.Panels.ucIncludeList>("Includes");
             var colorPickerPanel = CreatePanel<Controls.Panels.ucColorPicker>("Color picker");
 
-            workspaceBrowser.CreateWorkspace("Test workspace");
+            workspaceBrowser.CreateWorkspace("Workspace");
 
             //Dock settings
             dockingManager.DockControl(workspaceBrowser, this, DockingStyle.Left, 250);
@@ -199,11 +204,7 @@ namespace PawnoEditor.Forms
         {
             if (filePath == null)
             {
-                Components.ScintillaEx editor = new Components.ScintillaEx()
-                {
-                    Parent = this,
-                    Dock = DockStyle.Fill,
-                };
+                var editor = CreateEditor();
 
                 editor.OpenTemplate(Path.GetDirectoryName(Application.ExecutablePath));
 
@@ -213,11 +214,7 @@ namespace PawnoEditor.Forms
             {
                 if (!IsFileAlreadyOpened(filePath))
                 {
-                    Components.ScintillaEx editor = new Components.ScintillaEx()
-                    {
-                        Parent = this,
-                        Dock = DockStyle.Fill,
-                    };
+                    var editor = CreateEditor();
 
                     editor.OpenFile(filePath);
 
@@ -230,6 +227,23 @@ namespace PawnoEditor.Forms
                     MessageBoxAdv.Show("Selected file is already opened.");
                 }
             }
+        }
+
+        /// <summary>
+        /// Creates the editor.
+        /// </summary>
+        /// <returns></returns>
+        private Components.ScintillaEx CreateEditor()
+        {
+            var editor = new Components.ScintillaEx()
+            {
+                Parent = this,
+                Dock = DockStyle.Fill,
+            };
+
+            editor.EditorStateChanged += Editor_EditorStateChanged;
+
+            return editor;
         }
 
         /// <summary>
@@ -345,7 +359,11 @@ namespace PawnoEditor.Forms
 
                 if(result != null)
                 {
+                    var errorCount = result.Count;
+
                     ShowCompilerErrors(result);
+
+                    return errorCount == 0;
                 }
             }
             else
@@ -353,7 +371,7 @@ namespace PawnoEditor.Forms
                 MessageBoxAdv.Show("Soubor není uložený, nelze jej zkompilovat.");
             }
 
-            return false;
+            return true;
         }
 
         /// <summary>
@@ -432,6 +450,8 @@ namespace PawnoEditor.Forms
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnOpenFile_Click(object sender, EventArgs e)
         {
+            openFileDialog.Filter = "Pwn files (*.pwn)|*.pwn|Include files (*.inc)|*.inc|Text files (*.txt)|*.txt";
+
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 CreateFile(openFileDialog.FileName);
@@ -518,6 +538,8 @@ namespace PawnoEditor.Forms
 
             if (selectedEditor != null)
             {
+                saveFileDialog.Filter = "Pwn files (*.pwn)|*.pwn|Include files (*.inc)|*.inc|Text files (*.txt)|*.txt";
+
                 if (saveFileDialog.ShowDialog() == DialogResult.OK)
                 {
                     selectedEditor.SaveFile(saveFileDialog.FileName);
@@ -594,6 +616,21 @@ namespace PawnoEditor.Forms
         }
 
         /// <summary>
+        /// Handles the Click event of the btnCompileAndRun control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void btnCompileAndRun_Click(object sender, EventArgs e)
+        {
+            var selectedEditor = GetSelectedEditor();
+
+            if(selectedEditor != null)
+            {
+                RunGameMode(selectedEditor);
+            }
+        }
+
+        /// <summary>
         /// Handles the Click event of the btnCreateWorkspace control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
@@ -602,7 +639,83 @@ namespace PawnoEditor.Forms
         {
             if (CanCreateWorkspace())
             {
-                
+                workspaceBrowser.ClearWorkspace();
+                workspaceBrowser.CreateWorkspace("Workspace");
+
+                foreach (Form form in mdiManager.MdiChildren)
+                {
+                    if(form.Controls.Count > 0 && form.Controls[0] is Components.ScintillaEx editor)
+                    {
+                        editor.Dispose();
+                    }
+
+                    form.Close();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of the btnSaveWorkspace control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void btnSaveWorkspace_Click(object sender, EventArgs e)
+        {
+            if(workspaceBrowser.workspace != null)
+            {
+                saveFileDialog.Filter = "Workspace (*.pws)|*.pws";
+
+                if(saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    workspaceSerializer.Serialize(workspaceBrowser.workspace, saveFileDialog.FileName);
+                }
+            }
+            else
+            {
+                MessageBoxAdv.Show("Workspace is not created!");
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of the btnOpenWorkspace control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void btnOpenWorkspace_Click(object sender, EventArgs e)
+        {
+            openFileDialog.Filter = "Workspace (*.pws)|*.pws";
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                var workspace = workspaceSerializer.Deserialize(openFileDialog.FileName);
+
+                workspaceBrowser.LoadWorkspace(workspace);
+            }
+        }
+
+        /// <summary>
+        /// Handles the EditorStateChanged event of the Editor control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="Base.EventHandlers.EditorStateChangedEventArgs"/> instance containing the event data.</param>
+        private void Editor_EditorStateChanged(object sender, Base.EventHandlers.EditorStateChangedEventArgs e)
+        {
+            if(sender is Components.ScintillaEx editor)
+            {
+                var parentForm = editor.Parent as Form;
+                var tabPage = mdiManager.GetTabPageAdvFromForm(parentForm);
+
+                if (editor.OpenedFile != null)
+                {
+                    if (editor.IsModified)
+                    {
+                        tabPage.Text = Path.GetFileName(editor.OpenedFile) + "*";
+                    }
+                    else
+                    {
+                        tabPage.Text = Path.GetFileName(editor.OpenedFile);
+                    }
+                }
             }
         }
         #endregion

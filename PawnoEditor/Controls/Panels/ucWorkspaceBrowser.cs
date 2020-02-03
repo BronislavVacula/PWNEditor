@@ -79,7 +79,7 @@ namespace PawnoEditor.Controls.Panels
                     var createdNode
                         = files.Nodes[0].Nodes.Add(new TreeNodeAdv(Path.GetFileName(path)));
 
-                    workspace.AddFile(editor, files.Nodes[0].Nodes[createdNode]);
+                    workspace.AddFile(files.Nodes[0].Nodes[createdNode], editor.OpenedFile);
 
                     if (files.Nodes[0].Nodes.Count == 1)
                     {
@@ -95,6 +95,32 @@ namespace PawnoEditor.Controls.Panels
         public void ClearWorkspace()
         {
             workspace?.Clear();
+            files.Nodes.Clear();
+        }
+
+        /// <summary>
+        /// Loads the workspace.
+        /// </summary>
+        /// <param name="workspaceToLoad">The workspace to load.</param>
+        public void LoadWorkspace(Workspace workspaceToLoad)
+        {
+            ClearWorkspace();
+
+            workspace = workspaceToLoad;
+
+            files.Nodes.Add(new TreeNodeAdv(workspace.Name));
+
+            foreach(var item in workspace.Items)
+            {
+                var createdNodeIndex = files.Nodes[0].Nodes.Add(new TreeNodeAdv(Path.GetFileName(item.FilePath)));
+
+                item.Node = files.Nodes[0].Nodes[createdNodeIndex];
+
+                if (files.Nodes[0].Nodes.Count == 1)
+                {
+                    files.ExpandAll();
+                }
+            }
         }
         #endregion
 

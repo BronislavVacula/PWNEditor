@@ -2,11 +2,12 @@
 {
     public class EditorPaths
     {
-        public const string images = "\\Images";
-        public const string skins = "\\Skins";
-        public const string pickups = "\\Pickups";
-        public const string cars = "\\Cars";
+        //Images directory
+        public const string skins = "\\Images\\Skins";
+        public const string pickups = "\\Images\\Pickups";
+        public const string cars = "\\Images\\Cars";
 
+        public const string includes = "\\Includes";
         public const string servers = "\\Servers";
     }
 }
