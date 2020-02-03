@@ -1,4 +1,5 @@
 ﻿using Base.Constants;
+using Base.Interfaces;
 using Syncfusion.Windows.Forms;
 using Syncfusion.Windows.Forms.Tools;
 using System;
@@ -9,7 +10,7 @@ using System.Windows.Forms;
 
 namespace PawnoEditor.Forms
 {
-    public partial class fmMain : RibbonForm
+    public partial class fmMain : RibbonForm, IApplicationPath
     {
         #region Properties and fields
         /// <summary>
@@ -21,6 +22,25 @@ namespace PawnoEditor.Forms
         /// The compiler control
         /// </summary>
         private Controls.Panels.ucCompiler compilerControl;
+
+        /// <summary>
+        /// The workspace browser
+        /// </summary>
+        private Controls.Panels.ucWorkspaceBrowser workspaceBrowser;
+
+        /// <summary>
+        /// Gets the application path.
+        /// </summary>
+        /// <value>
+        /// The application path.
+        /// </value>
+        public string AppPath
+        {
+            get
+            {
+                return Application.ExecutablePath;
+            }
+        }
         #endregion
 
         #region Constructor and initialization
@@ -75,7 +95,7 @@ namespace PawnoEditor.Forms
         private void InitPanels()
         {
             //Create panel
-            var solutionPanel = CreatePanel<Controls.Panels.ucWorkspaceBrowser>("Solution files");
+            workspaceBrowser = CreatePanel<Controls.Panels.ucWorkspaceBrowser>("Solution files");
             var skinsPanel = CreatePanel<Controls.Panels.ucImageList>("Skins", "Skins");
             var carsPanel = CreatePanel<Controls.Panels.ucImageList>("Cars", "Cars");
             var pickupsPanel = CreatePanel<Controls.Panels.ucImageList>("Pickups", "Pickups");
@@ -83,9 +103,11 @@ namespace PawnoEditor.Forms
             var includesPanel = CreatePanel<Controls.Panels.ucIncludeList>("Includes");
             var colorPickerPanel = CreatePanel<Controls.Panels.ucColorPicker>("Color picker");
 
+            workspaceBrowser.CreateWorkspace("Test workspace");
+
             //Dock settings
-            dockingManager.DockControl(solutionPanel, this, DockingStyle.Left, 250);
-            dockingManager.DockControl(carsPanel, solutionPanel, DockingStyle.Bottom, 250, true);
+            dockingManager.DockControl(workspaceBrowser, this, DockingStyle.Left, 250);
+            dockingManager.DockControl(carsPanel, workspaceBrowser, DockingStyle.Bottom, 250, true);
             dockingManager.DockControl(pickupsPanel, carsPanel, DockingStyle.Tabbed, 250, true);
             dockingManager.DockControl(skinsPanel, carsPanel, DockingStyle.Tabbed, 250, true);
 
@@ -180,6 +202,8 @@ namespace PawnoEditor.Forms
             dockingManager.SetEnableDocking(editor, true);
             dockingManager.SetDockLabel(editor, fileName);
             dockingManager.SetAsMDIChild(editor, true);
+
+            workspaceBrowser.AddFile(fileName, editor);
 
             CheckClosedTabs(Controls);
         }

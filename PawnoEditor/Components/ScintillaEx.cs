@@ -2,10 +2,11 @@
 using System.Text;
 using System.Drawing;
 using ScintillaNET;
+using Base.Interfaces;
 
 namespace PawnoEditor.Components
 {
-    public class ScintillaEx : Scintilla
+    public class ScintillaEx : Scintilla, IEditor
     {
         #region Properties and fields
         /// <summary>

@@ -147,6 +147,9 @@
     <EmbeddedResource Include="Controls\Panels\ucImageList.resx">
       <DependentUpon>ucImageList.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Controls\Panels\ucWorkspaceBrowser.resx">
+      <DependentUpon>ucWorkspaceBrowser.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Forms\fmMain.resx">
       <DependentUpon>fmMain.cs</DependentUpon>
     </EmbeddedResource>
