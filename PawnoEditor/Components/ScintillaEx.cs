@@ -1,9 +1,11 @@
-﻿using System.IO;
-using System.Text;
-using System.Drawing;
-using ScintillaNET;
+﻿using Base.EventHandlers;
 using Base.Interfaces;
-using Base.EventHandlers;
+using ScintillaNET;
+using System;
+using System.Collections.Generic;
+using System.Drawing;
+using System.IO;
+using System.Text;
 
 namespace PawnoEditor.Components
 {
@@ -84,7 +86,7 @@ namespace PawnoEditor.Components
 
             SetKeywords();
 
-            if (AutoComplete != null) 
+            if (AutoComplete != null)
                 AutoComplete.TargetControlWrapper = new ScintillaWrapper(this);
 
             TextChanged += ScintillaEx_TextChanged;
@@ -244,7 +246,7 @@ namespace PawnoEditor.Components
             {
                 Text = File.ReadAllText(path, Encoding.Default);
 
-                IsModified = false; 
+                IsModified = false;
             }
             catch { return; }
 
@@ -260,7 +262,7 @@ namespace PawnoEditor.Components
         {
             if (!IsTemplate || path != null)
             {
-                if(path != null)
+                if (path != null)
                     OpenedFile = path;
 
                 IsTemplate = false;
@@ -286,7 +288,72 @@ namespace PawnoEditor.Components
         /// <param name="entity">The entity.</param>
         public void InsertGeneratedCode(Base.Entities.Tools.CodeGenerator.CodeGeneratorEntity entity)
         {
+            InsertVariables(entity.Variables);
+            InsertFunctions(entity.Functions);
+            InsertEmbedCode(entity.EmbeddedCode);
+        }
 
+        /// <summary>
+        /// Inserts the variables.
+        /// </summary>
+        /// <param name="Variables">The variables.</param>
+        private void InsertVariables(List<string> Variables)
+        {
+            var firstVarIndex = Text.IndexOf("var") - 1;
+            var lastIncludePosition = Text.IndexOf(">", Text.LastIndexOf("#include"));
+
+            int variableStart = firstVarIndex > -1 ? firstVarIndex : lastIncludePosition;
+
+            if (variableStart > -1)
+            {
+                for (int i = 0; i < Variables.Count; i++)
+                {
+                    if (!Text.Contains(Variables[i]))
+                    {
+                        Text = Text.Insert(variableStart + 1, (i == (Variables.Count - 1) ? Environment.NewLine : "") + Environment.NewLine + Variables[i]);
+                    }
+                }
+            }
+        }
+
+        /// <summary>
+        /// Inserts the functions.
+        /// </summary>
+        /// <param name="functions">The functions.</param>
+        private void InsertFunctions(List<string> functions)
+        {
+            foreach (var function in functions)
+            {
+                if (!Text.Contains(function))
+                {
+                    Text = Text.Insert(TextLength - 1, Environment.NewLine + function);
+                }
+            }
+        }
+
+        /// <summary>
+        /// Inserts the embed code.
+        /// </summary>
+        /// <param name="embedCodes">The embed codes.</param>
+        private void InsertEmbedCode(List<Base.Entities.Tools.CodeGenerator.EmbeddedCodeEntity> embedCodes)
+        {
+            foreach (var code in embedCodes)
+            {
+                if (Text.Contains(code.Code))
+                    continue;
+
+                var startOfMethod = Text.IndexOf(code.ParentMethodName);
+
+                if (startOfMethod > -1)
+                {
+                    var firstBracketPosition = Text.IndexOf("{", startOfMethod);
+
+                    if (firstBracketPosition > -1)
+                    {
+                        Text = Text.Insert(firstBracketPosition + 1, Environment.NewLine + code.Code);
+                    }
+                }
+            }
         }
         #endregion
 
