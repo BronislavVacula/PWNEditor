@@ -111,13 +111,13 @@ namespace PawnoEditor.Forms
         private void InitPanels()
         {
             //Create panels
-            workspaceBrowser = CreatePanel<Controls.Panels.ucWorkspaceBrowser>("Solution files");
-            var skinsPanel = CreatePanel<Controls.Panels.ucImageList>("Skins", "Skins");
-            var carsPanel = CreatePanel<Controls.Panels.ucImageList>("Cars", "Cars");
-            var pickupsPanel = CreatePanel<Controls.Panels.ucImageList>("Pickups", "Pickups");
+            workspaceBrowser = Base.Helpers.ControlHelper.CreatePanel<Controls.Panels.ucWorkspaceBrowser>(this);
+            var skinsPanel = Base.Helpers.ControlHelper.CreatePanel<Controls.Panels.ucImageList>(this, "Skins");
+            var carsPanel = Base.Helpers.ControlHelper.CreatePanel<Controls.Panels.ucImageList>(this, "Cars");
+            var pickupsPanel = Base.Helpers.ControlHelper.CreatePanel<Controls.Panels.ucImageList>(this, "Pickups");
 
-            var includesPanel = CreatePanel<Controls.Panels.ucIncludeList>("Includes");
-            var colorPickerPanel = CreatePanel<Controls.Panels.ucColorPicker>("Color picker");
+            var includesPanel = Base.Helpers.ControlHelper.CreatePanel<Controls.Panels.ucIncludeList>(this);
+            var colorPickerPanel = Base.Helpers.ControlHelper.CreatePanel<Controls.Panels.ucColorPicker>(this);
 
             //Add panels into list
             panels.Add(new Base.Entities.PanelEntity("workspace", workspaceBrowser));
@@ -128,13 +128,13 @@ namespace PawnoEditor.Forms
             panels.Add(new Base.Entities.PanelEntity("colorPicker", colorPickerPanel));
 
             //Dock panels
-            dockingManager.DockControl(workspaceBrowser, this, DockingStyle.Left, 250);
-            dockingManager.DockControl(carsPanel, workspaceBrowser, DockingStyle.Bottom, 250, true);
-            dockingManager.DockControl(pickupsPanel, carsPanel, DockingStyle.Tabbed, 250, true);
-            dockingManager.DockControl(skinsPanel, carsPanel, DockingStyle.Tabbed, 250, true);
+            UpdatePanelDocking(workspaceBrowser, "Workspace browser", DockingStyle.Left, 250, this);
+            UpdatePanelDocking(carsPanel, "Cars", DockingStyle.Bottom, 250, workspaceBrowser);
+            UpdatePanelDocking(pickupsPanel, "Pickups", DockingStyle.Tabbed, 250, carsPanel, true);
+            UpdatePanelDocking(skinsPanel, "Skins", DockingStyle.Tabbed, 250, carsPanel, true);
 
-            dockingManager.DockControl(includesPanel, this, DockingStyle.Right, 250);
-            dockingManager.DockControl(colorPickerPanel, includesPanel, DockingStyle.Bottom, 250);
+            UpdatePanelDocking(includesPanel, "Includes", DockingStyle.Right, 250, this);
+            UpdatePanelDocking(colorPickerPanel, "Color picker", DockingStyle.Bottom, 250, includesPanel);
 
             //Init panel events
             (includesPanel as Controls.Panels.ucIncludeList).InsertIncludeRequest += IncludesPanel_InsertIncludeRequest;
@@ -161,80 +161,25 @@ namespace PawnoEditor.Forms
         #endregion
 
         #region Methods
-        #region Create panels
+        #region Panels
         /// <summary>
         /// Creates the panel.
         /// </summary>
-        /// <typeparam name="T"></typeparam>
+        /// <param name="panel">The panel.</param>
         /// <param name="title">The title.</param>
-        /// <param name="parameter">The parameter.</param>
-        /// <returns></returns>
-        private T CreatePanel<T>(string title, string parameter = null) where T : UserControl
-        {
-            var panel = CreatePanel<T>((object)parameter);
-
-            CreatePanel<T>(title, panel);
-
-            return panel;
-        }
-
-        /// <summary>
-        /// Creates the panel.
-        /// </summary>
-        /// <typeparam name="PanelType">The type of the anel type.</typeparam>
-        /// <param name="startingPath">The starting path.</param>
-        /// <returns></returns>
-        private T CreatePanel<T>(object parameter = null) where T : UserControl
-        {
-            T panel;
-
-            if (parameter == null)
-                panel = (T)Activator.CreateInstance(typeof(T));
-            else
-                panel = (T)Activator.CreateInstance(typeof(T), parameter);
-
-            panel.Parent = this;
-            panel.Visible = true;
-
-            return panel;
-        }
-
-        /// <summary>
-        /// Creates the panel.
-        /// </summary>
-        /// <param name="uc">The uc.</param>
-        public void CreatePanel<T>(string title, T panel) where T : UserControl
+        /// <param name="dockStyle">The dock style.</param>
+        /// <param name="size">The size.</param>
+        /// <param name="parent">The parent.</param>
+        /// <param name="tab">if set to <c>true</c> [tab].</param>
+        public void UpdatePanelDocking(UserControl panel, string title, DockingStyle dockStyle, int size, Control parent = null, bool tab = false) 
         {
             dockingManager.SetEnableDocking(panel, true);
             dockingManager.SetDockLabel(panel, title);
+            dockingManager.DockControl(panel, parent, dockStyle, size, tab);
         }
         #endregion
 
         #region Main actions with editor
-        /// <summary>
-        /// Determines whether [is file already opened] [the specified file path].
-        /// </summary>
-        /// <param name="filePath">The file path.</param>
-        /// <returns>
-        ///   <c>true</c> if [is file already opened] [the specified file path]; otherwise, <c>false</c>.
-        /// </returns>
-        private bool IsFileAlreadyOpened(string filePath)
-        {
-            foreach (var form in mdiManager.MdiChildren)
-            {
-                foreach (Control control in form.Controls)
-                {
-                    if (control is Components.ScintillaEx editor)
-                    {
-                        if (editor.OpenedFile == filePath)
-                            return true;
-                    }
-                }
-            }
-
-            return false;
-        }
-
         /// <summary>
         /// Creates the file.
         /// </summary>
@@ -250,7 +195,7 @@ namespace PawnoEditor.Forms
             }
             else
             {
-                if (!IsFileAlreadyOpened(filePath))
+                if (!mdiManager.IsFileAlreadyOpened(filePath))
                 {
                     var editor = CreateEditor();
 
@@ -295,7 +240,7 @@ namespace PawnoEditor.Forms
             dockingManager.SetDockLabel(editor, fileName);
             dockingManager.SetAsMDIChild(editor, true);
 
-            CheckClosedTabs(Controls);
+            Base.Helpers.ControlHelper.DisposeHiddenControls<Components.ScintillaEx>(Controls);
         }
 
         /// <summary>
@@ -348,47 +293,6 @@ namespace PawnoEditor.Forms
 
         #region Tab control and tabs methods
         /// <summary>
-        /// Closes all opened tabs.
-        /// </summary>
-        private void CloseAllOpenedTabs()
-        {
-            foreach (var form in mdiManager.MdiChildren)
-            {
-                foreach (Control control in form.Controls)
-                {
-                    if (control is Components.ScintillaEx editor)
-                    {
-                        editor.Dispose();
-                    }
-                }
-
-                form.Close();
-            }
-        }
-
-        /// <summary>
-        /// Checks the closed tabs.
-        /// </summary>
-        private void CheckClosedTabs(Control.ControlCollection controls)
-        {
-            foreach (Control control in controls)
-            {
-                if (control.Controls.Count > 0)
-                {
-                    CheckClosedTabs(control.Controls);
-                }
-
-                if (control is Components.ScintillaEx editor)
-                {
-                    if (editor.Visible == false)
-                    {
-                        editor.Dispose();
-                    }
-                }
-            }
-        }
-
-        /// <summary>
         /// Updates the tab page text.
         /// </summary>
         /// <param name="editor">The editor.</param>
@@ -429,7 +333,7 @@ namespace PawnoEditor.Forms
             }
             else
             {
-                MessageBoxAdv.Show("Soubor není uložený, nelze jej zkompilovat.");
+                MessageBoxAdv.Show("Cant compile unsaved file.");
             }
 
             return true;
@@ -465,9 +369,9 @@ namespace PawnoEditor.Forms
         {
             if (compilerControl == null)
             {
-                compilerControl = CreatePanel<Controls.Panels.ucCompiler>("Compiler");
+                compilerControl = Base.Helpers.ControlHelper.CreatePanel<Controls.Panels.ucCompiler>(this);
 
-                dockingManager.DockControl(compilerControl, this, DockingStyle.Bottom, 200);
+                UpdatePanelDocking(compilerControl, "Compiler", DockingStyle.Bottom, 200, this);
             }
 
             compilerControl.ShowErrors(errors);
@@ -736,23 +640,18 @@ namespace PawnoEditor.Forms
         /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
         private void btnOpenWorkspace_Click(object sender, EventArgs e)
         {
-            if (workspaceBrowser.workspace != null && workspaceBrowser.workspace.Items.Count > 0)
+            if (CanCreateWorkspace())
             {
-                if (MessageBoxAdv.Show("All unsaved data will be lost. Continue?", "Question", MessageBoxButtons.YesNo) == DialogResult.No)
+                openFileDialog.Filter = "Workspace (*.pws)|*.pws";
+
+                if (openFileDialog.ShowDialog() == DialogResult.OK)
                 {
-                    return;
+                    mdiManager.CloseAllOpenedTabs();
+
+                    var workspace = workspaceSerializer.Deserialize(openFileDialog.FileName);
+
+                    workspaceBrowser.LoadWorkspace(workspace);
                 }
-            }
-
-            CloseAllOpenedTabs();
-
-            openFileDialog.Filter = "Workspace (*.pws)|*.pws";
-
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                var workspace = workspaceSerializer.Deserialize(openFileDialog.FileName);
-
-                workspaceBrowser.LoadWorkspace(workspace);
             }
         }
         #endregion

@@ -76,6 +76,9 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Components\TabbedMDIManagerEx.cs">
+      <SubType>Component</SubType>
+    </Compile>
     <Compile Include="Controls\Panels\ucColorPicker.cs">
       <SubType>UserControl</SubType>
     </Compile>

@@ -71,7 +71,7 @@
             this.toolStripButton10 = new System.Windows.Forms.ToolStripButton();
             this.toolStripEx5 = new Syncfusion.Windows.Forms.Tools.ToolStripEx();
             this.dockingManager = new Syncfusion.Windows.Forms.Tools.DockingManager(this.components);
-            this.mdiManager = new Syncfusion.Windows.Forms.Tools.TabbedMDIManager(this.components);
+            this.mdiManager = new Components.TabbedMDIManagerEx(this.components);
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControlAdv1)).BeginInit();
@@ -730,7 +730,7 @@
         private Syncfusion.Windows.Forms.Tools.ToolStripTabItem toolStripTabItem1;
         private Syncfusion.Windows.Forms.Tools.ToolStripEx toolStripEx1;
         private Syncfusion.Windows.Forms.Tools.DockingManager dockingManager;
-        private Syncfusion.Windows.Forms.Tools.TabbedMDIManager mdiManager;
+        private Components.TabbedMDIManagerEx mdiManager;
         private System.Windows.Forms.ToolStripButton btnNewFile;
         private System.Windows.Forms.ToolStripButton btnOpenFile;
         private System.Windows.Forms.OpenFileDialog openFileDialog;
