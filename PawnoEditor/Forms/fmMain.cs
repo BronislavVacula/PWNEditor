@@ -747,6 +747,27 @@ namespace PawnoEditor.Forms
                 }
             }
         }
+
+        /// <summary>
+        /// Handles the Click event of the btnGenerateJob control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void btnGenerateJob_Click(object sender, EventArgs e)
+        {
+            var selectedEditor = GetSelectedEditor();
+
+            if(selectedEditor != null)
+            {
+                using (var dialog = new Insert.fmJobGenerator(selectedEditor))
+                {
+                    if (dialog.ShowDialog() == DialogResult.OK)
+                    {
+
+                    }
+                }
+            }
+        }
         #endregion
     }
 }

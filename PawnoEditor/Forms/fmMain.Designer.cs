@@ -58,6 +58,7 @@
             this.mdiManager = new Syncfusion.Windows.Forms.Tools.TabbedMDIManager(this.components);
             this.openFileDialog = new System.Windows.Forms.OpenFileDialog();
             this.saveFileDialog = new System.Windows.Forms.SaveFileDialog();
+            this.btnGenerateJob = new System.Windows.Forms.ToolStripButton();
             ((System.ComponentModel.ISupportInitialize)(this.ribbonControlAdv1)).BeginInit();
             this.ribbonControlAdv1.SuspendLayout();
             this.toolStripTabItem1.Panel.SuspendLayout();
@@ -66,6 +67,7 @@
             this.toolStripEx3.SuspendLayout();
             this.toolStripEx4.SuspendLayout();
             this.toolStripTabItem2.Panel.SuspendLayout();
+            this.toolStripEx5.SuspendLayout();
             this.toolStripTabItem4.Panel.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.dockingManager)).BeginInit();
             this.SuspendLayout();
@@ -95,7 +97,7 @@
             this.ribbonControlAdv1.QuickPanelImageLayout = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             this.ribbonControlAdv1.RibbonHeaderImage = Syncfusion.Windows.Forms.Tools.RibbonHeaderImage.None;
             this.ribbonControlAdv1.RibbonStyle = Syncfusion.Windows.Forms.Tools.RibbonStyle.Office2016;
-            this.ribbonControlAdv1.SelectedTab = this.toolStripTabItem1;
+            this.ribbonControlAdv1.SelectedTab = this.toolStripTabItem2;
             this.ribbonControlAdv1.ShowRibbonDisplayOptionButton = true;
             this.ribbonControlAdv1.Size = new System.Drawing.Size(899, 122);
             this.ribbonControlAdv1.SystemText.QuickAccessDialogDropDownName = "Start menu";
@@ -353,6 +355,8 @@
             this.toolStripEx5.ForeColor = System.Drawing.Color.MidnightBlue;
             this.toolStripEx5.GripStyle = System.Windows.Forms.ToolStripGripStyle.Hidden;
             this.toolStripEx5.Image = null;
+            this.toolStripEx5.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.btnGenerateJob});
             this.toolStripEx5.Location = new System.Drawing.Point(0, 1);
             this.toolStripEx5.Name = "toolStripEx5";
             this.toolStripEx5.Office12Mode = false;
@@ -464,6 +468,16 @@
             // 
             this.saveFileDialog.Filter = "Pwn files (*.pwn)|*.pwn|Include files (*.inc)|*.inc|Text files (*.txt)|*.txt";
             // 
+            // btnGenerateJob
+            // 
+            this.btnGenerateJob.Image = ((System.Drawing.Image)(resources.GetObject("btnGenerateJob.Image")));
+            this.btnGenerateJob.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.btnGenerateJob.Name = "btnGenerateJob";
+            this.btnGenerateJob.Size = new System.Drawing.Size(29, 36);
+            this.btnGenerateJob.Text = "Job";
+            this.btnGenerateJob.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnGenerateJob.Click += new System.EventHandler(this.btnGenerateJob_Click);
+            // 
             // fmMain
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -490,6 +504,8 @@
             this.toolStripEx4.ResumeLayout(false);
             this.toolStripEx4.PerformLayout();
             this.toolStripTabItem2.Panel.ResumeLayout(false);
+            this.toolStripEx5.ResumeLayout(false);
+            this.toolStripEx5.PerformLayout();
             this.toolStripTabItem4.Panel.ResumeLayout(false);
             ((System.ComponentModel.ISupportInitialize)(this.dockingManager)).EndInit();
             this.ResumeLayout(false);
@@ -526,5 +542,6 @@
         private Syncfusion.Windows.Forms.Tools.ToolStripEx toolStripEx6;
         private Syncfusion.Windows.Forms.Tools.ToolStripEx toolStripEx5;
         private System.Windows.Forms.ToolStripButton btnOpenWorkspace;
+        private System.Windows.Forms.ToolStripButton btnGenerateJob;
     }
 }
