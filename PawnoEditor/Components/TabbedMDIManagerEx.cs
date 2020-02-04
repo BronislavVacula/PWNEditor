@@ -10,11 +10,13 @@ namespace PawnoEditor.Components
         /// <summary>
         /// Initializes a new instance of the <see cref="TabbedMDIManagerEx"/> class.
         /// </summary>
-        /// <param name="container"></param>
-        public TabbedMDIManagerEx(IContainer container) : base(container)
-        {
+        public TabbedMDIManagerEx() : base() { }
 
-        }
+        /// <summary>
+        /// Initializes a new instance of the <see cref="TabbedMDIManagerEx"/> class.
+        /// </summary>
+        /// <param name="container"></param>
+        public TabbedMDIManagerEx(IContainer container) : base(container) { }
         #endregion
 
         #region Methods
