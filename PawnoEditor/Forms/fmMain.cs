@@ -29,6 +29,11 @@ namespace PawnoEditor.Forms
         private Controls.Panels.ucWorkspaceBrowser workspaceBrowser;
 
         /// <summary>
+        /// The panels
+        /// </summary>
+        private List<Base.Entities.PanelEntity> panels = new List<Base.Entities.PanelEntity>();
+
+        /// <summary>
         /// The workspace serializer
         /// </summary>
         private Base.Serializer<Base.Entities.Workspace> workspaceSerializer = new Base.Serializer<Base.Entities.Workspace>();
@@ -46,6 +51,11 @@ namespace PawnoEditor.Forms
                 return Application.ExecutablePath;
             }
         }
+
+        /// <summary>
+        /// The panel lins
+        /// </summary>
+        private readonly List<Base.Entities.PanelLink> panelLinks = new List<Base.Entities.PanelLink>();
         #endregion
 
         #region Constructor and initialization
@@ -58,6 +68,7 @@ namespace PawnoEditor.Forms
             InitializeStyles();
             InitializeMdiManager();
             InitPanels();
+            InitWorkspace();
         }
 
         /// <summary>
@@ -99,7 +110,7 @@ namespace PawnoEditor.Forms
         /// </summary>
         private void InitPanels()
         {
-            //Create panel
+            //Create panels
             workspaceBrowser = CreatePanel<Controls.Panels.ucWorkspaceBrowser>("Solution files");
             var skinsPanel = CreatePanel<Controls.Panels.ucImageList>("Skins", "Skins");
             var carsPanel = CreatePanel<Controls.Panels.ucImageList>("Cars", "Cars");
@@ -108,9 +119,15 @@ namespace PawnoEditor.Forms
             var includesPanel = CreatePanel<Controls.Panels.ucIncludeList>("Includes");
             var colorPickerPanel = CreatePanel<Controls.Panels.ucColorPicker>("Color picker");
 
-            workspaceBrowser.CreateWorkspace("Workspace");
+            //Add panels into list
+            panels.Add(new Base.Entities.PanelEntity("workspace", workspaceBrowser));
+            panels.Add(new Base.Entities.PanelEntity("cars", carsPanel));
+            panels.Add(new Base.Entities.PanelEntity("pickups", pickupsPanel));
+            panels.Add(new Base.Entities.PanelEntity("skins", skinsPanel));
+            panels.Add(new Base.Entities.PanelEntity("includes", includesPanel));
+            panels.Add(new Base.Entities.PanelEntity("colorPicker", colorPickerPanel));
 
-            //Dock settings
+            //Dock panels
             dockingManager.DockControl(workspaceBrowser, this, DockingStyle.Left, 250);
             dockingManager.DockControl(carsPanel, workspaceBrowser, DockingStyle.Bottom, 250, true);
             dockingManager.DockControl(pickupsPanel, carsPanel, DockingStyle.Tabbed, 250, true);
@@ -119,13 +136,32 @@ namespace PawnoEditor.Forms
             dockingManager.DockControl(includesPanel, this, DockingStyle.Right, 250);
             dockingManager.DockControl(colorPickerPanel, includesPanel, DockingStyle.Bottom, 250);
 
-            //Events
-            includesPanel.InsertIncludeRequest += IncludesPanel_InsertIncludeRequest;
+            //Init panel events
+            (includesPanel as Controls.Panels.ucIncludeList).InsertIncludeRequest += IncludesPanel_InsertIncludeRequest;
             workspaceBrowser.OpenFileRequest += WorkspaceBrowser_OpenFileRequest;
+
+            InitPanelLinks();
+        }
+
+        /// <summary>
+        /// Initializes the panel links.
+        /// </summary>
+        private void InitPanelLinks()
+        {
+            panelLinks.Add(new Base.Entities.PanelLink(nameof(btnSolutionPanel), typeof(Controls.Panels.ucWorkspaceBrowser)));
+        }
+
+        /// <summary>
+        /// Initializes the workspace.
+        /// </summary>
+        private void InitWorkspace()
+        {
+            workspaceBrowser.CreateWorkspace("Workspace");
         }
         #endregion
 
         #region Methods
+        #region Create panels
         /// <summary>
         /// Creates the panel.
         /// </summary>
@@ -172,7 +208,9 @@ namespace PawnoEditor.Forms
             dockingManager.SetEnableDocking(panel, true);
             dockingManager.SetDockLabel(panel, title);
         }
+        #endregion
 
+        #region Main actions with editor
         /// <summary>
         /// Determines whether [is file already opened] [the specified file path].
         /// </summary>
@@ -285,6 +323,50 @@ namespace PawnoEditor.Forms
         }
 
         /// <summary>
+        /// Saves the editor.
+        /// </summary>
+        /// <param name="editor">The editor.</param>
+        private void SaveEditor(Components.ScintillaEx editor)
+        {
+            if (editor != null)
+            {
+                if (editor.IsTemplate && saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    editor.SaveFile(saveFileDialog.FileName);
+
+                    workspaceBrowser.AddFile(saveFileDialog.FileName, editor);
+
+                    UpdateTabPageText(editor);
+                }
+                else
+                {
+                    editor.SaveFile();
+                }
+            }
+        }
+        #endregion
+
+        #region Tab control and tabs methods
+        /// <summary>
+        /// Closes all opened tabs.
+        /// </summary>
+        private void CloseAllOpenedTabs()
+        {
+            foreach (var form in mdiManager.MdiChildren)
+            {
+                foreach (Control control in form.Controls)
+                {
+                    if (control is Components.ScintillaEx editor)
+                    {
+                        editor.Dispose();
+                    }
+                }
+
+                form.Close();
+            }
+        }
+
+        /// <summary>
         /// Checks the closed tabs.
         /// </summary>
         private void CheckClosedTabs(Control.ControlCollection controls)
@@ -319,30 +401,9 @@ namespace PawnoEditor.Forms
                 tabPage.Text = Path.GetFileName(editor.OpenedFile);
             }
         }
+        #endregion
 
-        /// <summary>
-        /// Saves the editor.
-        /// </summary>
-        /// <param name="editor">The editor.</param>
-        private void SaveEditor(Components.ScintillaEx editor)
-        {
-            if (editor != null)
-            {
-                if (editor.IsTemplate && saveFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    editor.SaveFile(saveFileDialog.FileName);
-
-                    workspaceBrowser.AddFile(saveFileDialog.FileName, editor);
-
-                    UpdateTabPageText(editor);
-                }
-                else
-                {
-                    editor.SaveFile();
-                }
-            }
-        }
-
+        #region Compilation
         /// <summary>
         /// Compiles the file.
         /// </summary>
@@ -411,7 +472,9 @@ namespace PawnoEditor.Forms
 
             compilerControl.ShowErrors(errors);
         }
+        #endregion
 
+        #region Workspace
         /// <summary>
         /// Determines whether this instance [can create workspace].
         /// </summary>
@@ -430,28 +493,11 @@ namespace PawnoEditor.Forms
 
             return true;
         }
-
-        /// <summary>
-        /// Closes all opened tabs.
-        /// </summary>
-        private void CloseAllOpenedTabs()
-        {
-            foreach (var form in mdiManager.MdiChildren)
-            {
-                foreach (Control control in form.Controls)
-                {
-                    if (control is Components.ScintillaEx editor)
-                    {
-                        editor.Dispose();
-                    }
-                }
-
-                form.Close();
-            }
-        }
+        #endregion
         #endregion
 
         #region Event handlers
+        #region File actions
         /// <summary>
         /// Handles the Click event of the btnNewFile control.
         /// </summary>
@@ -474,60 +520,6 @@ namespace PawnoEditor.Forms
             if (openFileDialog.ShowDialog() == DialogResult.OK)
             {
                 CreateFile(openFileDialog.FileName);
-            }
-        }
-
-        /// <summary>
-        /// Handles the OpenFileRequest event of the WorkspaceBrowser control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="Base.EventHandlers.OpenFileRequestEventArgs"/> instance containing the event data.</param>
-        private void WorkspaceBrowser_OpenFileRequest(object sender, Base.EventHandlers.OpenFileRequestEventArgs e)
-        {
-            CreateFile(e.Path);
-        }
-
-        /// <summary>
-        /// Handles the TabControlAdded event of the mdiManager control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="args">The <see cref="TabbedMDITabControlEventArgs"/> instance containing the event data.</param>
-        private void mdiManager_TabControlAdded(object sender, TabbedMDITabControlEventArgs args)
-        {
-            tabControl = args.TabControl;
-        }
-
-        /// <summary>
-        /// Handles the TabControlRemoved event of the mdiManager control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="args">The <see cref="TabbedMDITabControlEventArgs"/> instance containing the event data.</param>
-        private void mdiManager_TabControlRemoved(object sender, TabbedMDITabControlEventArgs args)
-        {
-            tabControl = null;
-        }
-
-        /// <summary>
-        /// Handles the InsertIncludeRequest event of the IncludesPanel control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="Base.EventHandlers.InsertIncludeRequestEventArgs"/> instance containing the event data.</param>
-        private void IncludesPanel_InsertIncludeRequest(object sender, Base.EventHandlers.InsertIncludeRequestEventArgs e)
-        {
-            if (Base.Settings.Instance.ScriptInsertMode == Base.Enums.ScriptInsertMode.ScinitillaEditor && tabControl != null)
-            {
-                if (tabControl.TabCount > 0)
-                {
-                    var selectedEditor = GetSelectedEditor();
-                    if (selectedEditor != null)
-                    {
-                        selectedEditor.InsertText(selectedEditor.CurrentPosition, e.Include);
-                    }
-                }
-            }
-            else
-            {
-                Clipboard.SetText(e.Include);
             }
         }
 
@@ -586,7 +578,9 @@ namespace PawnoEditor.Forms
                 }
             }
         }
+        #endregion
 
+        #region Editor actions
         /// <summary>
         /// Handles the Click event of the btnBack control.
         /// </summary>
@@ -596,9 +590,9 @@ namespace PawnoEditor.Forms
         {
             var selectedEditor = GetSelectedEditor();
 
-            if(selectedEditor != null)
+            if (selectedEditor != null)
             {
-                if(selectedEditor.CanUndo)
+                if (selectedEditor.CanUndo)
                     selectedEditor.Undo();
             }
         }
@@ -620,116 +614,13 @@ namespace PawnoEditor.Forms
         }
 
         /// <summary>
-        /// Handles the Click event of the btnCompile control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        private void btnCompile_Click(object sender, EventArgs e)
-        {
-            var selectedEditor = GetSelectedEditor();
-
-            if(selectedEditor != null)
-            {
-                CompileFile(selectedEditor);
-            }
-        }
-
-        /// <summary>
-        /// Handles the Click event of the btnCompileAndRun control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        private void btnCompileAndRun_Click(object sender, EventArgs e)
-        {
-            var selectedEditor = GetSelectedEditor();
-
-            if(selectedEditor != null)
-            {
-                RunGameMode(selectedEditor);
-            }
-        }
-
-        /// <summary>
-        /// Handles the Click event of the btnCreateWorkspace control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        private void btnCreateWorkspace_Click(object sender, EventArgs e)
-        {
-            if (CanCreateWorkspace())
-            {
-                workspaceBrowser.ClearWorkspace();
-                workspaceBrowser.CreateWorkspace("Workspace");
-
-                foreach (Form form in mdiManager.MdiChildren)
-                {
-                    if(form.Controls.Count > 0 && form.Controls[0] is Components.ScintillaEx editor)
-                    {
-                        editor.Dispose();
-                    }
-
-                    form.Close();
-                }
-            }
-        }
-
-        /// <summary>
-        /// Handles the Click event of the btnSaveWorkspace control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        private void btnSaveWorkspace_Click(object sender, EventArgs e)
-        {
-            if(workspaceBrowser.workspace != null)
-            {
-                saveFileDialog.Filter = "Workspace (*.pws)|*.pws";
-
-                if(saveFileDialog.ShowDialog() == DialogResult.OK)
-                {
-                    workspaceSerializer.Serialize(workspaceBrowser.workspace, saveFileDialog.FileName);
-                }
-            }
-            else
-            {
-                MessageBoxAdv.Show("Workspace is not created!");
-            }
-        }
-
-        /// <summary>
-        /// Handles the Click event of the btnOpenWorkspace control.
-        /// </summary>
-        /// <param name="sender">The source of the event.</param>
-        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
-        private void btnOpenWorkspace_Click(object sender, EventArgs e)
-        {
-            if(workspaceBrowser.workspace != null && workspaceBrowser.workspace.Items.Count > 0)
-            {
-                if(MessageBoxAdv.Show("All unsaved data will be lost. Continue?", "Question", MessageBoxButtons.YesNo) == DialogResult.No)
-                {
-                    return;
-                }
-            }
-
-            CloseAllOpenedTabs();
-
-            openFileDialog.Filter = "Workspace (*.pws)|*.pws";
-
-            if (openFileDialog.ShowDialog() == DialogResult.OK)
-            {
-                var workspace = workspaceSerializer.Deserialize(openFileDialog.FileName);
-
-                workspaceBrowser.LoadWorkspace(workspace);
-            }
-        }
-
-        /// <summary>
         /// Handles the EditorStateChanged event of the Editor control.
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="Base.EventHandlers.EditorStateChangedEventArgs"/> instance containing the event data.</param>
         private void Editor_EditorStateChanged(object sender, Base.EventHandlers.EditorStateChangedEventArgs e)
         {
-            if(sender is Components.ScintillaEx editor)
+            if (sender is Components.ScintillaEx editor)
             {
                 var parentForm = editor.Parent as Form;
                 var tabPage = mdiManager.GetTabPageAdvFromForm(parentForm);
@@ -747,7 +638,172 @@ namespace PawnoEditor.Forms
                 }
             }
         }
+        #endregion
 
+        #region Compilation
+        /// <summary>
+        /// Handles the Click event of the btnCompile control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void btnCompile_Click(object sender, EventArgs e)
+        {
+            var selectedEditor = GetSelectedEditor();
+
+            if (selectedEditor != null)
+            {
+                CompileFile(selectedEditor);
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of the btnCompileAndRun control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void btnCompileAndRun_Click(object sender, EventArgs e)
+        {
+            var selectedEditor = GetSelectedEditor();
+
+            if (selectedEditor != null)
+            {
+                RunGameMode(selectedEditor);
+            }
+        }
+        #endregion
+
+        #region Workspace actions
+        /// <summary>
+        /// Handles the OpenFileRequest event of the WorkspaceBrowser control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="Base.EventHandlers.OpenFileRequestEventArgs"/> instance containing the event data.</param>
+        private void WorkspaceBrowser_OpenFileRequest(object sender, Base.EventHandlers.OpenFileRequestEventArgs e)
+        {
+            CreateFile(e.Path);
+        }
+
+        /// <summary>
+        /// Handles the Click event of the btnCreateWorkspace control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void btnCreateWorkspace_Click(object sender, EventArgs e)
+        {
+            if (CanCreateWorkspace())
+            {
+                workspaceBrowser.ClearWorkspace();
+                workspaceBrowser.CreateWorkspace("Workspace");
+
+                foreach (Form form in mdiManager.MdiChildren)
+                {
+                    if (form.Controls.Count > 0 && form.Controls[0] is Components.ScintillaEx editor)
+                    {
+                        editor.Dispose();
+                    }
+
+                    form.Close();
+                }
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of the btnSaveWorkspace control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void btnSaveWorkspace_Click(object sender, EventArgs e)
+        {
+            if (workspaceBrowser.workspace != null)
+            {
+                saveFileDialog.Filter = "Workspace (*.pws)|*.pws";
+
+                if (saveFileDialog.ShowDialog() == DialogResult.OK)
+                {
+                    workspaceSerializer.Serialize(workspaceBrowser.workspace, saveFileDialog.FileName);
+                }
+            }
+            else
+            {
+                MessageBoxAdv.Show("Workspace is not created!");
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of the btnOpenWorkspace control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void btnOpenWorkspace_Click(object sender, EventArgs e)
+        {
+            if (workspaceBrowser.workspace != null && workspaceBrowser.workspace.Items.Count > 0)
+            {
+                if (MessageBoxAdv.Show("All unsaved data will be lost. Continue?", "Question", MessageBoxButtons.YesNo) == DialogResult.No)
+                {
+                    return;
+                }
+            }
+
+            CloseAllOpenedTabs();
+
+            openFileDialog.Filter = "Workspace (*.pws)|*.pws";
+
+            if (openFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                var workspace = workspaceSerializer.Deserialize(openFileDialog.FileName);
+
+                workspaceBrowser.LoadWorkspace(workspace);
+            }
+        }
+        #endregion
+
+        #region Panels actions
+        /// <summary>
+        /// Handles the InsertIncludeRequest event of the IncludesPanel control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="Base.EventHandlers.InsertIncludeRequestEventArgs"/> instance containing the event data.</param>
+        private void IncludesPanel_InsertIncludeRequest(object sender, Base.EventHandlers.InsertIncludeRequestEventArgs e)
+        {
+            if (Base.Settings.Instance.ScriptInsertMode == Base.Enums.ScriptInsertMode.ScinitillaEditor && tabControl != null)
+            {
+                if (tabControl.TabCount > 0)
+                {
+                    var selectedEditor = GetSelectedEditor();
+                    if (selectedEditor != null)
+                    {
+                        selectedEditor.InsertText(selectedEditor.CurrentPosition, e.Include);
+                    }
+                }
+            }
+            else
+            {
+                Clipboard.SetText(e.Include);
+            }
+        }
+
+        /// <summary>
+        /// Handles the Click event of the btnUpdatePanelVisibility control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void btnUpdatePanelVisibility_Click(object sender, EventArgs e)
+        {
+            if (sender is ToolStripButton button)
+            {
+                UserControl panel = panels.FirstOrDefault(p => p.Name == button.Tag.ToString())?.Control ?? null;
+
+                if (panel != null)
+                {
+                    bool visible = dockingManager.GetDockVisibility(panel);
+
+                    dockingManager.SetDockVisibility(panel, !visible);
+                }
+            }
+        }
+        #endregion
+
+        #region Tools and code generation
         /// <summary>
         /// Handles the Click event of the btnGenerateJob control.
         /// </summary>
@@ -763,11 +819,34 @@ namespace PawnoEditor.Forms
                 {
                     if (dialog.ShowDialog() == DialogResult.OK)
                     {
-
+                        selectedEditor.InsertGeneratedCode(dialog.Result);
                     }
                 }
             }
         }
+        #endregion
+
+        #region MDI Manager
+        /// <summary>
+        /// Handles the TabControlAdded event of the mdiManager control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="args">The <see cref="TabbedMDITabControlEventArgs"/> instance containing the event data.</param>
+        private void mdiManager_TabControlAdded(object sender, TabbedMDITabControlEventArgs args)
+        {
+            tabControl = args.TabControl;
+        }
+
+        /// <summary>
+        /// Handles the TabControlRemoved event of the mdiManager control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="args">The <see cref="TabbedMDITabControlEventArgs"/> instance containing the event data.</param>
+        private void mdiManager_TabControlRemoved(object sender, TabbedMDITabControlEventArgs args)
+        {
+            tabControl = null;
+        }
+        #endregion
         #endregion
     }
 }

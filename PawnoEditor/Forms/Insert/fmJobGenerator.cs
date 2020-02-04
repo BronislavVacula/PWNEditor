@@ -1,13 +1,11 @@
-﻿using Syncfusion.Windows.Forms;
+﻿using PawnoEditor.Templates;
+using Syncfusion.Windows.Forms;
 using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
 using System.Windows.Forms;
 
 namespace PawnoEditor.Forms.Insert
 {
-    public partial class fmJobGenerator : MetroForm
+    public partial class fmJobGenerator : fmTemplate
     {
         #region Properties and fields
         /// <summary>
@@ -21,7 +19,7 @@ namespace PawnoEditor.Forms.Insert
         /// <value>
         /// The result.
         /// </value>
-        public string Result { get; private set; }
+        public Base.Entities.Tools.CodeGenerator.CodeGeneratorEntity Result { get; private set; }
         #endregion
 
         #region Constructor and initialization
@@ -34,6 +32,45 @@ namespace PawnoEditor.Forms.Insert
             InitializeComponent();
 
             mEditor = editor;
+        }
+        #endregion
+
+        #region Methods
+        /// <summary>
+        /// Validates the content.
+        /// </summary>
+        /// <returns></returns>
+        private bool ValidateContent()
+        {
+            return true;
+        }
+
+        /// <summary>
+        /// Generates the code.
+        /// </summary>
+        /// <returns></returns>
+        private Base.Entities.Tools.CodeGenerator.CodeGeneratorEntity GenerateCode()
+        {
+            var entity = new Base.Entities.Tools.CodeGenerator.CodeGeneratorEntity();
+
+            return entity;
+        }
+        #endregion
+
+        #region Event handlers
+        /// <summary>
+        /// Handles the Click event of the btnConfirm control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void btnConfirm_Click(object sender, EventArgs e)
+        {
+            if(ValidateContent())
+            {
+                Result = GenerateCode();
+
+                DialogResult = DialogResult.OK;
+            }
         }
         #endregion
     }

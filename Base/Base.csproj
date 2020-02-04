@@ -50,8 +50,12 @@
     <Compile Include="Classes\IncludeResolver.cs" />
     <Compile Include="Constants\EditorPaths.cs" />
     <Compile Include="Entities\CompilerMessageItem.cs" />
+    <Compile Include="Entities\PanelEntity.cs" />
+    <Compile Include="Entities\PanelLink.cs" />
     <Compile Include="Entities\ServerConfig.cs" />
     <Compile Include="Entities\SettingsEntities\TextEditor.cs" />
+    <Compile Include="Entities\Tools\CodeGenerator\CodeGeneratorEntity.cs" />
+    <Compile Include="Entities\Tools\CodeGenerator\EmbeddedCodeEntity.cs" />
     <Compile Include="Entities\Tools\MapCords.cs" />
     <Compile Include="Entities\Workspace.cs" />
     <Compile Include="Entities\WorkspaceItem.cs" />
@@ -67,6 +71,7 @@
     <Compile Include="Facades\Translator.cs" />
     <Compile Include="Helpers\ColorHelper.cs" />
     <Compile Include="Helpers\CompilerTranslation.cs" />
+    <Compile Include="Helpers\ControlHelper.cs" />
     <Compile Include="Helpers\Paths.cs" />
     <Compile Include="Interfaces\IApplicationPath.cs" />
     <Compile Include="Interfaces\IEditor.cs" />

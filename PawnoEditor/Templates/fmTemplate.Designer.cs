@@ -1,6 +1,6 @@
-﻿namespace PawnoEditor.Forms.Tools
+﻿namespace PawnoEditor.Templates
 {
-    partial class fmMap
+    partial class fmTemplate
     {
         /// <summary>
         /// Required designer variable.
@@ -30,14 +30,20 @@
         {
             this.SuspendLayout();
             // 
-            // fmMap
+            // fmTemplate
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(115)))), ((int)(((byte)(115)))), ((int)(((byte)(115)))));
-            this.ClientSize = new System.Drawing.Size(800, 450);
-            this.Name = "fmMap";
-            this.Text = "Map of San Andreas";
+            this.BackColor = System.Drawing.Color.FromArgb(((int)(((byte)(102)))), ((int)(((byte)(102)))), ((int)(((byte)(102)))));
+            this.CaptionBarColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.CaptionForeColor = System.Drawing.Color.FromArgb(((int)(((byte)(240)))), ((int)(((byte)(240)))), ((int)(((byte)(240)))));
+            this.ClientSize = new System.Drawing.Size(592, 374);
+            this.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle;
+            this.MetroColor = System.Drawing.Color.FromArgb(((int)(((byte)(80)))), ((int)(((byte)(80)))), ((int)(((byte)(80)))));
+            this.Name = "fmTemplate";
+            this.ShowMaximizeBox = false;
+            this.StartPosition = System.Windows.Forms.FormStartPosition.CenterScreen;
+            this.Text = "fmTemplate";
             this.ResumeLayout(false);
 
         }

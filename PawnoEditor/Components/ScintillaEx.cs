@@ -279,6 +279,15 @@ namespace PawnoEditor.Components
 
             return false;
         }
+
+        /// <summary>
+        /// Inserts the generated code.
+        /// </summary>
+        /// <param name="entity">The entity.</param>
+        public void InsertGeneratedCode(Base.Entities.Tools.CodeGenerator.CodeGeneratorEntity entity)
+        {
+
+        }
         #endregion
 
         #region Event handlers
