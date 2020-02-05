@@ -33,6 +33,14 @@ namespace PawnoEditor.Controls.Panels
 
             gridErrors.DataSource = errors;
         }
+
+        /// <summary>
+        /// Clears the errors.
+        /// </summary>
+        public void ClearErrors()
+        {
+            gridErrors.DataSource = null;
+        }
         #endregion
     }
 }

@@ -22,7 +22,7 @@ namespace PawnoEditor.Controls.Panels
         /// <param name="args">The <see cref="Syncfusion.Windows.Forms.Tools.ColorPickerUIAdv.ColorPickedEventArgs"/> instance containing the event data.</param>
         private void colorPicker_Picked(object sender, Syncfusion.Windows.Forms.Tools.ColorPickerUIAdv.ColorPickedEventArgs args)
         {
-            txtColor.Text = Base.Helpers.ColorHelper.ConvertToHex(args.Color);
+            txtColor.Text = "0x" + Base.Helpers.ColorHelper.ConvertToHex(args.Color);
         }
         #endregion
     }

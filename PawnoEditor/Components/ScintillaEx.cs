@@ -363,7 +363,7 @@ namespace PawnoEditor.Components
         /// </summary>
         /// <param name="sender">The source of the event.</param>
         /// <param name="e">The <see cref="System.EventArgs"/> instance containing the event data.</param>
-        private void ScintillaEx_TextChanged(object sender, System.EventArgs e)
+        private void ScintillaEx_TextChanged(object sender, EventArgs e)
         {
             if (IsModified == false)
             {

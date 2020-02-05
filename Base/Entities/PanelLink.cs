@@ -4,6 +4,7 @@ namespace Base.Entities
 {
     public class PanelLink
     {
+        #region Properties and fields
         /// <summary>
         /// Gets or sets the name of the component.
         /// </summary>
@@ -27,7 +28,9 @@ namespace Base.Entities
         /// The paramater.
         /// </value>
         public string Parameter { get; set; }
+        #endregion
 
+        #region Constructor and initialization
         /// <summary>
         /// Initializes a new instance of the <see cref="PanelLink"/> class.
         /// </summary>
@@ -40,5 +43,6 @@ namespace Base.Entities
             TypeOfPanel = typeOfPanel;
             Parameter = parameter;
         }
+        #endregion
     }
 }

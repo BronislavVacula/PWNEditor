@@ -36,7 +36,7 @@ namespace PawnoEditor.Forms
         /// <summary>
         /// The workspace serializer
         /// </summary>
-        private Base.Serializer<Base.Entities.Workspace> workspaceSerializer = new Base.Serializer<Base.Entities.Workspace>();
+        private readonly Base.Serializer<Base.Entities.Workspace> workspaceSerializer = new Base.Serializer<Base.Entities.Workspace>();
 
         /// <summary>
         /// Gets the application path.

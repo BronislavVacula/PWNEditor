@@ -53,6 +53,7 @@
     <Compile Include="Entities\PanelEntity.cs" />
     <Compile Include="Entities\PanelLink.cs" />
     <Compile Include="Entities\ServerConfig.cs" />
+    <Compile Include="Entities\SettingsEntities\SampServer.cs" />
     <Compile Include="Entities\SettingsEntities\TextEditor.cs" />
     <Compile Include="Entities\Tools\CodeGenerator\CodeGeneratorEntity.cs" />
     <Compile Include="Entities\Tools\CodeGenerator\EmbeddedCodeEntity.cs" />

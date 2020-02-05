@@ -35,10 +35,7 @@ namespace Base.Entities
         /// <summary>
         /// Initializes a new instance of the <see cref="CompilerMessageItem"/> class.
         /// </summary>
-        public CompilerMessageItem()
-        {
-
-        }
+        public CompilerMessageItem() { }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="CompilerMessageItem" /> class.

@@ -4,6 +4,7 @@ namespace Base.Entities
 {
     public class PanelEntity
     {
+        #region Properties and fields
         /// <summary>
         /// Gets or sets the name.
         /// </summary>
@@ -19,7 +20,9 @@ namespace Base.Entities
         /// The control.
         /// </value>
         public UserControl Control { get; set; }
+        #endregion
 
+        #region Constructor and initialization
         /// <summary>
         /// Initializes a new instance of the <see cref="PanelEntity"/> class.
         /// </summary>
@@ -30,5 +33,6 @@ namespace Base.Entities
             Name = name;
             Control = control;
         }
+        #endregion
     }
 }

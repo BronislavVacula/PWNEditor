@@ -1,4 +1,5 @@
-﻿using Base.Enums;
+﻿using Base.Entities.SettingsEntities;
+using Base.Enums;
 
 namespace Base
 {
@@ -34,6 +35,22 @@ namespace Base
         #endregion
 
         #region Properties and fields
+        /// <summary>
+        /// Gets or sets the server.
+        /// </summary>
+        /// <value>
+        /// The server.
+        /// </value>
+        public SampServer Server { get; set; } = new SampServer();
+
+        /// <summary>
+        /// Gets or sets the editor.
+        /// </summary>
+        /// <value>
+        /// The editor.
+        /// </value>
+        public TextEditor Editor { get; set; } = new TextEditor();
+
         /// <summary>
         /// Gets or sets the script insert mode.
         /// </summary>
