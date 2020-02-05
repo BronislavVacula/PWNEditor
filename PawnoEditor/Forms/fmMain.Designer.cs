@@ -430,7 +430,7 @@
             this.btnSkinsPanel,
             this.btnPickupsPanel,
             this.btnCarsPanel});
-            this.toolStripEx9.Location = new System.Drawing.Point(41, 1);
+            this.toolStripEx9.Location = new System.Drawing.Point(196, 1);
             this.toolStripEx9.Name = "toolStripEx9";
             this.toolStripEx9.Office12Mode = false;
             this.toolStripEx9.Padding = new System.Windows.Forms.Padding(3, 0, 0, 0);
@@ -524,6 +524,7 @@
             this.btnMap.Size = new System.Drawing.Size(34, 36);
             this.btnMap.Text = "Map";
             this.btnMap.TextImageRelation = System.Windows.Forms.TextImageRelation.ImageAboveText;
+            this.btnMap.Click += new System.EventHandler(this.btnMap_Click);
             // 
             // toolStripTabItem5
             // 

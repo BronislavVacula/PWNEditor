@@ -723,6 +723,27 @@ namespace PawnoEditor.Forms
                 }
             }
         }
+
+        /// <summary>
+        /// Handles the Click event of the btnMap control.
+        /// </summary>
+        /// <param name="sender">The source of the event.</param>
+        /// <param name="e">The <see cref="EventArgs"/> instance containing the event data.</param>
+        private void btnMap_Click(object sender, EventArgs e)
+        {
+            var selectedEditor = GetSelectedEditor();
+
+            if(selectedEditor != null)
+            {
+                using (var dialog = new Tools.fmMap(selectedEditor))
+                {
+                    if(dialog.ShowDialog() == DialogResult.OK)
+                    {
+
+                    }
+                }
+            }
+        }
         #endregion
 
         #region MDI Manager
@@ -746,6 +767,7 @@ namespace PawnoEditor.Forms
             tabControl = null;
         }
         #endregion
+
         #endregion
     }
 }
